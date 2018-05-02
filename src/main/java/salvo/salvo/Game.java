@@ -30,6 +30,10 @@ public class Game {
         this.creationDate = creationDate;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public void addGame(GamePlayer gameplay){
         gameplay.setGameEntry(this);
         gameplays.add(gameplay);
