@@ -1,9 +1,10 @@
 package salvo.salvo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
+
+import static java.util.stream.Collectors.toList;
 
 @Entity
 public class Player {
@@ -14,6 +15,9 @@ public class Player {
     private String firstName;
     private String lastName;
     private String userName;
+
+    @OneToMany(mappedBy = "gamePlayer", fetch=FetchType.EAGER)
+    Set<GamePlayer> gameplays;
 
     public Player() { }
 
@@ -45,6 +49,15 @@ public class Player {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public void addGame(GamePlayer gameplay){
+        gameplay.setGamePlayer(this);
+        gameplays.add(gameplay);
+    }
+
+    public List<Game> getGames() {
+        return gameplays.stream().map(gp -> gp.getGameEntry()).collect(toList());
     }
 
     public String toString() {
