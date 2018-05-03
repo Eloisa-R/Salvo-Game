@@ -3,7 +3,9 @@ package salvo.salvo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -17,12 +19,13 @@ public class SalvoController {
 
     public SalvoController() {}
 
-    @RequestMapping("/data")
-    public List<Object> getGameIds(){
-       return this.gameRepository.findAll().stream()
-                .map(game -> game.getId())
-                .collect(toList());
-    }
+    @GetMapping("/games")
+    public List<Long> getGameIds(){
+       return gameRepository.findAll().stream()
+               .map(game -> game.getId())
+               .collect(toList());
+               }
+
 
 
 }
