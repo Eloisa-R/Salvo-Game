@@ -58,6 +58,10 @@ public class Player {
         gameplays.add(gameplay);
     }
 
+    public long getId() {
+        return id;
+    }
+
     @JsonIgnore
     public List<Game> getGames() {
         return gameplays.stream().map(gp -> gp.getGameEntry()).collect(toList());

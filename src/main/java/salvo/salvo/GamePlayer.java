@@ -45,4 +45,8 @@ public class GamePlayer {
     public void setGamePlayer(Player gamePlayer) {
         this.gamePlayer = gamePlayer;
     }
+
+    public long getId() {
+        return id;
+    }
 }

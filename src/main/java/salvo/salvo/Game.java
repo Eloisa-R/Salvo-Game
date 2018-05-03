@@ -34,6 +34,10 @@ public class Game {
         return id;
     }
 
+    public Set<GamePlayer> getGameplays() {
+        return gameplays;
+    }
+
     public void addGame(GamePlayer gameplay){
         gameplay.setGameEntry(this);
         gameplays.add(gameplay);
