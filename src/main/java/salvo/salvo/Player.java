@@ -3,6 +3,7 @@ package salvo.salvo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -19,7 +20,7 @@ public class Player {
     private String userName;
 
     @OneToMany(mappedBy = "gamePlayer", fetch=FetchType.EAGER)
-    Set<GamePlayer> gameplays;
+    Set<GamePlayer> gameplays = new HashSet<>();
 
     public Player() { }
 

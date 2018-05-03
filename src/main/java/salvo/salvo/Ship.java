@@ -3,6 +3,8 @@ package salvo.salvo;
 import javax.persistence.*;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 @Entity
 public class Ship {
 
@@ -36,5 +38,17 @@ public class Ship {
 
     public void setGamePlayer(GamePlayer gp) {
         this.gp = gp;
+    }
+
+    public ShipType getType() {
+        return type;
+    }
+
+    public List<String> getLocations() {
+        return locations;
+    }
+
+    public GamePlayer getGp() {
+        return gp;
     }
 }

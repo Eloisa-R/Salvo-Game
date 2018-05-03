@@ -4,6 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
+
+import java.util.Arrays;
 import java.util.Date;
 
 @SpringBootApplication
@@ -14,7 +16,7 @@ public class SalvoApplication {
 	}
 
     @Bean
-    public CommandLineRunner initData(PlayerRepository repository, GameRepository gRepository, GamePlayerRepository gpRepository) {
+    public CommandLineRunner initData(PlayerRepository repository, GameRepository gRepository, GamePlayerRepository gpRepository, ShipRepository shRepository) {
         return (args) -> {
             // save a couple of players
             Player playerOne = new Player("Jack", "Bauer", "j.bauer@ctu.gov");
@@ -42,17 +44,43 @@ public class SalvoApplication {
             gRepository.save(fourthGame);
             gRepository.save(fifthGame);
             gRepository.save(sixthGame);
-            gpRepository.save(new GamePlayer(firstGame, playerOne));
-            gpRepository.save(new GamePlayer(firstGame, playerTwo));
-            gpRepository.save(new GamePlayer(secondGame, playerOne));
-            gpRepository.save(new GamePlayer(secondGame, playerTwo));
-            gpRepository.save(new GamePlayer(thirdGame, playerTwo));
-            gpRepository.save(new GamePlayer(thirdGame, playerFour));
-            gpRepository.save(new GamePlayer(fourthGame,playerOne));
-            gpRepository.save(new GamePlayer(fourthGame, playerTwo));
-            gpRepository.save(new GamePlayer(fifthGame, playerFour));
-            gpRepository.save(new GamePlayer(fifthGame, playerOne));
-            gpRepository.save(new GamePlayer(sixthGame, playerThree));
+            GamePlayer gp_One = new GamePlayer(firstGame, playerOne);
+            GamePlayer gp_OneB = new GamePlayer(firstGame, playerTwo);
+            GamePlayer gp_Two = new GamePlayer(secondGame, playerOne);
+            GamePlayer gp_Three = new GamePlayer(secondGame, playerTwo);
+            GamePlayer gp_Four = new GamePlayer(thirdGame, playerTwo);
+            GamePlayer gp_Five = new GamePlayer(thirdGame, playerFour);
+            GamePlayer gp_Six = new GamePlayer(fourthGame,playerOne);
+            GamePlayer gp_Seven = new GamePlayer(fourthGame, playerTwo);
+            GamePlayer gp_Eight = new GamePlayer(fifthGame, playerFour);
+            GamePlayer gp_Nine = new GamePlayer(fifthGame, playerOne);
+            GamePlayer go_Ten = new GamePlayer(sixthGame, playerThree);
+            gpRepository.save(gp_One);
+            gpRepository.save(gp_OneB);
+            gpRepository.save(gp_Two);
+            gpRepository.save(gp_Three);
+            gpRepository.save(gp_Four);
+            gpRepository.save(gp_Five);
+            gpRepository.save(gp_Six);
+            gpRepository.save(gp_Seven);
+            gpRepository.save(gp_Eight);
+            gpRepository.save(gp_Nine);
+            gpRepository.save(go_Ten);
+            Ship shipOne = new Ship(Ship.ShipType.DESTROYER, Arrays.asList(new String[]{"H2", "H3", "H4"}), gp_One);
+            gp_One.addShip(shipOne);
+            shRepository.save(shipOne);
+            Ship shipTwo = new Ship(Ship.ShipType.SUBMARINE, Arrays.asList(new String[]{"E1", "F1", "G1"}), gp_One);
+            shRepository.save(shipTwo);
+            gp_One.addShip(shipTwo);
+            Ship shipThree = new Ship(Ship.ShipType.PATROL_BOAT, Arrays.asList(new String[]{"B4", "B5"}), gp_One);
+            shRepository.save(shipThree);
+            gp_One.addShip(shipThree);
+            Ship shipFour = new Ship(Ship.ShipType.DESTROYER, Arrays.asList(new String[]{"B5", "C5", "D5"}), gp_OneB);
+            shRepository.save(shipFour);
+            gp_OneB.addShip(shipFour);
+            Ship shipFive = new Ship(Ship.ShipType.PATROL_BOAT, Arrays.asList(new String[]{"F1", "F2"}), gp_OneB);
+            shRepository.save(shipFive);
+            gp_OneB.addShip(shipFive);
 
         };
     }
