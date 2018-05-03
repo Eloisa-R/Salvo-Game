@@ -53,19 +53,21 @@ public class Player {
         this.userName = userName;
     }
 
-    public void addGame(GamePlayer gameplay){
-        gameplay.setGamePlayer(this);
-        gameplays.add(gameplay);
-    }
-
     public long getId() {
         return id;
     }
 
     @JsonIgnore
-    public List<Game> getGames() {
+    public List<Game> getGamePlayers() {
         return gameplays.stream().map(gp -> gp.getGameEntry()).collect(toList());
     }
+
+
+    public void addGame(GamePlayer gameplay){
+        gameplay.setGamePlayer(this);
+        gameplays.add(gameplay);
+    }
+
 
     public String toString() {
         return firstName + " " + lastName + " " + userName;
