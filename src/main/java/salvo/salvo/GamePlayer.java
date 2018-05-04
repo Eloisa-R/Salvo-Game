@@ -66,7 +66,4 @@ public class GamePlayer {
         return id;
     }
 
-    public List<Ship> showShips() {
-        return ships.stream().collect(toList());
-    }
 }
