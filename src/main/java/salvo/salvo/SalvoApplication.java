@@ -40,8 +40,8 @@ public class SalvoApplication {
             fourthGame.setCreationDate(new Date().from(fourthGame.getCreationDate().toInstant().plusSeconds(10800)));
             fifthGame.setCreationDate(new Date().from(fifthGame.getCreationDate().toInstant().plusSeconds(14400)));
             sixthGame.setCreationDate(new Date().from(sixthGame.getCreationDate().toInstant().plusSeconds(18000)));
-            seventhGame.setCreationDate(new Date().from(sixthGame.getCreationDate().toInstant().plusSeconds(21600)));
-            eighthGame.setCreationDate(new Date().from(sixthGame.getCreationDate().toInstant().plusSeconds(25200)));
+            seventhGame.setCreationDate(new Date().from(seventhGame.getCreationDate().toInstant().plusSeconds(21600)));
+            eighthGame.setCreationDate(new Date().from(eighthGame.getCreationDate().toInstant().plusSeconds(25200)));
             gRepository.save(firstGame);
             gRepository.save(secondGame);
             gRepository.save(thirdGame);

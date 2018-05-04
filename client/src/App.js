@@ -4,6 +4,7 @@ import logo from './logo.svg';
 import './App.css';
 import Players from './Players';
 import Games from './Games';
+import ShipLocations from "./ShipLocations";
 
 
  class App extends React.Component{
@@ -19,6 +20,7 @@ import Games from './Games';
             <Switch>
               <Route exact path="/" component={Players}/>
               <Route path="/games" component={Games}/>
+              <Route path="/shiplocations/:id" component={ShipLocations}/>
             </Switch>
           </BrowserRouter>
         </div>
