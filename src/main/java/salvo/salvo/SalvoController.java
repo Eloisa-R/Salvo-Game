@@ -16,6 +16,9 @@ public class SalvoController {
     @Autowired
     private GameRepository gameRepository;
 
+    @Autowired
+    private GamePlayerRepository gamePlayerRepository;
+
     public SalvoController() {}
 
     private Map<String, Object> GameToDTO(Game game){
@@ -54,6 +57,13 @@ public class SalvoController {
                .collect(toList());
                }
 
+    @GetMapping("/game_view/{gamePlayerId}")
+    public Map<String, Object> getGameByGamePlayer(@PathVariable long gamePlayerId) {
+        Optional<GamePlayer> selectedGP = gamePlayerRepository.findAll().stream()
+                .filter(gp -> gp.getId() == gamePlayerId)
+                .findAny();
+        return GameToDTO(selectedGP.get().getGameEntry());
 
+    }
 
 }

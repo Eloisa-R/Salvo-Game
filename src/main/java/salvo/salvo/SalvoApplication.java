@@ -159,6 +159,7 @@ public class SalvoApplication {
             Ship shipTwentySeven = new Ship(Ship.ShipType.PATROL_BOAT, Arrays.asList(new String[]{"G6", "H6"}), gp_Thirteen);
             shRepository.save(shipTwentySeven);
             gp_Thirteen.addShip(shipTwentySeven);
+
         };
     }
 }
