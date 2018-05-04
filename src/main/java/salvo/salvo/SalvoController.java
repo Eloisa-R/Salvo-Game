@@ -62,7 +62,9 @@ public class SalvoController {
         Optional<GamePlayer> selectedGP = gamePlayerRepository.findAll().stream()
                 .filter(gp -> gp.getId() == gamePlayerId)
                 .findAny();
-        return GameToDTO(selectedGP.get().getGameEntry());
+        Map<String, Object> gamePlayerdata = GameToDTO(selectedGP.get().getGameEntry());
+        gamePlayerdata.put("ships", selectedGP.get().getShips());
+        return gamePlayerdata;
 
     }
 

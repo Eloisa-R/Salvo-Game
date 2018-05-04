@@ -1,5 +1,7 @@
 package salvo.salvo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -32,9 +34,6 @@ public class Ship {
         this.gp = inputGp;
     }
 
-    public GamePlayer getGamePlayer() {
-        return gp;
-    }
 
     public void setGamePlayer(GamePlayer gp) {
         this.gp = gp;
@@ -48,6 +47,7 @@ public class Ship {
         return locations;
     }
 
+    @JsonIgnore
     public GamePlayer getGp() {
         return gp;
     }
