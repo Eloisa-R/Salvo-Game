@@ -37,3 +37,31 @@ form{
   margin-right: 20%;
   margin-bottom: 5%;
   }
+
+.row{
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}
+
+.square{
+  background-color: transparent;
+  border: solid 1px;
+  width: 3vw;
+  height: 3vh;
+  margin: 0px;
+  padding: 0px;
+}
+
+.grid{
+  display: flex;
+  flex-direction: column;
+  margin-left: 30vw;
+  width: fit-content;
+  height: fit-content;
+
+}
+
+.with-ship{
+  background-color: blue;
+}
