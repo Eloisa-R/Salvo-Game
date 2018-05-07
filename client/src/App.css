@@ -56,7 +56,6 @@ form{
 .grid{
   display: flex;
   flex-direction: column;
-  margin-left: 30vw;
   width: fit-content;
   height: fit-content;
 
@@ -64,4 +63,17 @@ form{
 
 .with-ship{
   background-color: blue;
+}
+
+.gridContainer{
+  display: flex;
+ justify-content: space-around;
+}
+
+.salvoFired{
+  background-color: orange;
+}
+
+.salvoHit{
+  background-color: red;
 }

@@ -7,10 +7,14 @@ class ShipLocations extends React.Component{
             isLoading: true,
             gamePlayerResponse: "",
             player: "",
-            oponent: ""
+            playerGPId: "",
+            oponent: "",
+            oponentGPId: ""
         }
     this.loadLocations = this.loadLocations.bind(this);
     this.loadShipsOnGrid = this.loadShipsOnGrid.bind(this);
+    this.loadSalvoesOnGrid = this.loadSalvoesOnGrid.bind(this);
+    this.loadHitsOnGrid = this.loadHitsOnGrid.bind(this);
     }
 
     loadLocations(){
@@ -21,33 +25,60 @@ class ShipLocations extends React.Component{
                 this.loadShipsOnGrid();
                 this.state.gamePlayerResponse.gamePlayers.forEach((element) => {
                     if (element.id == this.props.match.params.id) {
-                        this.setState({player:element.player.email})}
+                        this.setState({player:element.player.email, playerGPId: element.id})}
                     else {
-                        this.setState({oponent:element.player.email})
+                        this.setState({oponent:element.player.email, oponentGPId: element.id})
                     }
-                })
+                });
+                this.loadSalvoesOnGrid();
+                this.loadHitsOnGrid();
             });
 
     }
 
     loadShipsOnGrid(){
         this.state.gamePlayerResponse.ships.forEach((element) => {
-            element.locations.forEach((location) => {document.getElementById(location).classList.add("with-ship")})
+            element.locations.forEach((location) => {document.getElementById("sh-" + location).classList.add("with-ship")})
         })
     }
 
-    loadGrid(){
+    loadSalvoesOnGrid(){
+        var salvoesDict = this.state.gamePlayerResponse.salvoes[this.props.match.params.id];
+
+        for (var key in salvoesDict) {
+            salvoesDict[key].forEach((element) => {
+                document.getElementById("sa-" + element).innerHTML = key;
+                document.getElementById("sa-" + element).classList.add("salvoFired");
+            })
+        }
+    }
+
+    loadHitsOnGrid(){
+        var hitsDict = this.state.gamePlayerResponse.salvoes[this.state.oponentGPId];
+        for (var key in hitsDict) {
+            hitsDict[key].forEach((element) => {
+                var hitOnGrid = document.getElementById("sh-" + element);
+                if (hitOnGrid.classList.contains("with-ship")) {
+                    hitOnGrid.classList.remove("with-ship");
+                    hitOnGrid.innerHTML = key;
+                    hitOnGrid.classList.add("salvoHit");
+                }
+            })
+        }
+    }
+
+    loadGrid(ships_or_salvoes){
 
         var letterArray = ["Z","A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
         var buttons;
         function generateRow(letter, index_key){
             buttons = letterArray.map((element, index) =>
             { if (letter === "Z" && index !==0) {
-                    return <button key={index} className="square" id={letter + index}>{index}</button>
+                    return <button key={index} className="square" id={ships_or_salvoes + "-"+ letter + index}>{index}</button>
                 } else if (letter !== "Z" && index === 0) {
-                    return <button key={index} className="square" id={letter + index}>{letter}</button>
+                    return <button key={index} className="square" id={ships_or_salvoes + "-"+ letter + index}>{letter}</button>
                 } else {
-                    return <button key={index} className="square" id={letter + index}/>
+                    return <button key={index} className="square" id={ships_or_salvoes + "-"+ letter + index}/>
                 }})
 
             return <div className="row" key={index_key}>{buttons}</div>
@@ -73,7 +104,10 @@ class ShipLocations extends React.Component{
                 {this.state.gamePlayerResponse.ships.map((ship, index) =>
                     <div key={index}>{ship.type}, {ship.locations}</div>
                 )}
-                <div className="grid">{this.loadGrid()}</div>
+                <div className="gridContainer">
+                    <div className="grid"><h4>My Ships</h4>{this.loadGrid("sh")}</div>
+                <div className="grid"><h4>Salvoes I Fired</h4>{this.loadGrid("sa")}</div>
+                </div>
             </div>
         );
     }
