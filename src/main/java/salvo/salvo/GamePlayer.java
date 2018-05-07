@@ -20,7 +20,7 @@ public class GamePlayer {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="player_id")
-    private Player gamePlayer;
+    private Player player;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="game_id")
@@ -36,11 +36,11 @@ public class GamePlayer {
 
     public GamePlayer(Game inputGame, Player inputPlayer) {
         this.gameEntry = inputGame;
-        this.gamePlayer = inputPlayer;
+        this.player = inputPlayer;
     }
 
     public Player getGamePlayer() {
-        return gamePlayer;
+        return player;
     }
 
     public Game getGameEntry() {
@@ -52,7 +52,7 @@ public class GamePlayer {
     }
 
     public void setGamePlayer(Player gamePlayer) {
-        this.gamePlayer = gamePlayer;
+        this.player = gamePlayer;
     }
 
     public void addShip(Ship ship) {

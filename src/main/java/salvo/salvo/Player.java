@@ -19,7 +19,7 @@ public class Player {
     private String lastName;
     private String userName;
 
-    @OneToMany(mappedBy = "gamePlayer", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "player", fetch=FetchType.EAGER)
     Set<GamePlayer> gameplays = new HashSet<>();
 
     public Player() { }
