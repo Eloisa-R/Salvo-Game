@@ -16,7 +16,7 @@ public class SalvoApplication {
 	}
 
     @Bean
-    public CommandLineRunner initData(PlayerRepository repository, GameRepository gRepository, GamePlayerRepository gpRepository, ShipRepository shRepository) {
+    public CommandLineRunner initData(PlayerRepository repository, GameRepository gRepository, GamePlayerRepository gpRepository, ShipRepository shRepository, SalvoRepository salRepository) {
         return (args) -> {
             // save a couple of players
             Player playerOne = new Player("Jack", "Bauer", "j.bauer@ctu.gov");
@@ -159,7 +159,8 @@ public class SalvoApplication {
             Ship shipTwentySeven = new Ship(Ship.ShipType.PATROL_BOAT, Arrays.asList(new String[]{"G6", "H6"}), gp_Thirteen);
             shRepository.save(shipTwentySeven);
             gp_Thirteen.addShip(shipTwentySeven);
-
+            salRepository.save(new Salvo(gp_One,1, Arrays.asList(new String[]{"B5", "C5", "F1"})));
+            salRepository.save(new Salvo(gp_OneB,1, Arrays.asList(new String[]{"B4", "B5", "B5"})));
         };
     }
 }

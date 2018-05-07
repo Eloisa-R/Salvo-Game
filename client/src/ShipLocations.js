@@ -5,7 +5,9 @@ class ShipLocations extends React.Component{
         super();
         this.state = {
             isLoading: true,
-            gamePlayerResponse: ""
+            gamePlayerResponse: "",
+            player: "",
+            oponent: ""
         }
     this.loadLocations = this.loadLocations.bind(this);
     this.loadShipsOnGrid = this.loadShipsOnGrid.bind(this);
@@ -17,6 +19,13 @@ class ShipLocations extends React.Component{
             .then((data) => {
                 this.setState({gamePlayerResponse: data, isLoading: false})
                 this.loadShipsOnGrid();
+                this.state.gamePlayerResponse.gamePlayers.forEach((element) => {
+                    if (element.id == this.props.match.params.id) {
+                        this.setState({player:element.player.email})}
+                    else {
+                        this.setState({oponent:element.player.email})
+                    }
+                })
             });
 
     }
@@ -33,7 +42,7 @@ class ShipLocations extends React.Component{
         var buttons;
         function generateRow(letter, index_key){
             buttons = letterArray.map((element, index) =>
-            { if (letter === "Z" && index !=0) {
+            { if (letter === "Z" && index !==0) {
                     return <button key={index} className="square" id={letter + index}>{index}</button>
                 } else if (letter !== "Z" && index === 0) {
                     return <button key={index} className="square" id={letter + index}>{letter}</button>
@@ -59,6 +68,8 @@ class ShipLocations extends React.Component{
         return (
             <div>
                 <h3>Ship Locations!</h3>
+                <div>Hello, player {this.state.player}</div>
+                <div>Your oponent is {this.state.oponent}</div>
                 {this.state.gamePlayerResponse.ships.map((ship, index) =>
                     <div key={index}>{ship.type}, {ship.locations}</div>
                 )}
