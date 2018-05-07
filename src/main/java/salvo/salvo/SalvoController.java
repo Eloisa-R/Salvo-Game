@@ -50,6 +50,24 @@ public class SalvoController {
                 .collect(toList());
     }
 
+    private Map<String, Object> getSalvoes(GamePlayer gamePlayer){
+        Map<String, Object> SalvoesInfo = new LinkedHashMap<>();
+        Set<Salvo> salvoes = gamePlayer.getSalvoes();
+        for (Salvo salvoItem: salvoes) {
+            SalvoesInfo.put(String.valueOf(salvoItem.getTurnNumber()), salvoItem.getSalvoLocations());
+        }
+        return SalvoesInfo;
+    }
+
+    private Map<String, Object> getSalvoesforAll(Set<GamePlayer> gps) {
+        Map<String, Object> AllSalvoesInfo = new LinkedHashMap<>();
+        for (GamePlayer gp: gps) {
+           AllSalvoesInfo.put(String.valueOf(gp.getId()), getSalvoes(gp));
+        }
+        return AllSalvoesInfo;
+    }
+
+
     @GetMapping("/games")
     public List<Map> getGameIds(){
        return gameRepository.findAll().stream()
@@ -62,8 +80,11 @@ public class SalvoController {
         Optional<GamePlayer> selectedGP = gamePlayerRepository.findAll().stream()
                 .filter(gp -> gp.getId() == gamePlayerId)
                 .findAny();
+        Set<GamePlayer> gamePlayers = selectedGP.get().getGameEntry().getGameplays();
         Map<String, Object> gamePlayerdata = GameToDTO(selectedGP.get().getGameEntry());
         gamePlayerdata.put("ships", selectedGP.get().getShips());
+        gamePlayerdata.put("salvoes", getSalvoesforAll(gamePlayers));
+
         return gamePlayerdata;
 
     }

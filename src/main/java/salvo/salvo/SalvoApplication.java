@@ -160,7 +160,26 @@ public class SalvoApplication {
             shRepository.save(shipTwentySeven);
             gp_Thirteen.addShip(shipTwentySeven);
             salRepository.save(new Salvo(gp_One,1, Arrays.asList(new String[]{"B5", "C5", "F1"})));
-            salRepository.save(new Salvo(gp_OneB,1, Arrays.asList(new String[]{"B4", "B5", "B5"})));
+            salRepository.save(new Salvo(gp_OneB,1, Arrays.asList(new String[]{"B4", "B5", "B6"})));
+            salRepository.save(new Salvo(gp_One,2, Arrays.asList(new String[]{"F5", "D5"})));
+            salRepository.save(new Salvo(gp_OneB,2, Arrays.asList(new String[]{"E1", "H3", "A2"})));
+            salRepository.save(new Salvo(gp_Two,1, Arrays.asList(new String[]{"A2", "A4", "G6"})));
+            salRepository.save(new Salvo(gp_Three,1, Arrays.asList(new String[]{"B5", "D5", "C7"})));
+            salRepository.save(new Salvo(gp_Two,2, Arrays.asList(new String[]{"A3", "H6"})));
+            salRepository.save(new Salvo(gp_Three,2, Arrays.asList(new String[]{"C5", "C6"})));
+            salRepository.save(new Salvo(gp_Four,1, Arrays.asList(new String[]{"G6", "H6", "A4"})));
+            salRepository.save(new Salvo(gp_Five,1, Arrays.asList(new String[]{"H1", "H2", "H3"})));
+            salRepository.save(new Salvo(gp_Four,2, Arrays.asList(new String[]{"A2", "A3", "D8"})));
+            salRepository.save(new Salvo(gp_Five,2, Arrays.asList(new String[]{"E1", "F2", "G3"})));
+            salRepository.save(new Salvo(gp_Seven,1, Arrays.asList(new String[]{"A3", "A4", "F7"})));
+            salRepository.save(new Salvo(gp_Six,1, Arrays.asList(new String[]{"B5", "C6", "H1"})));
+            salRepository.save(new Salvo(gp_Seven,2, Arrays.asList(new String[]{"A2", "G6", "H6"})));
+            salRepository.save(new Salvo(gp_Six,2, Arrays.asList(new String[]{"C5", "C7", "D5"})));
+            salRepository.save(new Salvo(gp_Eight,1, Arrays.asList(new String[]{"A1", "A2", "A3"})));
+            salRepository.save(new Salvo(gp_Nine,1, Arrays.asList(new String[]{"B5", "B6", "C7"})));
+            salRepository.save(new Salvo(gp_Eight,2, Arrays.asList(new String[]{"G6", "G7", "G8"})));
+            salRepository.save(new Salvo(gp_Nine,2, Arrays.asList(new String[]{"C6", "D6", "E6"})));
+            salRepository.save(new Salvo(gp_Nine,3, Arrays.asList(new String[]{"H1", "H8"})));
         };
     }
 }
