@@ -39,6 +39,7 @@ public class SalvoController {
     private Map<String, Object> gamePlayerToDTO(GamePlayer gamePlayer){
         Map<String, Object> gamePlayerInfo = new LinkedHashMap<>();
         gamePlayerInfo.put("id", gamePlayer.getId());
+        gamePlayerInfo.put("score", getScoreforGamePlayer(gamePlayer));
         gamePlayerInfo.put("player", playerToDTO(gamePlayer.getGamePlayer()));
         return gamePlayerInfo;
     }
@@ -65,6 +66,14 @@ public class SalvoController {
            AllSalvoesInfo.put(String.valueOf(gp.getId()), getSalvoes(gp));
         }
         return AllSalvoesInfo;
+    }
+
+    private Optional<Double> getScoreforGamePlayer(GamePlayer gp) {
+        Optional<Double> score = gp.getGameEntry().getScores().stream()
+                .filter(sc -> sc.getPlayer().equals(gp.getGamePlayer()))
+                .map(sc -> sc.getScorePoints())
+                .findFirst();
+        return score;
     }
 
 
