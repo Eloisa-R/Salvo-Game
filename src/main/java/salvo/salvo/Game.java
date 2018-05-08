@@ -2,6 +2,7 @@ package salvo.salvo;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -17,6 +18,9 @@ public class Game {
 
     @OneToMany(mappedBy = "gameEntry", fetch=FetchType.EAGER)
     Set<GamePlayer> gameplays;
+
+    @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
+    Set<Score> scores = new HashSet<>();
 
     public Game() {
         this.creationDate = new Date();
@@ -41,6 +45,10 @@ public class Game {
     public void addGame(GamePlayer gameplay){
         gameplay.setGameEntry(this);
         gameplays.add(gameplay);
+    }
+
+    public Set<Score> getScores() {
+        return scores;
     }
 
     public List<Player> getPlayers() {

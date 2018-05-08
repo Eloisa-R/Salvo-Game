@@ -16,7 +16,7 @@ public class SalvoApplication {
 	}
 
     @Bean
-    public CommandLineRunner initData(PlayerRepository repository, GameRepository gRepository, GamePlayerRepository gpRepository, ShipRepository shRepository, SalvoRepository salRepository) {
+    public CommandLineRunner initData(PlayerRepository repository, GameRepository gRepository, GamePlayerRepository gpRepository, ShipRepository shRepository, SalvoRepository salRepository, ScoreRepository scRepository) {
         return (args) -> {
             // save a couple of players
             Player playerOne = new Player("Jack", "Bauer", "j.bauer@ctu.gov");
@@ -161,7 +161,7 @@ public class SalvoApplication {
             gp_Thirteen.addShip(shipTwentySeven);
             salRepository.save(new Salvo(gp_One,1, Arrays.asList(new String[]{"B5", "C5", "F1"})));
             salRepository.save(new Salvo(gp_OneB,1, Arrays.asList(new String[]{"B4", "B5", "B6"})));
-            salRepository.save(new Salvo(gp_One,2, Arrays.asList(new String[]{"F5", "D5"})));
+            salRepository.save(new Salvo(gp_One,2, Arrays.asList(new String[]{"F2", "D5"})));
             salRepository.save(new Salvo(gp_OneB,2, Arrays.asList(new String[]{"E1", "H3", "A2"})));
             salRepository.save(new Salvo(gp_Two,1, Arrays.asList(new String[]{"A2", "A4", "G6"})));
             salRepository.save(new Salvo(gp_Three,1, Arrays.asList(new String[]{"B5", "D5", "C7"})));
@@ -180,6 +180,14 @@ public class SalvoApplication {
             salRepository.save(new Salvo(gp_Eight,2, Arrays.asList(new String[]{"G6", "G7", "G8"})));
             salRepository.save(new Salvo(gp_Nine,2, Arrays.asList(new String[]{"C6", "D6", "E6"})));
             salRepository.save(new Salvo(gp_Nine,3, Arrays.asList(new String[]{"H1", "H8"})));
+            scRepository.save(new Score(firstGame, playerOne,1,new Date().from(firstGame.getCreationDate().toInstant().plusSeconds(1800))));
+            scRepository.save(new Score(firstGame, playerTwo,0,new Date().from(firstGame.getCreationDate().toInstant().plusSeconds(1800))));
+            scRepository.save(new Score(secondGame, playerOne,0.5,new Date().from(secondGame.getCreationDate().toInstant().plusSeconds(1800))));
+            scRepository.save(new Score(secondGame, playerTwo,0.5,new Date().from(secondGame.getCreationDate().toInstant().plusSeconds(1800))));
+            scRepository.save(new Score(thirdGame, playerTwo,1,new Date().from(thirdGame.getCreationDate().toInstant().plusSeconds(1800))));
+            scRepository.save(new Score(thirdGame, playerFour,0,new Date().from(thirdGame.getCreationDate().toInstant().plusSeconds(1800))));
+            scRepository.save(new Score(fourthGame, playerTwo,0.5,new Date().from(fourthGame.getCreationDate().toInstant().plusSeconds(1800))));
+            scRepository.save(new Score(fourthGame, playerOne,0.5,new Date().from(fourthGame.getCreationDate().toInstant().plusSeconds(1800))));
         };
     }
 }
