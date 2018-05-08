@@ -72,6 +72,7 @@ public class Player {
         gameplays.add(gameplay);
     }
 
+    @JsonIgnore
     public Set<Score> getScores() {
         return scores;
     }

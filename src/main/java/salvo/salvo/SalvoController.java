@@ -15,9 +15,10 @@ public class SalvoController {
 
     @Autowired
     private GameRepository gameRepository;
-
     @Autowired
     private GamePlayerRepository gamePlayerRepository;
+    @Autowired
+    private PlayerRepository playerRepository;
 
     public SalvoController() {}
 
@@ -76,6 +77,17 @@ public class SalvoController {
         return score;
     }
 
+    private Map<String, Object> getScoreforPlayer(Player player){
+        Map<String, Object> ScoreInfo = new LinkedHashMap<>();
+        ScoreInfo.put("id", player.getId());
+        ScoreInfo.put("email", player.getUserName());
+        ScoreInfo.put("total", player.getScores().stream().mapToDouble(sc -> sc.getScorePoints()).sum());
+        ScoreInfo.put("wins", player.getScores().stream().filter(sc -> sc.getScorePoints() == 1.0).count());
+        ScoreInfo.put("losses", player.getScores().stream().filter(sc -> sc.getScorePoints() == 0.0).count());
+        ScoreInfo.put("ties", player.getScores().stream().filter(sc -> sc.getScorePoints() == 0.5).count());
+        return ScoreInfo;
+    }
+
 
     @GetMapping("/games")
     public List<Map> getGameIds(){
@@ -96,6 +108,13 @@ public class SalvoController {
 
         return gamePlayerdata;
 
+    }
+
+    @GetMapping("/scores")
+    public List<Map> getPlayers(){
+        return playerRepository.findAll().stream()
+                .map(pl -> getScoreforPlayer(pl))
+                .collect(toList());
     }
 
 }
