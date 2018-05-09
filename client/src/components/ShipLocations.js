@@ -1,5 +1,7 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
+// @connect()
 class ShipLocations extends React.Component{
     constructor(){
         super();

@@ -1,6 +1,5 @@
 import React from 'react';
 import {Route, BrowserRouter, Switch} from 'react-router-dom';
-import logo from './logo.svg';
 import './App.css';
 import Players from './Players';
 import Games from './Games';

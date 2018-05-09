@@ -1,5 +1,7 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
+// @connect()
  class Players extends React.Component {
 
       constructor(props) {
