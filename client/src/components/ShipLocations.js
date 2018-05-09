@@ -1,7 +1,19 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {fetchShips} from "../actions/shipsAction";
 
-// @connect()
+const mapStateToProps = function(store) {
+    return {
+        shipsFetched: store.ships.fetched,
+        gamePlayerResponse: store.ships.gamePlayerResponse,
+    };
+};
+
+const mapDispatchToProps = function (dispatch) {
+    return {
+        fetchGamePlayer: (id) => {dispatch(fetchShips(id))},
+    };
+};
 class ShipLocations extends React.Component{
     constructor(){
         super();
@@ -115,4 +127,4 @@ class ShipLocations extends React.Component{
     }
 }
 
-export default ShipLocations;
+export default connect(mapStateToProps, mapDispatchToProps) (ShipLocations);
