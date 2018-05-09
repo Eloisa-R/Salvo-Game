@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 .App-logo {
@@ -83,8 +85,7 @@ form{
 }
 
 .leaderboard{
-  padding-left: 20%;
-  padding-right: 20%;
+  padding-left: 10%;
 }
 
 .games-container{

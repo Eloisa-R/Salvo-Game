@@ -14,6 +14,7 @@ public class Game {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long id;
+
     private Date creationDate;
 
     @OneToMany(mappedBy = "gameEntry", fetch=FetchType.EAGER)

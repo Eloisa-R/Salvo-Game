@@ -27,6 +27,7 @@ public class SalvoApplication {
             repository.save(playerTwo);
             repository.save(playerThree);
             repository.save(playerFour);
+
             Game firstGame = new Game();
             Game secondGame = new Game();
             Game thirdGame = new Game();
@@ -35,6 +36,7 @@ public class SalvoApplication {
             Game sixthGame = new Game();
             Game seventhGame = new Game();
             Game eighthGame = new Game();
+
             secondGame.setCreationDate(new Date().from(secondGame.getCreationDate().toInstant().plusSeconds(3600)));
             thirdGame.setCreationDate(new Date().from(thirdGame.getCreationDate().toInstant().plusSeconds(7200)));
             fourthGame.setCreationDate(new Date().from(fourthGame.getCreationDate().toInstant().plusSeconds(10800)));

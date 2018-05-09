@@ -6,6 +6,7 @@ import java.util.Date;
 
 @Entity
 public class Score {
+
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long id;
