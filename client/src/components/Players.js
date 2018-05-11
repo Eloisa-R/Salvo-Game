@@ -1,67 +1,64 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {fetchPlayers} from "../actions/playersAction";
+import {addPlayer} from "../actions/playersAction";
 
-// @connect()
+const mapStateToProps = function(store) {
+    return {
+        playersFetched: store.players.fetched,
+        playersResponse: store.players.playersResponse,
+        playersPosted: store.players.post,
+    };
+};
+
+const mapDispatchToProps = function (dispatch) {
+    return {
+        fetchPlayers: () => {dispatch(fetchPlayers())},
+        addPlayer: (inputFn, inputLn, inputE) => {dispatch(addPlayer(inputFn, inputLn, inputE))},
+    };
+};
  class Players extends React.Component {
 
       constructor(props) {
         super(props);
 
-        this.state = {
-          players: [],
-          isLoading: false,
-          fnValue: "",
-          lnValue: "",
-          email: "",
-        };
-
-        this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.loadPlayers = this.loadPlayers.bind(this);
       }
-
-
-     handleChange(event) {
-       this.setState({[event.target.id]: event.target.value});
-     }
 
      handleSubmit(event) {
        event.preventDefault();
-       fetch('http://localhost:8080/rest/players', {
-         method: 'POST',
-         headers: {
-           'Access-Control-Allow-Origin':'*',
-           'Accept': 'application/json',
-           'Content-Type': 'application/json',
-         },
-          dataType: "json",
-         body: JSON.stringify({
-           firstName: this.state.fnValue,
-           lastName: this.state.lnValue,
-           userName: this.state.email,
-         })
-       }).then(response => response.json())
-                       .then((data) => {this.loadPlayers()})
 
-     }
+       let fnValue = document.getElementById("fnValue").value;
+       let lnValue = document.getElementById("lnValue").value;
+       let emailValue = document.getElementById("email").value;
 
-     loadPlayers(){
-      fetch('http://localhost:8080/rest/players', {headers: {'Access-Control-Allow-Origin':'*'}})
-             .then(response => response.json())
-             .then((data) => {
-             this.setState({players: data, isLoading: false})});
+       document.getElementById("fnValue").value = "";
+       document.getElementById("lnValue").value = "";
+       document.getElementById("email").value ="";
 
-     }
+       if (fnValue !== '' && lnValue !== '' && emailValue !== '') {
 
-   componentDidMount() {
-     this.setState({isLoading: true});
-     this.loadPlayers();
+           this.props.addPlayer(fnValue, lnValue, emailValue);
+
+       } else {
+           console.log("Oops, fill out all the data!");
+       }
+       }
+
+
+   componentWillMount() {
+     this.props.fetchPlayers();
+   }
+
+   componentDidUpdate(){
+      if (this.props.playersPosted) {
+          this.props.fetchPlayers();
+      }
    }
 
     render() {
-      const {players, isLoading} = this.state;
 
-      if (isLoading) {
+      if (!this.props.playersFetched) {
         return <p>Loading...</p>;
       }
 
@@ -71,20 +68,20 @@ import {connect} from 'react-redux';
             <form onSubmit={this.handleSubmit}>
                <label>
                       First name:
-                <input type="text" value={this.state.fnValue} id="fnValue" onChange={this.handleChange} />
+                <input type="text" id="fnValue"/>
                 </label>
                 <label>
                      Last name:
-                <input type="text" value={this.state.lnValue} id="lnValue" onChange={this.handleChange} />
+                <input type="text" id="lnValue"/>
                 </label>
                 <label>
                      E-mail:
-                <input type="text" value={this.state.email} id="email" onChange={this.handleChange} />
+                <input type="text" id="email"/>
                 </label>
                 <input type="submit" value="Add" />
             </form>
             <h2>Player List</h2>
-            {this.state.players.map((player, index) =>
+            {this.props.playersResponse.map((player, index) =>
               <div key={index}>
                 Name: {player.firstName} {player.lastName}, email: {player.userName}
               </div>
@@ -94,4 +91,4 @@ import {connect} from 'react-redux';
     }
 }
 
-export default Players;
+export default connect(mapStateToProps, mapDispatchToProps) (Players);

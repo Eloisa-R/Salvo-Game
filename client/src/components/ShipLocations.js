@@ -60,7 +60,6 @@ class ShipLocations extends React.Component{
 
     loadHitsOnGrid(){
         let hitsDict = this.props.gamePlayerResponse.salvoes[this.getOponentId()];
-        console.log(hitsDict);
         for (let key in hitsDict) {
             hitsDict[key].forEach((element) => {
                 let hitOnGrid = document.getElementById("sh-" + element);
@@ -94,12 +93,10 @@ class ShipLocations extends React.Component{
 
     componentWillMount(){
         this.props.fetchGamePlayer(this.props.match.params.id);
-        // this.loadLocations();
     }
 
     componentDidUpdate(){
         if (this.props.gamePlayerResponse !== null) {
-            console.log(this.props.gamePlayerResponse)
             this.loadShipsOnGrid();
             this.loadHitsOnGrid();
             this.loadSalvoesOnGrid();

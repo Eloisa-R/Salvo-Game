@@ -17,6 +17,7 @@ import ShipLocations from "./ShipLocations";
           <BrowserRouter>
             <Switch>
               <Route exact path="/" component={Players}/>
+                <Route path="/players" component={Players}/>
               <Route path="/games" component={Games}/>
               <Route path="/shiplocations/:id" component={ShipLocations}/>
             </Switch>
