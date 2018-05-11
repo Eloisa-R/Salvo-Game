@@ -17,49 +17,40 @@ const mapDispatchToProps = function (dispatch) {
 class ShipLocations extends React.Component{
     constructor(){
         super();
-        this.state = {
-            isLoading: true,
-            gamePlayerResponse: "",
-            player: "",
-            playerGPId: "",
-            oponent: "",
-            oponentGPId: ""
-        }
-    this.loadLocations = this.loadLocations.bind(this);
     this.loadShipsOnGrid = this.loadShipsOnGrid.bind(this);
     this.loadSalvoesOnGrid = this.loadSalvoesOnGrid.bind(this);
     this.loadHitsOnGrid = this.loadHitsOnGrid.bind(this);
+    this.getOponentId = this.getOponentId.bind(this);
     }
 
-    loadLocations(){
-        fetch('http://localhost:8080/api/game_view/' + this.props.match.params.id, {headers: {'Access-Control-Allow-Origin':'*'}})
-            .then(response => response.json())
-            .then((data) => {
-                this.setState({gamePlayerResponse: data, isLoading: false})
-                this.loadShipsOnGrid();
-                this.state.gamePlayerResponse.gamePlayers.forEach((element) => {
-                    if (element.id == this.props.match.params.id) {
-                        this.setState({player:element.player.email, playerGPId: element.id})}
-                    else {
-                        this.setState({oponent:element.player.email, oponentGPId: element.id})
-                    }
-                });
-                this.loadSalvoesOnGrid();
-                this.loadHitsOnGrid();
-            });
 
+    getOponentId(){
+        //the params.id and the id in the JSON response are different types, so the comparison needs to be like this (!=)
+        //otherwise, !== would return any of the ids in the JSON
+        let oponentObject = this.props.gamePlayerResponse.gamePlayers.filter(gp => gp.id != this.props.match.params.id);
+        return oponentObject[0].id;
+    }
+
+    getPlayeremail(){
+       let playerObj = this.props.gamePlayerResponse.gamePlayers.filter(gp => gp.id == this.props.match.params.id);
+       return playerObj[0].player.email;
+    }
+
+    getOponentemail(){
+        let oponentObj = this.props.gamePlayerResponse.gamePlayers.filter(gp => gp.id != this.props.match.params.id);
+        return oponentObj[0].player.email;
     }
 
     loadShipsOnGrid(){
-        this.state.gamePlayerResponse.ships.forEach((element) => {
+        this.props.gamePlayerResponse.ships.forEach((element) => {
             element.locations.forEach((location) => {document.getElementById("sh-" + location).classList.add("with-ship")})
         })
     }
 
     loadSalvoesOnGrid(){
-        var salvoesDict = this.state.gamePlayerResponse.salvoes[this.props.match.params.id];
+        let salvoesDict = this.props.gamePlayerResponse.salvoes[this.props.match.params.id];
 
-        for (var key in salvoesDict) {
+        for (let key in salvoesDict) {
             salvoesDict[key].forEach((element) => {
                 document.getElementById("sa-" + element).innerHTML = key;
                 document.getElementById("sa-" + element).classList.add("salvoFired");
@@ -68,10 +59,11 @@ class ShipLocations extends React.Component{
     }
 
     loadHitsOnGrid(){
-        var hitsDict = this.state.gamePlayerResponse.salvoes[this.state.oponentGPId];
-        for (var key in hitsDict) {
+        let hitsDict = this.props.gamePlayerResponse.salvoes[this.getOponentId()];
+        console.log(hitsDict);
+        for (let key in hitsDict) {
             hitsDict[key].forEach((element) => {
-                var hitOnGrid = document.getElementById("sh-" + element);
+                let hitOnGrid = document.getElementById("sh-" + element);
                 if (hitOnGrid.classList.contains("with-ship")) {
                     hitOnGrid.classList.remove("with-ship");
                     hitOnGrid.innerHTML = key;
@@ -83,8 +75,8 @@ class ShipLocations extends React.Component{
 
     loadGrid(ships_or_salvoes){
 
-        var letterArray = ["Z","A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
-        var buttons;
+        let letterArray = ["Z","A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+        let buttons;
         function generateRow(letter, index_key){
             buttons = letterArray.map((element, index) =>
             { if (letter === "Z" && index !==0) {
@@ -100,27 +92,39 @@ class ShipLocations extends React.Component{
         return letterArray.map((element, index) => generateRow(element, index))
     }
 
-    componentDidMount(){
-        this.loadLocations();
+    componentWillMount(){
+        this.props.fetchGamePlayer(this.props.match.params.id);
+        // this.loadLocations();
+    }
+
+    componentDidUpdate(){
+        if (this.props.gamePlayerResponse !== null) {
+            console.log(this.props.gamePlayerResponse)
+            this.loadShipsOnGrid();
+            this.loadHitsOnGrid();
+            this.loadSalvoesOnGrid();
+
+        }
+
     }
 
 
-
     render(){
-        if (this.state.isLoading) {
+        if (!this.props.shipsFetched) {
             return <p>Loading...</p>;
         }
         return (
             <div>
                 <h3>Ship Locations!</h3>
-                <div>Hello, player {this.state.player}</div>
-                <div>Your oponent is {this.state.oponent}</div>
-                {this.state.gamePlayerResponse.ships.map((ship, index) =>
+                <div>Hello, player {this.getPlayeremail()}</div>
+                <div>Your oponent is {this.getOponentemail()}</div>
+                {this.props.gamePlayerResponse.ships.map((ship, index) =>
                     <div key={index}>{ship.type}, {ship.locations}</div>
                 )}
                 <div className="gridContainer">
                     <div className="grid"><h4>My Ships</h4>{this.loadGrid("sh")}</div>
                 <div className="grid"><h4>Salvoes I Fired</h4>{this.loadGrid("sa")}</div>
+
                 </div>
             </div>
         );
