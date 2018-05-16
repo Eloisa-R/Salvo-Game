@@ -1,10 +1,13 @@
 package salvo.salvo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -131,6 +134,28 @@ public class SalvoController {
                 .collect(toList());
     }
 
+
+    @GetMapping("/players")
+    public List<Player> allPlayers() {
+        return playerRepository.findAll();
+    }
+
+
+    @RequestMapping(
+            value = "/players",
+            method = RequestMethod.POST)
+    public ResponseEntity<String> createNewPlayer(@RequestParam String username, String firstname, String lastname, String password)
+    {
+        if(username.isEmpty() || firstname.isEmpty() || lastname.isEmpty() || password.isEmpty()) {
+            return new ResponseEntity<>("Missing data for player", HttpStatus.FORBIDDEN);
+        } else if(playerRepository.findByUserName(username) != null){
+            return new ResponseEntity<>("Email is already in use", HttpStatus.FORBIDDEN);
+        } else {
+            playerRepository.save(new Player(firstname, lastname, username, password));
+            return new ResponseEntity<>("Player created successfully", HttpStatus.CREATED);
+        }
+
+    }
 //    @GetMapping("/login")
 //    public String sayHi(){
 //        return "Hello";

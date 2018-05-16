@@ -30,10 +30,11 @@ public class Player {
 
     public Player() { }
 
-    public Player(String first, String last, String email) {
+    public Player(String first, String last, String email, String password) {
         this.firstName = first;
         this.lastName = last;
         this.userName = email;
+        this.password = password;
     }
 
     public String getFirstName() {

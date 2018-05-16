@@ -1,6 +1,6 @@
 export function fetchPlayers(){
     return function (dispatch){
-        fetch('http://localhost:8080/rest/players', {headers: {'Access-Control-Allow-Origin':'*'}})
+        fetch('http://localhost:8080/api/players', {headers: {'Access-Control-Allow-Origin':'*'}})
             .then(response => response.json())
             .then((data) => {
 
@@ -11,7 +11,7 @@ export function fetchPlayers(){
 
 export function addPlayer(inputFn, inputLn, inputE){
     return function(dispatch){
-        fetch('http://localhost:8080/rest/players', {
+        fetch('http://localhost:8080/api/players', {
             method: 'POST',
             headers: {
                 'Access-Control-Allow-Origin':'*',

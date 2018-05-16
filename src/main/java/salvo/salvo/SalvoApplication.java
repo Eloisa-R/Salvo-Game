@@ -39,14 +39,10 @@ public class SalvoApplication extends SpringBootServletInitializer{
     public CommandLineRunner initData(PlayerRepository repository, GameRepository gRepository, GamePlayerRepository gpRepository, ShipRepository shRepository, SalvoRepository salRepository, ScoreRepository scRepository) {
         return (args) -> {
             // save a couple of players
-            Player playerOne = new Player("Jack", "Bauer", "j.bauer@ctu.gov");
-            Player playerTwo = new Player("Chloe", "O'Brian", "c.obrian@ctu.gov");
-            Player playerThree = new Player("Kim", "Bauer", "kim_bauer@gmail.com");
-            Player playerFour = new Player("David", "Palmer", "t.almeida@ctu.gov");
-            playerOne.setPassword("24");
-            playerTwo.setPassword("42");
-            playerThree.setPassword("kb");
-            playerFour.setPassword("mole");
+            Player playerOne = new Player("Jack", "Bauer", "j.bauer@ctu.gov", "24");
+            Player playerTwo = new Player("Chloe", "O'Brian", "c.obrian@ctu.gov", "42");
+            Player playerThree = new Player("Kim", "Bauer", "kim_bauer@gmail.com", "kb");
+            Player playerFour = new Player("David", "Palmer", "t.almeida@ctu.gov", "mole");
             repository.save(playerOne);
             repository.save(playerTwo);
             repository.save(playerThree);
