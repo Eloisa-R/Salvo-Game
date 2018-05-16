@@ -251,7 +251,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/login.html").permitAll()
                     .antMatchers("/**.js").permitAll()
                     .antMatchers("/admin/**").hasAuthority("ADMIN")
-                    .antMatchers("/**").hasAuthority("USER")
+                    .antMatchers("/**").permitAll()
+//                    .antMatchers("/**").hasAuthority("USER")
                     .and()
                     .formLogin();
         http.formLogin()

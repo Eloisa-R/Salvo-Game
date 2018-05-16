@@ -1,10 +1,9 @@
 import React from 'react';
-import BootstrapTable from 'react-bootstrap-table-next';
-import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import {connect} from 'react-redux';
 import {fetchGames} from "../actions/gamesAction";
 import {fetchScores} from "../actions/scoresAction";
-
+import GameList from "./GameList"
+import LeaderBoard from "./LeaderBoard"
 
 const mapStateToProps = function(store) {
     return {
@@ -38,16 +37,8 @@ const mapDispatchToProps = function (dispatch) {
       }
       return (
         <div className="games-container">
-        <h3>List of games</h3>
-        {this.props.games.map((game, index) =>
-          <div key={index}>
-        Game id: {game.id}, created on: {game.created.slice(0,10)} at {game.created.slice(11,16)}, players: {game.gamePlayers.map((gp) => gp.player.email + " ")}
-          </div>
-        )}
-            <h3>Leaderboard</h3>
-            <div className="leaderboard">
-            <BootstrapTable keyField='email' data={ this.props.scores } columns={ this.props.columns } />
-            </div>
+            <GameList games={this.props.games.games}/>
+            <LeaderBoard scores={ this.props.scores } columns={ this.props.columns }/>
 
       </div>
       );
