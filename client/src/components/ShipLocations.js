@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {fetchShips} from "../actions/shipsAction";
+import Grid from "./Grid"
 
 const mapStateToProps = function(store) {
     return {
@@ -17,9 +18,6 @@ const mapDispatchToProps = function (dispatch) {
 class ShipLocations extends React.Component{
     constructor(){
         super();
-    this.loadShipsOnGrid = this.loadShipsOnGrid.bind(this);
-    this.loadSalvoesOnGrid = this.loadSalvoesOnGrid.bind(this);
-    this.loadHitsOnGrid = this.loadHitsOnGrid.bind(this);
     this.getOponentId = this.getOponentId.bind(this);
     }
 
@@ -41,55 +39,7 @@ class ShipLocations extends React.Component{
         return oponentObj[0].player.email;
     }
 
-    loadShipsOnGrid(){
-        this.props.gamePlayerResponse.ships.forEach((element) => {
-            element.locations.forEach((location) => {document.getElementById("sh-" + location).classList.add("with-ship")})
-        })
-    }
 
-    loadSalvoesOnGrid(){
-        let salvoesDict = this.props.gamePlayerResponse.salvoes[this.props.match.params.id];
-
-        for (let key in salvoesDict) {
-            salvoesDict[key].forEach((element) => {
-                document.getElementById("sa-" + element).innerHTML = key;
-                document.getElementById("sa-" + element).classList.add("salvoFired");
-            })
-        }
-    }
-
-    loadHitsOnGrid(){
-        let hitsDict = this.props.gamePlayerResponse.salvoes[this.getOponentId()];
-        for (let key in hitsDict) {
-            hitsDict[key].forEach((element) => {
-                let hitOnGrid = document.getElementById("sh-" + element);
-                if (hitOnGrid.classList.contains("with-ship")) {
-                    hitOnGrid.classList.remove("with-ship");
-                    hitOnGrid.innerHTML = key;
-                    hitOnGrid.classList.add("salvoHit");
-                }
-            })
-        }
-    }
-
-    loadGrid(ships_or_salvoes){
-
-        let letterArray = ["Z","A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
-        let buttons;
-        function generateRow(letter, index_key){
-            buttons = letterArray.map((element, index) =>
-            { if (letter === "Z" && index !==0) {
-                    return <button key={index} className="square" id={ships_or_salvoes + "-"+ letter + index}>{index}</button>
-                } else if (letter !== "Z" && index === 0) {
-                    return <button key={index} className="square" id={ships_or_salvoes + "-"+ letter + index}>{letter}</button>
-                } else {
-                    return <button key={index} className="square" id={ships_or_salvoes + "-"+ letter + index}/>
-                }})
-
-            return <div className="row" key={index_key}>{buttons}</div>
-        }
-        return letterArray.map((element, index) => generateRow(element, index))
-    }
 
     componentWillMount(){
         this.props.fetchGamePlayer(this.props.match.params.id);
@@ -97,9 +47,7 @@ class ShipLocations extends React.Component{
 
     componentDidUpdate(){
         if (this.props.gamePlayerResponse !== null) {
-            this.loadShipsOnGrid();
-            this.loadHitsOnGrid();
-            this.loadSalvoesOnGrid();
+
 
         }
 
@@ -119,9 +67,8 @@ class ShipLocations extends React.Component{
                     <div key={index}>{ship.type}, {ship.locations}</div>
                 )}
                 <div className="gridContainer">
-                    <div className="grid"><h4>My Ships</h4>{this.loadGrid("sh")}</div>
-                <div className="grid"><h4>Salvoes I Fired</h4>{this.loadGrid("sa")}</div>
-
+                    <Grid data={this.props.gamePlayerResponse} title={"My Ships"} gridType={"sh"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
+                    <Grid data={this.props.gamePlayerResponse} title={"Salvoes I Fired"} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
                 </div>
             </div>
         );
