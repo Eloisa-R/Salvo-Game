@@ -4,6 +4,7 @@ import './App.css';
 import Players from './Players';
 import Games from './Games';
 import ShipLocations from "./ShipLocations";
+import Test from "./Test"
 
 
  class App extends React.Component{
@@ -20,6 +21,7 @@ import ShipLocations from "./ShipLocations";
                 <Route path="/players" component={Players}/>
               <Route path="/games" component={Games}/>
               <Route path="/shiplocations/:id" component={ShipLocations}/>
+              <Route path="/test" component={Test}/>
             </Switch>
           </BrowserRouter>
         </div>

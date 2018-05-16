@@ -1,6 +1,7 @@
 package salvo.salvo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -89,11 +90,25 @@ public class SalvoController {
 
 
     @GetMapping("/games")
-    public List<Map> getGameIds(){
-       return gameRepository.findAll().stream()
+    public Map<String, Object> getGames(Authentication authentication){
+        Map<String, Object> playerInfo = new LinkedHashMap<>();
+        Map<String, Object> AllGamesInfoWAnt = new LinkedHashMap<>();
+        if (authentication == null) {
+            playerInfo. put("id", "null");
+            playerInfo. put("username", "null");
+        } else {
+            playerInfo. put("id", playerRepository.findByUserName(authentication.getName()).getId());
+            playerInfo. put("username", playerRepository.findByUserName(authentication.getName()).getUserName());
+        }
+
+        List<Map> gameList = gameRepository.findAll().stream()
                .map(game -> GameToDTO(game))
                .collect(toList());
-               }
+        AllGamesInfoWAnt.put("player", playerInfo);
+        AllGamesInfoWAnt.put("games", gameList);
+        return AllGamesInfoWAnt;
+    }
+
 
     @GetMapping("/game_view/{gamePlayerId}")
     public Map<String, Object> getGameByGamePlayer(@PathVariable long gamePlayerId) {
@@ -115,5 +130,10 @@ public class SalvoController {
                 .map(pl -> getScoreforPlayer(pl))
                 .collect(toList());
     }
+
+//    @GetMapping("/login")
+//    public String sayHi(){
+//        return "Hello";
+//    }
 
 }

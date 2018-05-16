@@ -20,6 +20,7 @@ public class Player {
     private String firstName;
     private String lastName;
     private String userName;
+    private String password;
 
     @OneToMany(mappedBy = "player", fetch=FetchType.EAGER)
     Set<GamePlayer> gameplays = new HashSet<>();
@@ -61,6 +62,14 @@ public class Player {
 
     public long getId() {
         return id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @JsonIgnore
