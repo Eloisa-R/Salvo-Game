@@ -8,6 +8,7 @@ class LeaderBoard extends React.Component{
     render(){
         return(
             <div className="leaderboard">
+                <h3>Leaderboard</h3>
                 <BootstrapTable keyField='email' data={ this.props.scores } columns={ this.props.columns } />
             </div>
         )

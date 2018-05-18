@@ -156,9 +156,5 @@ public class SalvoController {
         }
 
     }
-//    @GetMapping("/login")
-//    public String sayHi(){
-//        return "Hello";
-//    }
 
 }

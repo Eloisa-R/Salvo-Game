@@ -4,6 +4,15 @@
   margin-right: 10%;
 }
 
+body{
+
+  background-image: url("../vector-grunge-background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+
+
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
@@ -11,9 +20,6 @@
 
 .App-header {
   background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
 }
 
 .App-title {
@@ -63,6 +69,11 @@ form{
 
 }
 
+.title-image{
+  width: 70%;
+  height: 70%;
+}
+
 .with-ship{
   background-color: blue;
 }
@@ -82,13 +93,27 @@ form{
 
 .react-bootstrap-table{
   width: 60vw;
+  word-break: break-all;
+  padding: 0px;
 }
 
-.leaderboard{
-  padding-left: 10%;
-}
+/*.leaderboard{*/
+  /*padding-left: 10%;*/
+/*}*/
 
 .games-container{
   display: flex;
   flex-direction: column;
+  width: 70%;
+}
+
+.main-content{
+  display: flex;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding-bottom: 10%;
+}
+
+.game-page-wrapper{
+  display: flex;
 }

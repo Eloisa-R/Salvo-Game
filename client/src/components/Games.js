@@ -4,6 +4,7 @@ import {fetchGames} from "../actions/gamesAction";
 import {fetchScores} from "../actions/scoresAction";
 import GameList from "./GameList"
 import LeaderBoard from "./LeaderBoard"
+import Login from "./Login"
 
 const mapStateToProps = function(store) {
     return {
@@ -36,11 +37,15 @@ const mapDispatchToProps = function (dispatch) {
         return <p>Loading...</p>;
       }
       return (
-        <div className="games-container">
+       <div className="game-page-wrapper">
+         <div className="games-container">
             <GameList games={this.props.games.games}/>
             <LeaderBoard scores={ this.props.scores } columns={ this.props.columns }/>
-
-      </div>
+        </div>
+        <div className="login">
+            <Login/>
+        </div>
+       </div>
       );
     }
 }

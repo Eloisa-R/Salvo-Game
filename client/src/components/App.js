@@ -13,8 +13,9 @@ import Test from "./Test"
       return (
         <div className="App">
           <header className="App-header">
-            <h1 className="App-title">Battleships</h1>
+              <img src={require('../title-image.jpg')} alt="salvo-title" className="title-image"/>
           </header>
+          <div className="main-content">
           <BrowserRouter>
             <Switch>
               <Route exact path="/" component={Players}/>
@@ -24,6 +25,7 @@ import Test from "./Test"
               <Route path="/test" component={Test}/>
             </Switch>
           </BrowserRouter>
+          </div>
         </div>
       );
     }
