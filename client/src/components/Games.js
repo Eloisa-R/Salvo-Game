@@ -14,6 +14,7 @@ const mapStateToProps = function(store) {
         scoresFetched: store.scores.fetched,
         scores: store.scores.scores,
         columns: store.scores.columns,
+        loginSucceeded: store.login.post,
     };
 };
 
@@ -33,6 +34,7 @@ const mapDispatchToProps = function (dispatch) {
          }
          this.clickLogin = this.clickLogin.bind(this);
          this.clickSignUp = this.clickSignUp.bind(this);
+         this.displayLoginOrLogout = this.displayLoginOrLogout.bind(this);
 
      }
 
@@ -48,6 +50,22 @@ const mapDispatchToProps = function (dispatch) {
 
      clickLogin(){
          this.setState({clickedLogin: true});
+
+     }
+
+     displayLoginOrLogout(){
+         if (!this.props.loginSucceeded) {
+             return <div className="login">
+                 {this.state.clickedLogin ?
+                     <Login clickProp={this.clickSignUp}/>
+                     :
+                     <SignUp clickProp={this.clickLogin}/>
+                 }
+             </div>
+         } else {
+             return <div className="logout"><h4>Hello, {}</h4><button>Log Out</button></div>
+         }
+
      }
 
 
@@ -61,13 +79,7 @@ const mapDispatchToProps = function (dispatch) {
             <GameList games={this.props.games.games}/>
             <LeaderBoard scores={ this.props.scores } columns={ this.props.columns }/>
         </div>
-        <div className="login">
-            {this.state.clickedLogin ?
-            <Login clickProp={this.clickSignUp}/>
-            :
-            <SignUp clickProp={this.clickLogin}/>
-            }
-        </div>
+           {this.displayLoginOrLogout()}
        </div>
       );
     }
