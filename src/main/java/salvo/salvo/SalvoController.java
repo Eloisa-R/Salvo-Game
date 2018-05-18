@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -144,14 +146,20 @@ public class SalvoController {
     @RequestMapping(
             value = "/players",
             method = RequestMethod.POST)
-    public ResponseEntity<String> createNewPlayer(@RequestParam String username, String firstname, String lastname, String password)
-    {
-        if(username.isEmpty() || firstname.isEmpty() || lastname.isEmpty() || password.isEmpty()) {
+    public ResponseEntity<String> createNewPlayer(@RequestBody String username_info) {
+        String decodedParams = URLDecoder.decode(username_info);
+        String[] parts = decodedParams.split("&");
+        Map<String, String> paramDict = new HashMap<>();
+        for (String element : parts) {
+            String[] elementSplit = element.split("=");
+            paramDict.put(elementSplit[0], elementSplit[1]);
+        }
+        if(paramDict.get("firstname") == "" || paramDict.get("lastname") == "" || paramDict.get("username") == "" || paramDict.get("password") == "") {
             return new ResponseEntity<>("Missing data for player", HttpStatus.FORBIDDEN);
-        } else if(playerRepository.findByUserName(username) != null){
+        } else if(playerRepository.findByUserName(paramDict.get("username")) != null){
             return new ResponseEntity<>("Email is already in use", HttpStatus.FORBIDDEN);
         } else {
-            playerRepository.save(new Player(firstname, lastname, username, password));
+            playerRepository.save(new Player(paramDict.get("firstname"), paramDict.get("lastname"), paramDict.get("username"), paramDict.get("password")));
             return new ResponseEntity<>("Player created successfully", HttpStatus.CREATED);
         }
 

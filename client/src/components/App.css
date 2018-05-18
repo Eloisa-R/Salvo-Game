@@ -117,3 +117,41 @@ form{
 .game-page-wrapper{
   display: flex;
 }
+
+.login-sign-up-btns{
+  display: flex;
+  justify-content: space-around;
+}
+
+.login-signup-container{
+  background-color: rgba(193, 66, 66, 0.2);
+  padding: 5%;
+  margin-top: 5%;
+}
+
+.login-form, .sign-up-form{
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 2%;
+}
+
+.login-title, .sign-up-title{
+  margin: 0px;
+  padding: 2%;
+  flex-grow: 1;
+  border: 0px;
+  font-size: 1.5em;
+}
+
+.inactive-form{
+  background-color: transparent;
+}
+
+.active-form{
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.submit-btn{
+  margin: 2%;
+  border: 0px;
+  background-color: rgba(255, 255, 255, 0.7);
+}

@@ -5,6 +5,7 @@ import {fetchScores} from "../actions/scoresAction";
 import GameList from "./GameList"
 import LeaderBoard from "./LeaderBoard"
 import Login from "./Login"
+import SignUp from "./SignUp"
 
 const mapStateToProps = function(store) {
     return {
@@ -25,11 +26,29 @@ const mapDispatchToProps = function (dispatch) {
  class Games extends React.Component{
 
 
+     constructor(){
+         super();
+         this.state={
+             clickedLogin: true,
+         }
+         this.clickLogin = this.clickLogin.bind(this);
+         this.clickSignUp = this.clickSignUp.bind(this);
+
+     }
+
     componentWillMount() {
       this.props.fetchGames();
       this.props.fetchScores();
 
     }
+
+    clickSignUp(){
+        this.setState({clickedLogin: false});
+    }
+
+     clickLogin(){
+         this.setState({clickedLogin: true});
+     }
 
 
     render() {
@@ -43,7 +62,11 @@ const mapDispatchToProps = function (dispatch) {
             <LeaderBoard scores={ this.props.scores } columns={ this.props.columns }/>
         </div>
         <div className="login">
-            <Login/>
+            {this.state.clickedLogin ?
+            <Login clickProp={this.clickSignUp}/>
+            :
+            <SignUp clickProp={this.clickLogin}/>
+            }
         </div>
        </div>
       );

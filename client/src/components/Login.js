@@ -4,7 +4,7 @@ import {login} from "../actions/loginAction"
 
 const mapStateToProps = function(store) {
     return {
-        loginResponse: store.login.playersResponse,
+        loginResponse: store.login.loginResponse,
         loginPosted: store.login.post,
     };
 };
@@ -43,12 +43,15 @@ class Login extends React.Component{
 
     render(){
         return(
-            <div>
-                <h3>Login</h3>
-                <form onSubmit={this.handleSubmit}>
+            <div className="login-signup-container">
+                <div className="login-sign-up-btns">
+                    <button className="login-title active-form">Login</button>
+                    <button className="sign-up-title inactive-form" onClick={this.props.clickProp}>Sign Up</button>
+                </div>
+                <form className="login-form" onSubmit={this.handleSubmit}>
                     <label htmlFor="username">Email</label><input type="text" id="username"/>
                     <label htmlFor="password">Password</label><input type="text" id="password"/>
-                    <button type="submit" className="btn">Log in</button>
+                    <button type="submit" className="submit-btn">Log in</button>
                 </form>
             </div>
         )
