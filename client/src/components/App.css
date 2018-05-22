@@ -97,9 +97,6 @@ form{
   padding: 0px;
 }
 
-/*.leaderboard{*/
-  /*padding-left: 10%;*/
-/*}*/
 
 .games-container{
   display: flex;
@@ -158,4 +155,14 @@ form{
 
 .logout{
   margin: 2%;
+}
+
+.main-ships-container{
+  flex-grow: 1;
+}
+
+.ships-data{
+  margin-top: 2%;
+  display: flex;
+  justify-content: center;
 }

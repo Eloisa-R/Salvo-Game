@@ -62,7 +62,9 @@ export function singUp(inputFN, inputLN, inputUser, inputPwd){
             }
             })
 
-            .then((data) => dispatch({type: "SIGN_UP_FULFILLED", signUpdata:data}))
+            .then((data) => {dispatch({type: "SIGN_UP_FULFILLED", signUpdata:data})
+                            dispatch(login(inputUser, inputPwd))
+            })
             .catch(error => {console.log(error)});
     }
 

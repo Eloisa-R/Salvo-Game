@@ -1,6 +1,8 @@
 import React from 'react';
+import { Redirect } from 'react-router';
 import {connect} from 'react-redux';
 import {fetchShips} from "../actions/shipsAction";
+import {logOut} from "../actions/loginAction";
 import Grid from "./Grid"
 
 const mapStateToProps = function(store) {
@@ -13,12 +15,14 @@ const mapStateToProps = function(store) {
 const mapDispatchToProps = function (dispatch) {
     return {
         fetchGamePlayer: (id) => {dispatch(fetchShips(id))},
+        logOut: () => {dispatch(logOut())},
     };
 };
 class ShipLocations extends React.Component{
     constructor(){
         super();
     this.getOponentId = this.getOponentId.bind(this);
+    this.handleLogOut = this.handleLogOut.bind(this);
     }
 
 
@@ -39,19 +43,16 @@ class ShipLocations extends React.Component{
         return oponentObj[0].player.email;
     }
 
+    handleLogOut(){
+        this.props.logOut();
+        this.props.history.push(`/games`);
 
+    }
 
     componentWillMount(){
         this.props.fetchGamePlayer(this.props.match.params.id);
     }
 
-    componentDidUpdate(){
-        if (this.props.gamePlayerResponse !== null) {
-
-
-        }
-
-    }
 
 
     render(){
@@ -59,13 +60,19 @@ class ShipLocations extends React.Component{
             return <p>Loading...</p>;
         }
         return (
-            <div>
-                <h3>Ship Locations!</h3>
+            <div className="main-ships-container">
+                <div className="ships-data">
+                 <div>
+                    <h3>Ship Locations!</h3>
                 <div>Hello, player {this.getPlayeremail()}</div>
                 <div>Your oponent is {this.getOponentemail()}</div>
                 {this.props.gamePlayerResponse.ships.map((ship, index) =>
                     <div key={index}>{ship.type}, {ship.locations}</div>
                 )}
+                 </div>
+                <div className="logout-btn"><button onClick={this.handleLogOut}>Log Out</button></div>
+                </div>
+
                 <div className="gridContainer">
                     <Grid data={this.props.gamePlayerResponse} title={"My Ships"} gridType={"sh"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
                     <Grid data={this.props.gamePlayerResponse} title={"Salvoes I Fired"} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>

@@ -59,9 +59,9 @@ class Grid extends React.Component{
 
     render() {
         return (
-            <div>
+
                 <div className="grid"><h4>{this.props.title}</h4>{this.loadGrid(this.props.gridType)}</div>
-            </div>
+
         );
     }
 }
