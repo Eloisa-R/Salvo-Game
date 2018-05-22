@@ -1,6 +1,6 @@
 export function fetchShips(id){
     return function (dispatch){
-        fetch('http://localhost:8080/api/game_view/' + id, {headers: {'Access-Control-Allow-Origin':'*'}})
+        fetch('http://localhost:8080/api/game_view/' + id, {headers: {'Access-Control-Allow-Origin':'*'}, credentials: 'include'})
             .then(response => response.json())
             .then((data) => {
 

@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {fetchGames} from "../actions/gamesAction";
 import {fetchScores} from "../actions/scoresAction";
+import {logOut} from "../actions/loginAction";
 import GameList from "./GameList"
 import LeaderBoard from "./LeaderBoard"
 import Login from "./Login"
@@ -22,6 +23,7 @@ const mapDispatchToProps = function (dispatch) {
     return {
         fetchGames: () => {dispatch(fetchGames())},
         fetchScores: () => {dispatch(fetchScores())},
+        logOut: () => {dispatch(logOut())},
     };
 };
  class Games extends React.Component{
@@ -54,7 +56,7 @@ const mapDispatchToProps = function (dispatch) {
      }
 
      displayLoginOrLogout(){
-         if (!this.props.loginSucceeded) {
+         if (this.props.games.player.username === "null") {
              return <div className="login">
                  {this.state.clickedLogin ?
                      <Login clickProp={this.clickSignUp}/>
@@ -63,7 +65,7 @@ const mapDispatchToProps = function (dispatch) {
                  }
              </div>
          } else {
-             return <div className="logout"><h4>Hello, {}</h4><button>Log Out</button></div>
+             return <div className="logout"><h4>Hello, {this.props.games.player.username}</h4><button onClick={this.props.logOut}>Log Out</button></div>
          }
 
      }

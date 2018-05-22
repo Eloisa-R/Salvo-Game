@@ -1,6 +1,6 @@
 export function fetchPlayers(){
     return function (dispatch){
-        fetch('http://localhost:8080/api/players', {headers: {'Access-Control-Allow-Origin':'*'}})
+        fetch('http://localhost:8080/api/players', {headers: {'Access-Control-Allow-Origin':'*'}, credentials: 'include'})
             .then(response => response.json())
             .then((data) => {
 
@@ -18,6 +18,7 @@ export function addPlayer(inputFn, inputLn, inputE){
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
+            credentials: 'include',
             dataType: "json",
             body: JSON.stringify({
                 firstName: inputFn,

@@ -27,6 +27,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.*;
 
 
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -255,18 +256,19 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public static NoOpPasswordEncoder passwordEncoder() {
         return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
     }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                    .antMatchers(HttpMethod.POST,"/api/login").permitAll()
-                    .antMatchers("/api/login").permitAll()
-                    .antMatchers("/login.html").permitAll()
-                    .antMatchers("/**.js").permitAll()
-                    .antMatchers("/admin/**").hasAuthority("ADMIN")
-                    .antMatchers("/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/login").permitAll()
+                .antMatchers("/api/login").permitAll()
+                .antMatchers("/login.html").permitAll()
+                .antMatchers("/**.js").permitAll()
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/**").permitAll()
 //                    .antMatchers("/**").hasAuthority("USER")
-                    .and()
-                    .formLogin();
+                .and()
+                .formLogin();
         http.formLogin()
                 .usernameParameter("name")
                 .passwordParameter("pwd")
@@ -275,9 +277,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.logout().logoutUrl("/api/logout");
         http.cors();
         http.csrf().disable();
-        http.formLogin().successHandler((req, res, auth) -> {clearAuthenticationAttributes(req);
-            returnUser(req,res, auth);
-        });
+        http.formLogin().successHandler((req, res, auth) -> clearAuthenticationAttributes(req));
         http.formLogin().failureHandler((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
         http.exceptionHandling().authenticationEntryPoint((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
@@ -292,27 +292,6 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-    private void returnUser(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            Authentication authentication
-    ) {
-
-
-        long Userid = playerRepository.findByUserName(authentication.getName()).getId();
-        String Username = playerRepository.findByUserName(authentication.getName()).getUserName();
-        try {
-            response.setContentType("application/json");
-            PrintWriter out = response.getWriter();
-            out.println("{");
-            out.println("id:" + Userid);
-            out.println("username:" + Username);
-            out.println("}");
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

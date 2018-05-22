@@ -98,6 +98,7 @@ public class SalvoController {
     public Map<String, Object> getGames(Authentication authentication){
         Map<String, Object> playerInfo = new LinkedHashMap<>();
         Map<String, Object> AllGamesInfoWAnt = new LinkedHashMap<>();
+
         if (authentication == null) {
             playerInfo. put("id", "null");
             playerInfo. put("username", "null");

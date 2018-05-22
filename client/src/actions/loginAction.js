@@ -1,3 +1,5 @@
+import {fetchGames} from "../actions/gamesAction";
+
 export function login(inputName,inputPwd){
     return function (dispatch){
         //in a cors request , you can't send application/json, only a few formats are allowed
@@ -16,12 +18,17 @@ export function login(inputName,inputPwd){
             credentials: "include"
         })
             .then(response =>  {if (response.ok) {
+                console.log(response)
                 return response.data;
             } else {
                 throw new Error('Something went wrong, request failed with status ' + response.status);
                     }
             })
-            .then((data) => dispatch({type: "LOGIN_FULFILLED", logindata:data}))
+            .then((data) => {
+
+                dispatch({type: "LOGIN_FULFILLED", logindata: data});
+                dispatch(fetchGames());
+            })
             .catch(error => {console.log(error)});
 
     }
@@ -59,4 +66,33 @@ export function singUp(inputFN, inputLN, inputUser, inputPwd){
             .catch(error => {console.log(error)});
     }
 
+}
+
+export function logOut(){
+    return function(dispatch){
+        fetch('http://localhost:8080/api/logout', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
+                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            credentials: "include"
+        })
+            .then(response =>
+
+            {if (response.ok) {
+                return response.data;
+            } else {
+                console.log(response);
+                throw new Error('Something went wrong, request failed with status ' + response.status);
+            }
+            })
+
+            .then((data) => {dispatch({type: "LOG_OUT_FULFILLED", logOutdata:data});
+                dispatch(fetchGames());
+            })
+            .catch(error => {console.log(error)});
+    }
 }
