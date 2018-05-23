@@ -57,7 +57,7 @@ class SignUp extends React.Component{
                     <label htmlFor="lastName">First Name</label><input type="text" id="lastName"/>
                     <label htmlFor="username">Email</label><input type="text" id="username"/>
                     <label htmlFor="password">Password</label><input type="text" id="password"/>
-                    <button type="submit" className="submit-btn">Log in</button>
+                    <button type="submit" className="submit-btn">Sign Up</button>
                 </form>
             </div>
         )

@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {fetchGames} from "../actions/gamesAction";
 import {createGame} from "../actions/gamesAction";
+import {joinGame} from "../actions/gamesAction";
 import {fetchScores} from "../actions/scoresAction";
 import {logOut} from "../actions/loginAction";
 import GameList from "./GameList"
@@ -27,6 +28,7 @@ const mapDispatchToProps = function (dispatch) {
         fetchScores: () => {dispatch(fetchScores())},
         logOut: () => {dispatch(logOut())},
         newGame: () => {dispatch(createGame())},
+        joinGame: (gameId) => {dispatch(joinGame(gameId))},
     };
 };
  class Games extends React.Component{
@@ -83,7 +85,7 @@ const mapDispatchToProps = function (dispatch) {
        <div className="game-page-wrapper">
          <div className="games-container">
             <LeaderBoard scores={ this.props.scores } columns={ this.props.columns }/>
-            <GameList games={this.props.games} />
+            <GameList games={this.props.games} joinGame={this.props.joinGame}/>
          </div>
          <div>
            {this.displayLoginOrLogout()}

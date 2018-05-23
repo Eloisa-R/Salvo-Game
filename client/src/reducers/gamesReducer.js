@@ -7,6 +7,8 @@ export default function reducer(state={
     error: null,
     gameCreated: false,
     newGame: null,
+    gPcreated: false,
+    joinGamedata: null,
 },action) {
     switch(action.type){
         case "FETCH_GAMES":{
@@ -17,6 +19,8 @@ export default function reducer(state={
         }
         case "CREATE_GAME_FULFILLED":{
             return {...state, gameCreated: true, newGame: action.newGamedata}
+        } case "JOIN_GAME_FULFILLED": {
+            return {...state, gPcreated: true, joinGamedata: action.joinGamedata}
         }
     }
     return state;

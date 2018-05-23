@@ -263,6 +263,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/login").permitAll()
                 .antMatchers("/api/login").permitAll()
                 .antMatchers("/api/games").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/players").permitAll()
                 .antMatchers("/api/scores").permitAll()
                 .antMatchers("/login.html").permitAll()
                 .antMatchers("/**.js").permitAll()

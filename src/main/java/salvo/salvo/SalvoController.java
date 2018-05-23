@@ -125,7 +125,7 @@ public class SalvoController {
             method = RequestMethod.POST)
     public ResponseEntity<Map<String,Object>> createGame(Authentication authentication){
         if (authentication == null) {
-            return new ResponseEntity<>(makeMap("error", "Permission denied"), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(makeMap("error", "Login required"), HttpStatus.UNAUTHORIZED);
         } else {
             Player loggedUser = playerRepository.findByUserName(authentication.getName());
             Game newGame = new Game();
@@ -133,6 +133,26 @@ public class SalvoController {
             GamePlayer newGP = new GamePlayer(newGame, loggedUser);
             gamePlayerRepository.save(newGP);
             return new ResponseEntity<>(makeMap("gpid", newGP.getId()), HttpStatus.CREATED);
+        }
+    }
+
+    @RequestMapping(
+            value = "/games/{gameID}/players",
+            method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> joinGame(Authentication authentication, @PathVariable long gameID){
+        Game getGame = gameRepository.findById(gameID);
+
+        if (authentication == null) {
+            return new ResponseEntity<>(makeMap("error", "Login required"), HttpStatus.UNAUTHORIZED);
+        } else if (getGame == null) {
+            return new ResponseEntity<>(makeMap("error", "Game doesn't exist"), HttpStatus.FORBIDDEN);
+        } else if (getGame.getGameplays().size() > 1) {
+            return new ResponseEntity<>(makeMap("error", "Game is full"), HttpStatus.FORBIDDEN);
+        } else {
+            Player loggedUser = playerRepository.findByUserName(authentication.getName());
+            GamePlayer newGp = new GamePlayer(getGame, loggedUser);
+            gamePlayerRepository.save(newGp);
+            return new ResponseEntity<>(makeMap("gpid", newGp.getId()), HttpStatus.CREATED);
         }
     }
 
@@ -156,10 +176,11 @@ public class SalvoController {
 
             return new ResponseEntity<>(gamePlayerdata, HttpStatus.OK);
         } else{
-            return new ResponseEntity<>(makeMap("error", "Permission denied"), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(makeMap("error", "Login required"), HttpStatus.UNAUTHORIZED);
         }
 
     }
+
 
     @GetMapping("/scores")
     public List<Map> getPlayers(){
