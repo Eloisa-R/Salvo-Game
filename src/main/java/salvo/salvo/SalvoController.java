@@ -120,6 +120,22 @@ public class SalvoController {
         return AllGamesInfoWAnt;
     }
 
+    @RequestMapping(
+            value = "/games",
+            method = RequestMethod.POST)
+    public ResponseEntity<Map<String,Object>> createGame(Authentication authentication){
+        if (authentication == null) {
+            return new ResponseEntity<>(makeMap("error", "Permission denied"), HttpStatus.UNAUTHORIZED);
+        } else {
+            Player loggedUser = playerRepository.findByUserName(authentication.getName());
+            Game newGame = new Game();
+            gameRepository.save(newGame);
+            GamePlayer newGP = new GamePlayer(newGame, loggedUser);
+            gamePlayerRepository.save(newGP);
+            return new ResponseEntity<>(makeMap("gpid", newGP.getId()), HttpStatus.CREATED);
+        }
+    }
+
 
     @GetMapping("/game_view/{gamePlayerId}")
     public ResponseEntity<Map<String,Object>> getGameByGamePlayer(@PathVariable long gamePlayerId, Authentication authentication) {

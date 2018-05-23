@@ -9,3 +9,33 @@ export function fetchGames(){
             });
     }
 }
+
+export function createGame() {
+    return function (dispatch){
+        fetch('http://localhost:8080/api/games', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Accept': '*/*',
+                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            credentials: "include"
+        })
+            .then(response =>  {if (response.ok) {
+                console.log(response)
+                return response;
+            } else {
+                throw new Error('Something went wrong, request failed with status ' + response.status);
+            }
+            })
+            .then(response => response.json())
+            .then((data) => {
+
+                dispatch({type: "CREATE_GAME_FULFILLED", newGamedata: data});
+                dispatch(fetchGames());
+            })
+            .catch(error => {console.log(error)});
+
+    }
+}

@@ -31,7 +31,12 @@ class ShipLocations extends React.Component{
         //the params.id and the id in the JSON response are different types, so the comparison needs to be like this (!=)
         //otherwise, !== would return any of the ids in the JSON
         let oponentObject = this.props.gamePlayerResponse.gamePlayers.filter(gp => gp.id != this.props.match.params.id);
-        return oponentObject[0].id;
+        if (oponentObject.length === 0) {
+            return "no oponent yet"
+        }else {
+            return oponentObject[0].id;
+        }
+
     }
 
     getPlayeremail(){
@@ -41,7 +46,12 @@ class ShipLocations extends React.Component{
 
     getOponentemail(){
         let oponentObj = this.props.gamePlayerResponse.gamePlayers.filter(gp => gp.id != this.props.match.params.id);
-        return oponentObj[0].player.email;
+        if (oponentObj.length === 0) {
+            return "no one yet!"
+        } else {
+            return oponentObj[0].player.email;
+        }
+
     }
 
     handleLogOut(){

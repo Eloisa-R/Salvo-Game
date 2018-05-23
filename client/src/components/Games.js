@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {fetchGames} from "../actions/gamesAction";
+import {createGame} from "../actions/gamesAction";
 import {fetchScores} from "../actions/scoresAction";
 import {logOut} from "../actions/loginAction";
 import GameList from "./GameList"
@@ -25,6 +26,7 @@ const mapDispatchToProps = function (dispatch) {
         fetchGames: () => {dispatch(fetchGames())},
         fetchScores: () => {dispatch(fetchScores())},
         logOut: () => {dispatch(logOut())},
+        newGame: () => {dispatch(createGame())},
     };
 };
  class Games extends React.Component{
@@ -66,7 +68,8 @@ const mapDispatchToProps = function (dispatch) {
                  }
              </div>
          } else {
-             return <div className="logout"><h4>Hello, {this.props.games.player.username}</h4><button onClick={this.props.logOut}>Log Out</button></div>
+             return <div className="logout"><div className="logout-box"><h4>Hello, {this.props.games.player.username}</h4><button onClick={this.props.logOut}>Log Out</button>
+             </div><button onClick={this.props.newGame}>Create Game</button></div>
          }
 
      }
@@ -81,8 +84,10 @@ const mapDispatchToProps = function (dispatch) {
          <div className="games-container">
             <LeaderBoard scores={ this.props.scores } columns={ this.props.columns }/>
             <GameList games={this.props.games} />
-        </div>
+         </div>
+         <div>
            {this.displayLoginOrLogout()}
+         </div>
        </div>
       );
     }
