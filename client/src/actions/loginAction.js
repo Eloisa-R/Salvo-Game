@@ -57,7 +57,6 @@ export function singUp(inputFN, inputLN, inputUser, inputPwd){
             {if (response.ok) {
                 return response.data;
             } else {
-                console.log(response);
                 throw new Error('Something went wrong, request failed with status ' + response.status);
             }
             })

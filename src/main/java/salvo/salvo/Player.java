@@ -74,8 +74,12 @@ public class Player {
     }
 
     @JsonIgnore
-    public List<Game> getGamePlayers() {
+    public List<Game> getGames() {
         return gameplays.stream().map(gp -> gp.getGameEntry()).collect(toList());
+    }
+
+    public Set<GamePlayer> getGameplayers(){
+        return this.gameplays;
     }
 
 

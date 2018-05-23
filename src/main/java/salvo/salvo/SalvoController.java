@@ -93,6 +93,11 @@ public class SalvoController {
         return ScoreInfo;
     }
 
+    private Map<String, Object> makeMap(String key, Object value) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(key, value);
+        return map;
+    }
 
     @GetMapping("/games")
     public Map<String, Object> getGames(Authentication authentication){
@@ -117,16 +122,26 @@ public class SalvoController {
 
 
     @GetMapping("/game_view/{gamePlayerId}")
-    public Map<String, Object> getGameByGamePlayer(@PathVariable long gamePlayerId) {
-        Optional<GamePlayer> selectedGP = gamePlayerRepository.findAll().stream()
-                .filter(gp -> gp.getId() == gamePlayerId)
-                .findAny();
-        Set<GamePlayer> gamePlayers = selectedGP.get().getGameEntry().getGameplays();
-        Map<String, Object> gamePlayerdata = GameToDTO(selectedGP.get().getGameEntry());
-        gamePlayerdata.put("ships", selectedGP.get().getShips());
-        gamePlayerdata.put("salvoes", getSalvoesforAll(gamePlayers));
+    public ResponseEntity<Map<String,Object>> getGameByGamePlayer(@PathVariable long gamePlayerId, Authentication authentication) {
 
-        return gamePlayerdata;
+        List<Long> gPperUser = playerRepository.findByUserName(authentication.getName()).getGameplayers()
+                                                                                            .stream()
+                                                                                            .map(gp -> gp.getId())
+                                                                                            .collect(toList());
+
+        if (gPperUser.contains(gamePlayerId)) {
+            Optional<GamePlayer> selectedGP = gamePlayerRepository.findAll().stream()
+                    .filter(gp -> gp.getId() == gamePlayerId)
+                    .findAny();
+            Set<GamePlayer> gamePlayers = selectedGP.get().getGameEntry().getGameplays();
+            Map<String, Object> gamePlayerdata = GameToDTO(selectedGP.get().getGameEntry());
+            gamePlayerdata.put("ships", selectedGP.get().getShips());
+            gamePlayerdata.put("salvoes", getSalvoesforAll(gamePlayers));
+
+            return new ResponseEntity<>(gamePlayerdata, HttpStatus.OK);
+        } else{
+            return new ResponseEntity<>(makeMap("error", "Permission denied"), HttpStatus.UNAUTHORIZED);
+        }
 
     }
 

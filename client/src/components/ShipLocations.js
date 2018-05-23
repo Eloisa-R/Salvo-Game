@@ -9,6 +9,7 @@ const mapStateToProps = function(store) {
     return {
         shipsFetched: store.ships.fetched,
         gamePlayerResponse: store.ships.gamePlayerResponse,
+        getShipsFailed: store.ships.failed,
     };
 };
 
@@ -58,19 +59,20 @@ class ShipLocations extends React.Component{
     render(){
         if (!this.props.shipsFetched) {
             return <p>Loading...</p>;
-        }
-        return (
+        } else if (this.props.getShipsFailed) {
+            return <p> You're not authorised to see this information.</p>;
+        } else if ((this.props.shipsFetched) && !(this.props.getShipsFailed)) {return (
             <div className="main-ships-container">
                 <div className="ships-data">
-                 <div>
-                    <h3>Ship Locations!</h3>
-                <div>Hello, player {this.getPlayeremail()}</div>
-                <div>Your oponent is {this.getOponentemail()}</div>
-                {this.props.gamePlayerResponse.ships.map((ship, index) =>
-                    <div key={index}>{ship.type}, {ship.locations}</div>
-                )}
-                 </div>
-                <div className="logout-btn"><button onClick={this.handleLogOut}>Log Out</button></div>
+                    <div>
+                        <h3>Ship Locations!</h3>
+                        <div>Hello, player {this.getPlayeremail()}</div>
+                        <div>Your oponent is {this.getOponentemail()}</div>
+                        {this.props.gamePlayerResponse.ships.map((ship, index) =>
+                            <div key={index}>{ship.type}, {ship.locations}</div>
+                        )}
+                    </div>
+                    <div className="logout-btn"><button onClick={this.handleLogOut}>Log Out</button></div>
                 </div>
 
                 <div className="gridContainer">
@@ -78,7 +80,8 @@ class ShipLocations extends React.Component{
                     <Grid data={this.props.gamePlayerResponse} title={"Salvoes I Fired"} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
                 </div>
             </div>
-        );
+        );}
+
     }
 }
 

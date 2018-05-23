@@ -1,7 +1,6 @@
 import React from 'react';
 import {Route, BrowserRouter, Switch} from 'react-router-dom';
 import './App.css';
-import Players from './Players';
 import Games from './Games';
 import ShipLocations from "./ShipLocations";
 import Test from "./Test"
@@ -18,8 +17,7 @@ import Test from "./Test"
           <div className="main-content">
           <BrowserRouter>
             <Switch>
-              <Route exact path="/" component={Players}/>
-                <Route path="/players" component={Players}/>
+              <Route exact path="/" component={Games}/>
               <Route path="/games" component={Games}/>
               <Route path="/shiplocations/:id" component={ShipLocations}/>
               <Route path="/test" component={Test}/>
