@@ -16,6 +16,7 @@ const mapStateToProps = function(store) {
         scores: store.scores.scores,
         columns: store.scores.columns,
         loginSucceeded: store.login.post,
+        gamesColums: store.games.gamesColums,
     };
 };
 
@@ -78,8 +79,8 @@ const mapDispatchToProps = function (dispatch) {
       return (
        <div className="game-page-wrapper">
          <div className="games-container">
-            <GameList games={this.props.games.games}/>
             <LeaderBoard scores={ this.props.scores } columns={ this.props.columns }/>
+            <GameList games={this.props.games} />
         </div>
            {this.displayLoginOrLogout()}
        </div>

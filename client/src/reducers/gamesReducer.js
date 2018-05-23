@@ -1,8 +1,10 @@
+import React from 'react';
+
 export default function reducer(state={
     games: null,
     fetching: false,
     fetched: false,
-    error: null
+    error: null,
 },action) {
     switch(action.type){
         case "FETCH_GAMES":{

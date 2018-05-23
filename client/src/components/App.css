@@ -9,7 +9,7 @@ body{
   background-image: url("../vector-grunge-background.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100vh;
+  height: fit-content;
 }
 
 
@@ -113,10 +113,13 @@ form{
 
 .game-page-wrapper{
   display: flex;
+  width: fit-content;
+  justify-content: space-around;
 }
 
 .login-sign-up-btns{
   display: flex;
+  flex-grow: 1;
   justify-content: space-around;
 }
 
