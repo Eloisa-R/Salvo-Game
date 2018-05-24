@@ -174,8 +174,12 @@ public class SalvoController {
                 return new ResponseEntity<>(makeMap("error", "Ships are already placed for this Game Player"), HttpStatus.FORBIDDEN);
             } else {
                 for (Ship ship: shipList) {
-                    shipRepository.save(ship);
+
                     selectedGP.addShip(ship);
+                    shipRepository.save(ship);
+                    System.out.println(ship.getType());
+                    System.out.println(ship.getLocations());
+                    System.out.println(ship.getGp());
                 }
                 return new ResponseEntity<>(makeMap("success", "ships added successfully"), HttpStatus.CREATED);
             }

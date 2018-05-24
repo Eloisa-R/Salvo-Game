@@ -1,5 +1,7 @@
 package salvo.salvo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
@@ -26,7 +28,7 @@ public class GamePlayer {
     @JoinColumn(name="game_id")
     private Game gameEntry;
 
-    @OneToMany(mappedBy = "gp", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "ship_gp", fetch = FetchType.EAGER)
     private Set<Ship> ships = new HashSet<>();
 
     @OneToMany(mappedBy = "relatedGamePlayer", fetch = FetchType.EAGER)
@@ -39,6 +41,7 @@ public class GamePlayer {
         this.player = inputPlayer;
     }
 
+    @JsonIgnore
     public Player getGamePlayer() {
         return player;
     }
@@ -56,7 +59,8 @@ public class GamePlayer {
     }
 
     public void addShip(Ship ship) {
-        this.ships.add(ship);
+        ship.setGamePlayer(this);
+        ships.add(ship);
     }
 
     public Set<Ship> getShips() {

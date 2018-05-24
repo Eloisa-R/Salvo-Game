@@ -2,6 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router';
 import {connect} from 'react-redux';
 import {fetchShips} from "../actions/shipsAction";
+import {placeShips} from "../actions/shipsAction";
 import {logOut} from "../actions/loginAction";
 import Grid from "./Grid"
 
@@ -17,6 +18,7 @@ const mapDispatchToProps = function (dispatch) {
     return {
         fetchGamePlayer: (id) => {dispatch(fetchShips(id))},
         logOut: () => {dispatch(logOut())},
+        placeShips: (gpID, shipList) => {dispatch(placeShips(gpID, shipList))},
     };
 };
 class ShipLocations extends React.Component{
@@ -84,7 +86,9 @@ class ShipLocations extends React.Component{
                     </div>
                     <div className="logout-btn"><button onClick={this.handleLogOut}>Log Out</button></div>
                 </div>
-
+                {this.props.placeShips("84", [ { "type": "DESTROYER", "locations": ["A1", "B1", "C1"]},
+                    { "type": "PATROL_BOAT", "locations": ["H5", "H6"]}
+                ])}
                 <div className="gridContainer">
                     <Grid data={this.props.gamePlayerResponse} title={"My Ships"} gridType={"sh"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
                     <Grid data={this.props.gamePlayerResponse} title={"Salvoes I Fired"} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>

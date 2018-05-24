@@ -23,20 +23,19 @@ public class Ship {
     private List<String> locations;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="gameplayer")
-    private GamePlayer gp;
+    @JoinColumn(name="ship_gp_id")
+    private GamePlayer ship_gp;
 
     public Ship() {}
 
-    public Ship(ShipType inputType, List<String> inputLocations, GamePlayer inputGp) {
+    public Ship(ShipType inputType, List<String> inputLocations) {
         this.type = inputType;
         this.locations = inputLocations;
-        this.gp = inputGp;
     }
 
 
     public void setGamePlayer(GamePlayer gp) {
-        this.gp = gp;
+        this.ship_gp = gp;
     }
 
     public ShipType getType() {
@@ -49,6 +48,6 @@ public class Ship {
 
     @JsonIgnore
     public GamePlayer getGp() {
-        return gp;
+        return ship_gp;
     }
 }
