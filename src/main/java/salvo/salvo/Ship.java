@@ -14,7 +14,7 @@ public class Ship {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long id;
 
-    public enum ShipType { CARRIER, BATTLESHIP, SUBMARINE, DESTROYER, PATROL_BOAT};
+    public enum ShipType { AIRCRAFT_CARRIER, BATTLESHIP, SUBMARINE, DESTROYER, PATROL_BOAT};
 
     private ShipType type;
 

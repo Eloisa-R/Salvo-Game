@@ -24,6 +24,8 @@ public class SalvoController {
     private GamePlayerRepository gamePlayerRepository;
     @Autowired
     private PlayerRepository playerRepository;
+    @Autowired
+    private ShipRepository shipRepository;
 
     public SalvoController() {}
 
@@ -154,6 +156,29 @@ public class SalvoController {
             gamePlayerRepository.save(newGp);
             return new ResponseEntity<>(makeMap("gpid", newGp.getId()), HttpStatus.CREATED);
         }
+    }
+
+
+    @RequestMapping(
+            value = "/games/players/{gamePlayerId}/ships",
+            method = RequestMethod.POST)
+    public ResponseEntity<Map<String,Object>> placeShips(Authentication authentication, @RequestBody List<Ship> shipList, @PathVariable long gamePlayerId){
+            GamePlayer selectedGP = gamePlayerRepository.findById(gamePlayerId);
+            if (authentication == null) {
+                return new ResponseEntity<>(makeMap("error", "Login required"), HttpStatus.UNAUTHORIZED);
+            } else if (selectedGP == null) {
+                return new ResponseEntity<>(makeMap("error", "Game Player ID doesn't exist"), HttpStatus.UNAUTHORIZED);
+            } else if (selectedGP.getGamePlayer().getId() != playerRepository.findByUserName(authentication.getName()).getId()) {
+                return new ResponseEntity<>(makeMap("error", "Incorrect user for this Game Player"), HttpStatus.UNAUTHORIZED);
+            } else if (selectedGP.getShips().size() > 0) {
+                return new ResponseEntity<>(makeMap("error", "Ships are already placed for this Game Player"), HttpStatus.FORBIDDEN);
+            } else {
+                for (Ship ship: shipList) {
+                    shipRepository.save(ship);
+                    selectedGP.addShip(ship);
+                }
+                return new ResponseEntity<>(makeMap("success", "ships added successfully"), HttpStatus.CREATED);
+            }
     }
 
 

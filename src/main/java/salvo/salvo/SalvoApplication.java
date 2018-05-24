@@ -190,6 +190,7 @@ public class SalvoApplication extends SpringBootServletInitializer{
             Ship shipTwentySeven = new Ship(Ship.ShipType.PATROL_BOAT, Arrays.asList(new String[]{"G6", "H6"}), gp_Thirteen);
             shRepository.save(shipTwentySeven);
             gp_Thirteen.addShip(shipTwentySeven);
+
             salRepository.save(new Salvo(gp_One,1, Arrays.asList(new String[]{"B5", "C5", "F1"})));
             salRepository.save(new Salvo(gp_OneB,1, Arrays.asList(new String[]{"B4", "B5", "B6"})));
             salRepository.save(new Salvo(gp_One,2, Arrays.asList(new String[]{"F2", "D5"})));
