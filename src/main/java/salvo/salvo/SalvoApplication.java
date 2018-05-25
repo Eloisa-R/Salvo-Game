@@ -163,6 +163,9 @@ public class SalvoApplication extends SpringBootServletInitializer{
 //
         Ship shipTwentySeven = new Ship(Ship.ShipType.PATROL_BOAT, Arrays.asList(new String[]{"G6", "H6"}));
 //
+        //it's important to first add the shipt to the gameplayer and then save the ship
+        //because we have changed data in it that is stored in the database. The ship is the one
+        //that actually contains the info, because it contains the ID of the gameplayer
 
         gp_One.addShip(shipOne);
         gp_One.addShip(shipTwo);

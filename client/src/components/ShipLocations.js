@@ -3,6 +3,7 @@ import { Redirect } from 'react-router';
 import {connect} from 'react-redux';
 import {fetchShips} from "../actions/shipsAction";
 import {placeShips} from "../actions/shipsAction";
+import {updateGrid} from "../actions/shipsAction";
 import {logOut} from "../actions/loginAction";
 import Grid from "./Grid"
 
@@ -19,11 +20,14 @@ const mapDispatchToProps = function (dispatch) {
         fetchGamePlayer: (id) => {dispatch(fetchShips(id))},
         logOut: () => {dispatch(logOut())},
         placeShips: (gpID, shipList) => {dispatch(placeShips(gpID, shipList))},
+        updateGrid: (provArray) => {dispatch(updateGrid(provArray))},
     };
 };
 class ShipLocations extends React.Component{
     constructor(){
         super();
+    this.prov_array = [];
+    this.handleSquareClick = this.handleSquareClick.bind(this);
     this.getOponentId = this.getOponentId.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
     }
@@ -56,10 +60,22 @@ class ShipLocations extends React.Component{
 
     }
 
+    handleSubmitShips(){
+        this.props.placeShips(this.props.match.params.id, [ { "type": "DESTROYER", "locations": ["A1", "B1", "C1"]},
+            { "type": "PATROL_BOAT", "locations": ["H5", "H6"]}
+        ])
+    }
+
     handleLogOut(){
         this.props.logOut();
         this.props.history.push(`/games`);
 
+    }
+
+    handleSquareClick(e){
+        let squareClicked = e.target.id.split("-")[1];
+        this.prov_array.push(squareClicked);
+        this.props.updateGrid(this.prov_array);
     }
 
     componentWillMount(){
@@ -86,12 +102,10 @@ class ShipLocations extends React.Component{
                     </div>
                     <div className="logout-btn"><button onClick={this.handleLogOut}>Log Out</button></div>
                 </div>
-                {this.props.placeShips("84", [ { "type": "DESTROYER", "locations": ["A1", "B1", "C1"]},
-                    { "type": "PATROL_BOAT", "locations": ["H5", "H6"]}
-                ])}
+
                 <div className="gridContainer">
-                    <Grid data={this.props.gamePlayerResponse} title={"My Ships"} gridType={"sh"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
-                    <Grid data={this.props.gamePlayerResponse} title={"Salvoes I Fired"} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
+                    <Grid data={this.props.gamePlayerResponse} title={"My Ships"} takenPositions={["H1", "H2", "C3", "C7", "C8"]} gridType={"sh"} handleSquareClick={this.handleSquareClick} prov_array={this.prov_array} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
+                    <Grid data={this.props.gamePlayerResponse} title={"Salvoes I Fired"} takenPositions={["A1", "A2", "A3", "F7", "E7"]} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
                 </div>
             </div>
         );}

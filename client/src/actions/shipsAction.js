@@ -51,3 +51,9 @@ export function placeShips(GPid, shipList){
         .catch(error => {console.log(error)});
     }
 }
+
+export function updateGrid(arrayElement){
+    return function (dispatch) {
+        dispatch({type: "UPDATE_GRID_FULFILLED", arraydata:arrayElement});
+    }
+}

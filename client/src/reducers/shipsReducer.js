@@ -3,7 +3,8 @@ export default function reducer(state={
     fetching: false,
     fetched: false,
     failed: false,
-    error: null
+    error: null,
+    prov_array: [],
 },action) {
     switch(action.type){
         case "FETCH_SHIPS":{
@@ -13,7 +14,9 @@ export default function reducer(state={
             return {...state, fetching: false, fetched:true, gamePlayerResponse: action.shipsdata}
         } case "FETCH_SHIPS_REJECTED":{
             return {...state, fetching: false, fetched: true, failed: true, gamePlayerResponse: action.shipsdata}
-    }
+        } case "UPDATE_GRID_FULFILLED":{
+            return {...state, prov_array: action.arraydata}
+        }
     }
     return state;
 }

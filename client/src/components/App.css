@@ -105,6 +105,7 @@ form{
 }
 
 .main-content{
+  height: 100vh;
   display: flex;
   justify-content: center;
   background-color: rgba(255, 255, 255, 0.5);
@@ -175,4 +176,8 @@ form{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.normal:hover{
+  background-color: aliceblue;
 }

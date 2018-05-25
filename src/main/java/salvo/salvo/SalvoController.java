@@ -177,9 +177,6 @@ public class SalvoController {
 
                     selectedGP.addShip(ship);
                     shipRepository.save(ship);
-                    System.out.println(ship.getType());
-                    System.out.println(ship.getLocations());
-                    System.out.println(ship.getGp());
                 }
                 return new ResponseEntity<>(makeMap("success", "ships added successfully"), HttpStatus.CREATED);
             }

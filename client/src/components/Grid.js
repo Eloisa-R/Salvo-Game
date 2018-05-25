@@ -4,38 +4,39 @@ import Square from './Square'
 
 class Grid extends React.Component{
 
-    loadGrid(ships_or_salvoes){
+    constructor(props){
+        super(props);
+
+        this.loadGrid = this.loadGrid.bind(this);
+        this.generateRow = this.generateRow.bind(this);
+    }
+
+    generateRow(letter, index_key, ships_or_salvoes, prov_array){
         let shipsArray = this.getShipslocation();
         let salvoesArray = this.getSalvoesAndHitsLocation(this.props.playerId)
         let hitsArray = this.getSalvoesAndHitsLocation(this.props.oponentId)
+        let letterArray = ["Z","A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+        let value;
+        let type;
+        let buttons;
+        buttons = letterArray.map((element, index) =>
+        {
+            value = (letter === "Z" && index !==0) ? index : (letter !== "Z" && index === 0) ? letter : "";
+            let coordinates = letter + index;
+
+            return <Square key={index} handleSquareClick={this.props.handleSquareClick} id={ships_or_salvoes + "-"+ coordinates} positions={this.props.takenPositions} coor={coordinates} value={value} type={this.props.gridType}/>
+        })
+
+        return <div className="row" key={index_key}>{buttons}</div>
+    }
+
+
+    loadGrid(){
+
 
         let letterArray = ["Z","A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
-        let buttons;
-        function generateRow(letter, index_key){
-            let value;
-            let type;
-            buttons = letterArray.map((element, index) =>
-            {
-                value = (letter === "Z" && index !==0) ? index : (letter !== "Z" && index === 0) ? letter : "";
-                let coordinates = letter + index;
-                if (ships_or_salvoes === "sh" && shipsArray.includes(coordinates) && (hitsArray.filter(e => e.includes(coordinates)).length == 0)) {
-                    type = "ship"
-                } else if (ships_or_salvoes === "sh" && shipsArray.includes(coordinates) && (hitsArray.filter(e => e.includes(coordinates)).length != 0)) {
-                    type = "hit"
-                    value = hitsArray.filter(e => e.includes(coordinates))[0][0]
-                } else if(ships_or_salvoes === "sa" && (salvoesArray.filter(e => e.includes(coordinates)).length != 0)) {
-                    type= "salvo"
-                    value = salvoesArray.filter(e => e.includes(coordinates))[0][0]
-                } else {
-                    type= "normal"
-                }
 
-              return <Square key={index} id={ships_or_salvoes + "-"+ coordinates} value={value} type={type}/>
-            })
-
-            return <div className="row" key={index_key}>{buttons}</div>
-        }
-        return letterArray.map((element, index) => generateRow(element, index))
+        return letterArray.map((element, index) => this.generateRow(element, index, this.props.gridType, this.props.prov_array))
     }
 
     getShipslocation(){
@@ -57,10 +58,14 @@ class Grid extends React.Component{
         return salvoesOrHitsArray;
     }
 
+    shouldComponentUpdate(){
+        this.loadGrid();
+    }
+
     render() {
         return (
 
-                <div className="grid"><h4>{this.props.title}</h4>{this.loadGrid(this.props.gridType)}</div>
+                <div className="grid"><h4>{this.props.title}</h4>{this.loadGrid()}</div>
 
         );
     }
