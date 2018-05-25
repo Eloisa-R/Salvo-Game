@@ -54,7 +54,7 @@ form{
 
 .square{
   background-color: transparent;
-  border: solid 1px;
+  border: solid 1px lightgray;
   width: 3vw;
   height: 3vh;
   margin: 0px;
@@ -180,4 +180,8 @@ form{
 
 .normal:hover{
   background-color: aliceblue;
+}
+
+.ship-icon{
+  z-index: 100;
 }

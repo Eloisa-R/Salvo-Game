@@ -1,6 +1,7 @@
 import React from 'react';
 import Square from './Square'
-
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 class Grid extends React.Component{
 
@@ -58,9 +59,6 @@ class Grid extends React.Component{
         return salvoesOrHitsArray;
     }
 
-    shouldComponentUpdate(){
-        this.loadGrid();
-    }
 
     render() {
         return (
@@ -71,4 +69,4 @@ class Grid extends React.Component{
     }
 }
 
-export default Grid;
+export default DragDropContext(HTML5Backend)(Grid);

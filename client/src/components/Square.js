@@ -1,10 +1,30 @@
 import React from 'react';
 import ShipPiece from "./ShipPiece"
 import Salvo from "./Salvo"
+import PropTypes from 'prop-types';
+import { ItemTypes } from './Constants';
+import { DropTarget } from 'react-dnd';
+
+const squareTarget = {
+    drop(props, monitor) {
+        props.handleSquareClick(props.coor);
+     }
+};
+
+function collect(connect, monitor) {
+    return {
+        connectDropTarget: connect.dropTarget(),
+        isOver: monitor.isOver()
+    };
+}
+
 
 class Square extends React.Component{
 
-
+    constructor(props){
+        super(props);
+        console.log(this.props)
+    }
     piece() {
          if (this.props.value !== "") {
              return this.props.value
@@ -15,14 +35,19 @@ class Square extends React.Component{
          }
     }
 
+    static propTypes = {
 
+        connectDropTarget: PropTypes.func.isRequired,
+        isOver: PropTypes.bool.isRequired
+    }
 
     render() {
-        return (
+        const { connectDropTarget, isOver } = this.props;
+        return connectDropTarget(
 
-            <button onClick={(e) => this.props.handleSquareClick(e)} className={"square"} id={this.props.id}>{this.piece()}</button>
+            <button className={"square"} id={this.props.id}>{this.piece()}</button>
         );
     }
 }
 
-export default Square;
+export default DropTarget(ItemTypes.SHIPPIECE, squareTarget, collect) (Square);

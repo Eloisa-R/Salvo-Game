@@ -1,11 +1,12 @@
 import React from 'react';
-import { Redirect } from 'react-router';
 import {connect} from 'react-redux';
 import {fetchShips} from "../actions/shipsAction";
 import {placeShips} from "../actions/shipsAction";
 import {updateGrid} from "../actions/shipsAction";
 import {logOut} from "../actions/loginAction";
 import Grid from "./Grid"
+
+
 
 const mapStateToProps = function(store) {
     return {
@@ -23,10 +24,15 @@ const mapDispatchToProps = function (dispatch) {
         updateGrid: (provArray) => {dispatch(updateGrid(provArray))},
     };
 };
+
+
 class ShipLocations extends React.Component{
     constructor(){
         super();
-    this.prov_array = [];
+    this.state = {
+        shipsPositions: ["H1", "H2", "C3", "C7", "C8"],
+        salvoPositions: ["A1", "A2", "A3", "F7", "E7"],
+    }
     this.handleSquareClick = this.handleSquareClick.bind(this);
     this.getOponentId = this.getOponentId.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
@@ -72,10 +78,10 @@ class ShipLocations extends React.Component{
 
     }
 
-    handleSquareClick(e){
-        let squareClicked = e.target.id.split("-")[1];
-        this.prov_array.push(squareClicked);
-        this.props.updateGrid(this.prov_array);
+    handleSquareClick(coor){
+       const positions = this.state.shipsPositions.slice();
+       positions.push(coor);
+       this.setState({shipsPositions: positions});
     }
 
     componentWillMount(){
@@ -104,8 +110,8 @@ class ShipLocations extends React.Component{
                 </div>
 
                 <div className="gridContainer">
-                    <Grid data={this.props.gamePlayerResponse} title={"My Ships"} takenPositions={["H1", "H2", "C3", "C7", "C8"]} gridType={"sh"} handleSquareClick={this.handleSquareClick} prov_array={this.prov_array} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
-                    <Grid data={this.props.gamePlayerResponse} title={"Salvoes I Fired"} takenPositions={["A1", "A2", "A3", "F7", "E7"]} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
+                    <Grid data={this.props.gamePlayerResponse} title={"My Ships"} takenPositions={this.state.shipsPositions} gridType={"sh"} handleSquareClick={this.handleSquareClick} prov_array={this.prov_array} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
+                    <Grid data={this.props.gamePlayerResponse} title={"Salvoes I Fired"} takenPositions={this.state.salvoPositions} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
                 </div>
             </div>
         );}
