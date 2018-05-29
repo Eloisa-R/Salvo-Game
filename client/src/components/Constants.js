@@ -1,3 +1,4 @@
 export const ItemTypes = {
-    SHIPPIECE: 'shipPiece'
+    SHIPPIECE: 'shipPiece',
+    CONTAINER: 'container'
 };

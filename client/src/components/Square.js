@@ -7,7 +7,7 @@ import { DropTarget } from 'react-dnd';
 
 const squareTarget = {
     drop(props, monitor) {
-        props.handleSquareClick(props.coor);
+        props.handleSquareDrop(props.coor);
      }
 };
 
@@ -23,7 +23,6 @@ class Square extends React.Component{
 
     constructor(props){
         super(props);
-        console.log(this.props)
     }
     piece() {
          if (this.props.value !== "") {
@@ -50,4 +49,4 @@ class Square extends React.Component{
     }
 }
 
-export default DropTarget(ItemTypes.SHIPPIECE, squareTarget, collect) (Square);
+export default DropTarget([ItemTypes.SHIPPIECE, ItemTypes.CONTAINER], squareTarget, collect) (Square);

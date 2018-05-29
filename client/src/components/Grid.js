@@ -1,7 +1,6 @@
 import React from 'react';
 import Square from './Square'
-import { DragDropContext } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
+
 
 class Grid extends React.Component{
 
@@ -25,7 +24,7 @@ class Grid extends React.Component{
             value = (letter === "Z" && index !==0) ? index : (letter !== "Z" && index === 0) ? letter : "";
             let coordinates = letter + index;
 
-            return <Square key={index} handleSquareClick={this.props.handleSquareClick} id={ships_or_salvoes + "-"+ coordinates} positions={this.props.takenPositions} coor={coordinates} value={value} type={this.props.gridType}/>
+            return <Square key={index} handleSquareDrop={this.props.handleSquareDrop} id={ships_or_salvoes + "-"+ coordinates} positions={this.props.takenPositions} coor={coordinates} value={value} type={this.props.gridType}/>
         })
 
         return <div className="row" key={index_key}>{buttons}</div>
@@ -69,4 +68,4 @@ class Grid extends React.Component{
     }
 }
 
-export default DragDropContext(HTML5Backend)(Grid);
+export default Grid;

@@ -5,6 +5,10 @@ import {placeShips} from "../actions/shipsAction";
 import {updateGrid} from "../actions/shipsAction";
 import {logOut} from "../actions/loginAction";
 import Grid from "./Grid"
+import HTML5Backend from "react-dnd-html5-backend";
+import { DragDropContext } from 'react-dnd';
+import ShipPiece from "./ShipPiece";
+import DragContainer from "./DragContainer";
 
 
 
@@ -30,10 +34,10 @@ class ShipLocations extends React.Component{
     constructor(){
         super();
     this.state = {
-        shipsPositions: ["H1", "H2", "C3", "C7", "C8"],
+        shipsPositions: [],
         salvoPositions: ["A1", "A2", "A3", "F7", "E7"],
     }
-    this.handleSquareClick = this.handleSquareClick.bind(this);
+    this.handleSquareDrop = this.handleSquareDrop.bind(this);
     this.getOponentId = this.getOponentId.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
     }
@@ -78,9 +82,10 @@ class ShipLocations extends React.Component{
 
     }
 
-    handleSquareClick(coor){
+    handleSquareDrop(coor){
        const positions = this.state.shipsPositions.slice();
        positions.push(coor);
+       console.log(positions);
        this.setState({shipsPositions: positions});
     }
 
@@ -110,7 +115,8 @@ class ShipLocations extends React.Component{
                 </div>
 
                 <div className="gridContainer">
-                    <Grid data={this.props.gamePlayerResponse} title={"My Ships"} takenPositions={this.state.shipsPositions} gridType={"sh"} handleSquareClick={this.handleSquareClick} prov_array={this.prov_array} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
+                    <Grid data={this.props.gamePlayerResponse} title={"My Ships"} takenPositions={this.state.shipsPositions} gridType={"sh"} handleSquareDrop={this.handleSquareDrop} prov_array={this.prov_array} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
+                    <DragContainer/>
                     <Grid data={this.props.gamePlayerResponse} title={"Salvoes I Fired"} takenPositions={this.state.salvoPositions} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
                 </div>
             </div>
@@ -119,4 +125,5 @@ class ShipLocations extends React.Component{
     }
 }
 
+ShipLocations = DragDropContext(HTML5Backend) (ShipLocations);
 export default connect(mapStateToProps, mapDispatchToProps) (ShipLocations);
