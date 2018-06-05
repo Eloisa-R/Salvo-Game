@@ -103,9 +103,14 @@ public class SalvoController {
 
     @GetMapping("/games")
     public Map<String, Object> getGames(Authentication authentication){
-        Map<String, Object> playerInfo = new LinkedHashMap<>();
-        Map<String, Object> AllGamesInfoWAnt = new LinkedHashMap<>();
 
+        Map<String, Object> reponse = new LinkedHashMap<>();
+
+
+
+
+
+        Map<String, Object> playerInfo = new LinkedHashMap<>();
         if (authentication == null) {
             playerInfo. put("id", "null");
             playerInfo. put("username", "null");
@@ -113,13 +118,15 @@ public class SalvoController {
             playerInfo. put("id", playerRepository.findByUserName(authentication.getName()).getId());
             playerInfo. put("username", playerRepository.findByUserName(authentication.getName()).getUserName());
         }
+        reponse.put("player", playerInfo);
+
 
         List<Map> gameList = gameRepository.findAll().stream()
                .map(game -> GameToDTO(game))
                .collect(toList());
-        AllGamesInfoWAnt.put("player", playerInfo);
-        AllGamesInfoWAnt.put("games", gameList);
-        return AllGamesInfoWAnt;
+        reponse.put("games", gameList);
+
+        return reponse;
     }
 
     @RequestMapping(

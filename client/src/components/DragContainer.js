@@ -26,7 +26,7 @@ class DragContainer extends Component {
 
     render() {
         const { connectDragSource, isDragging } = this.props;
-        return connectDragSource(<span className="ship-container" ><ShipPiece/><ShipPiece/></span>);
+        return connectDragSource(<span className="ship-container" ><ShipPiece shipType={this.props.shipType}/><ShipPiece shipType={this.props.shipType}/></span>);
     }
 
 }

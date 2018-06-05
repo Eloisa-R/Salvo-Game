@@ -62,12 +62,8 @@ class ShipLocations extends React.Component{
 
     getOponentemail(){
         let oponentObj = this.props.gamePlayerResponse.gamePlayers.filter(gp => gp.id != this.props.match.params.id);
-        if (oponentObj.length === 0) {
-            return "no one yet!"
-        } else {
-            return oponentObj[0].player.email;
-        }
 
+    return oponentObj.length === 0? "no one yet!" : oponentObj[0].player.email;
     }
 
     handleSubmitShips(){
@@ -116,7 +112,7 @@ class ShipLocations extends React.Component{
 
                 <div className="gridContainer">
                     <Grid data={this.props.gamePlayerResponse} title={"My Ships"} takenPositions={this.state.shipsPositions} gridType={"sh"} handleSquareDrop={this.handleSquareDrop} prov_array={this.prov_array} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
-                    <DragContainer/>
+                    <ShipPiece/>
                     <Grid data={this.props.gamePlayerResponse} title={"Salvoes I Fired"} takenPositions={this.state.salvoPositions} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
                 </div>
             </div>

@@ -6,9 +6,19 @@ import { ItemTypes } from './Constants';
 import { DropTarget } from 'react-dnd';
 
 const squareTarget = {
-    drop(props, monitor) {
+
+    canDrop(props, monitor) {
+        // You can disallow drop based on props or item
+        console.log(monitor.getItem());
+
+    },
+
+
+    drop(props, monitor, component) {
         props.handleSquareDrop(props.coor);
      }
+
+
 };
 
 function collect(connect, monitor) {
