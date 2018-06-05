@@ -7,15 +7,34 @@ import { DropTarget } from 'react-dnd';
 
 const squareTarget = {
 
-    canDrop(props, monitor) {
-        // You can disallow drop based on props or item
-        console.log(monitor.getItem());
 
-    },
+    drop(props, monitor) {
+        let shipData = monitor.getItem();
+        console.log(shipData.shipType);
+        let coordLetter = props.coor.split("")[0];
+        let coordNum = parseInt(props.coor.split("")[1]);
 
+        let resultDrop;
+        switch(shipData.shipType) {
+            case "PATROL_BOAT":
+                resultDrop = [props.coor, coordLetter + (coordNum + 1)];
+                break;
+            case "DESTROYER":
+                resultDrop = [props.coor, coordLetter + (coordNum + 1), coordLetter + (coordNum + 2)];
+                break;
+            case "SUBMARINE":
+                resultDrop = [props.coor, coordLetter + (coordNum + 1), coordLetter + (coordNum + 2)];
+                break;
+            case "BATTLESHIP":
+                resultDrop = [props.coor, coordLetter + (coordNum + 1), coordLetter + (coordNum + 2),coordLetter + (coordNum + 3)];
+                break;
+            case "CARRIER":
+                resultDrop = [props.coor, coordLetter + (coordNum + 1), coordLetter + (coordNum + 2),coordLetter + (coordNum + 3),coordLetter + (coordNum + 4)];
+                break;
+        }
+        console.log(resultDrop)
+        props.handleSquareDrop(resultDrop);
 
-    drop(props, monitor, component) {
-        props.handleSquareDrop(props.coor);
      }
 
 
@@ -59,4 +78,4 @@ class Square extends React.Component{
     }
 }
 
-export default DropTarget([ItemTypes.SHIPPIECE, ItemTypes.CONTAINER], squareTarget, collect) (Square);
+export default DropTarget(ItemTypes.CONTAINER, squareTarget, collect) (Square);

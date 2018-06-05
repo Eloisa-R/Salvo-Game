@@ -78,9 +78,9 @@ class ShipLocations extends React.Component{
 
     }
 
-    handleSquareDrop(coor){
-       const positions = this.state.shipsPositions.slice();
-       positions.push(coor);
+    handleSquareDrop(coorArray){
+       let positions = this.state.shipsPositions.slice();
+       positions = positions.concat(coorArray);
        console.log(positions);
        this.setState({shipsPositions: positions});
     }
@@ -112,8 +112,21 @@ class ShipLocations extends React.Component{
 
                 <div className="gridContainer">
                     <Grid data={this.props.gamePlayerResponse} title={"My Ships"} takenPositions={this.state.shipsPositions} gridType={"sh"} handleSquareDrop={this.handleSquareDrop} prov_array={this.prov_array} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
-                    <ShipPiece/>
+
                     <Grid data={this.props.gamePlayerResponse} title={"Salvoes I Fired"} takenPositions={this.state.salvoPositions} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
+
+                </div>
+                <div className="shipsToChoose">
+                    <div className="shipTitle">Patrol boat</div>
+                    <DragContainer shipType={"PATROL_BOAT"}/>
+                    <div className="shipTitle">Destroyer</div>
+                    <DragContainer shipType={"DESTROYER"}/>
+                    <div className="shipTitle">Submarine</div>
+                    <DragContainer shipType={"SUBMARINE"}/>
+                    <div className="shipTitle">Battleship</div>
+                    <DragContainer shipType={"BATTLESHIP"}/>
+                    <div className="shipTitle">Carrier</div>
+                    <DragContainer shipType={"CARRIER"}/>
                 </div>
             </div>
         );}

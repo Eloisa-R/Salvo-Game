@@ -184,14 +184,22 @@ form{
 
 .ship-icon{
   z-index: 100;
-  padding: 10%;
 }
 
 .ship-container{
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   height: fit-content;
   width: fit-content;
   background-color: lightgray;
-  padding: 1%;
+  padding-bottom: 0.75%;
+}
+
+.shipTitle{
+  height: fit-content;
+  width: fit-content;
+}
+
+.shipsToChoose{
+  padding-left: 2%;
 }
