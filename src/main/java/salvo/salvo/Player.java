@@ -96,4 +96,8 @@ public class Player {
     public String toString() {
         return firstName + " " + lastName + " " + userName;
     }
+
+    public void addScore(Score inputScore){
+        scores.add(inputScore);
+    }
 }
