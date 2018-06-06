@@ -6,7 +6,7 @@ import ShipPiece from "./ShipPiece"
 
 const pieceSource = {
     beginDrag(props) {
-        return {"shipType": props.shipType, "orientation": props.orientation}
+        return {"shipType": props.shipType, "orientation": props.orientation, "length": props.length}
 
     }
 }
@@ -31,26 +31,9 @@ class DragContainer extends Component {
     };
 
     renderShip(){
-        let itemNumber;
         let result = [];
-        switch(this.props.shipType){
-            case "PATROL_BOAT":
-                itemNumber = 2;
-                break;
-            case "DESTROYER":
-                itemNumber = 3;
-                break;
-            case "SUBMARINE":
-                itemNumber = 3;
-                break;
-            case "BATTLESHIP":
-                itemNumber = 4;
-                break;
-            case "CARRIER":
-                itemNumber = 5;
-                break;
-        }
-        for (let i = 0; i < itemNumber; i++) {
+
+        for (let i = 0; i < this.props.length; i++) {
             result.push(<ShipPiece key={i}/>)
         }
         return [result]

@@ -7,68 +7,49 @@ import { DropTarget } from 'react-dnd';
 
 const squareTarget = {
 
+    canDrop(props, monitor) {
+        let shipData = monitor.getItem();
+        let legalLetters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+        let coordLetter = props.letter;
+        let coordNum = props.index;
+
+        let resultDrop = [];
+
+        function nextLetter(char, positions) {
+            return String.fromCharCode(char.charCodeAt(char) + positions)
+        }
+
+        for (let i =0; i < shipData.length; i++){
+            if (shipData.orientation === "horizontal") {
+                resultDrop.push(coordLetter + (coordNum + i));
+            } else {
+                resultDrop.push(nextLetter(coordLetter,i) + coordNum);
+            }
+        }
+
+        if (shipData.orientation === "horizontal" && ((props.index + shipData.length - 1) <= 10)) {
+            return resultDrop
+        } else if (shipData.orientation === "vertical" && (legalLetters.indexOf(props.letter) + shipData.length - 1) <= 9) {
+            return resultDrop
+        } else if (props.positions.some(elem=> resultDrop.includes(elem))) {
+            return false
+        }
+
+    },
 
     drop(props, monitor) {
         let shipData = monitor.getItem();
         console.log(shipData);
-        let coordLetter = props.letter;
-        let coordNum = props.index;
 
-        let resultDrop;
-        function nextLetter(char, positions){
-            return String.fromCharCode(char.charCodeAt(char) + positions)
-        }
-
-        switch(shipData.orientation){
-            case "horizontal":
-                switch(shipData.shipType) {
-                    case "PATROL_BOAT":
-                        resultDrop = [coordLetter + coordNum, coordLetter + (coordNum + 1)];
-                        break;
-                    case "DESTROYER":
-                        resultDrop = [coordLetter + coordNum, coordLetter + (coordNum + 1), coordLetter + (coordNum + 2)];
-                        break;
-                    case "SUBMARINE":
-                        resultDrop = [coordLetter + coordNum, coordLetter + (coordNum + 1), coordLetter + (coordNum + 2)];
-                        break;
-                    case "BATTLESHIP":
-                        resultDrop = [coordLetter + coordNum, coordLetter + (coordNum + 1), coordLetter + (coordNum + 2),coordLetter + (coordNum + 3)];
-                        break;
-                    case "CARRIER":
-                        resultDrop = [coordLetter + coordNum, coordLetter + (coordNum + 1), coordLetter + (coordNum + 2),coordLetter + (coordNum + 3),coordLetter + (coordNum + 4)];
-                        break;
-                    }
-                break;
-            case "vertical":
-                switch(shipData.shipType) {
-                    case "PATROL_BOAT":
-                        resultDrop = [coordLetter + coordNum, nextLetter(coordLetter,1) + coordNum];
-                        break;
-                    case "DESTROYER":
-                        resultDrop = [coordLetter + coordNum, nextLetter(coordLetter,1) + coordNum, nextLetter(coordLetter,2) + coordNum];
-                        break;
-                    case "SUBMARINE":
-                        resultDrop = [coordLetter + coordNum, nextLetter(coordLetter,1) + coordNum, nextLetter(coordLetter,2) + coordNum];
-                        break;
-                    case "BATTLESHIP":
-                        resultDrop = [coordLetter + coordNum, nextLetter(coordLetter,1) + coordNum, nextLetter(coordLetter,2) + coordNum, nextLetter(coordLetter,3) + coordNum];
-                        break;
-                    case "CARRIER":
-                        resultDrop = [coordLetter + coordNum, nextLetter(coordLetter,1) + coordNum, nextLetter(coordLetter,2) + coordNum, nextLetter(coordLetter,3) + coordNum, nextLetter(coordLetter,4) + coordNum];
-                        break;
-                }
-                break;
-
-        }
 
 
         console.log(resultDrop)
-        props.handleSquareDrop(resultDrop);
+        props.handleSquareDrop(resultDrop)
+        // return {moved: true}
 
-     }
 
-
-};
+    }
+}
 
 function collect(connect, monitor) {
     return {

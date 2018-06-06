@@ -202,7 +202,14 @@ public class SalvoController {
             Optional<GamePlayer> selectedGP = gamePlayerRepository.findAll().stream()
                     .filter(gp -> gp.getId() == gamePlayerId)
                     .findAny();
-            Set<GamePlayer> gamePlayers = selectedGP.get().getGameEntry().getGameplays();
+            Set<GamePlayer> gamePlayers;
+            if (selectedGP.isPresent()){
+                gamePlayers = selectedGP.get().getGameEntry().getGameplays();
+            } else {
+                return new ResponseEntity<>(makeMap("error", "Game Player ID doesn't exist"), HttpStatus.UNAUTHORIZED);
+            }
+
+
             Map<String, Object> gamePlayerdata = GameToDTO(selectedGP.get().getGameEntry());
             gamePlayerdata.put("ships", selectedGP.get().getShips());
             gamePlayerdata.put("salvoes", getSalvoesforAll(gamePlayers));

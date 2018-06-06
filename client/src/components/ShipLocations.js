@@ -133,15 +133,15 @@ class ShipLocations extends React.Component{
                     </div>
                     <div className="shipsToChoose">
                         <div className="shipTitle">Patrol boat</div>
-                        <DragContainer shipType={"PATROL_BOAT"} orientation={this.state.orientation}/>
+                        <DragContainer shipType={"PATROL_BOAT"} length={2} orientation={this.state.orientation}/>
                         <div className="shipTitle">Destroyer</div>
-                        <DragContainer shipType={"DESTROYER"} orientation={this.state.orientation}/>
+                        <DragContainer shipType={"DESTROYER"} length={3} orientation={this.state.orientation}/>
                         <div className="shipTitle">Submarine</div>
-                        <DragContainer shipType={"SUBMARINE"} orientation={this.state.orientation}/>
+                        <DragContainer shipType={"SUBMARINE"} length={3} orientation={this.state.orientation}/>
                         <div className="shipTitle">Battleship</div>
-                        <DragContainer shipType={"BATTLESHIP"} orientation={this.state.orientation}/>
+                        <DragContainer shipType={"BATTLESHIP"} length={4} orientation={this.state.orientation}/>
                         <div className="shipTitle">Carrier</div>
-                        <DragContainer shipType={"CARRIER"} orientation={this.state.orientation}/>
+                        <DragContainer shipType={"CARRIER"} length={5} orientation={this.state.orientation}/>
                     </div>
                  </div>
             </div>
