@@ -6,7 +6,7 @@ import ShipPiece from "./ShipPiece"
 
 const pieceSource = {
     beginDrag(props) {
-        return {"shipType": props.shipType}
+        return {"shipType": props.shipType, "orientation": props.orientation}
 
     }
 }

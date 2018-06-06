@@ -203,3 +203,19 @@ form{
 .shipsToChoose{
   padding-left: 2%;
 }
+
+.all-boats-cont{
+  width: fit-content;
+  padding: 2%;
+}
+
+.orient-active{
+  border: 0px;
+  background-color: cornflowerblue;
+  color: white;
+}
+
+.orient-inactive{
+  border: 0px;
+  background-color: white;
+}

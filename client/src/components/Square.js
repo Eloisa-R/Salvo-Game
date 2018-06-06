@@ -10,28 +10,58 @@ const squareTarget = {
 
     drop(props, monitor) {
         let shipData = monitor.getItem();
-        console.log(shipData.shipType);
-        let coordLetter = props.coor.split("")[0];
-        let coordNum = parseInt(props.coor.split("")[1]);
+        console.log(shipData);
+        let coordLetter = props.letter;
+        let coordNum = props.index;
 
         let resultDrop;
-        switch(shipData.shipType) {
-            case "PATROL_BOAT":
-                resultDrop = [props.coor, coordLetter + (coordNum + 1)];
-                break;
-            case "DESTROYER":
-                resultDrop = [props.coor, coordLetter + (coordNum + 1), coordLetter + (coordNum + 2)];
-                break;
-            case "SUBMARINE":
-                resultDrop = [props.coor, coordLetter + (coordNum + 1), coordLetter + (coordNum + 2)];
-                break;
-            case "BATTLESHIP":
-                resultDrop = [props.coor, coordLetter + (coordNum + 1), coordLetter + (coordNum + 2),coordLetter + (coordNum + 3)];
-                break;
-            case "CARRIER":
-                resultDrop = [props.coor, coordLetter + (coordNum + 1), coordLetter + (coordNum + 2),coordLetter + (coordNum + 3),coordLetter + (coordNum + 4)];
-                break;
+        function nextLetter(char, positions){
+            return String.fromCharCode(char.charCodeAt(char) + positions)
         }
+
+        switch(shipData.orientation){
+            case "horizontal":
+                switch(shipData.shipType) {
+                    case "PATROL_BOAT":
+                        resultDrop = [coordLetter + coordNum, coordLetter + (coordNum + 1)];
+                        break;
+                    case "DESTROYER":
+                        resultDrop = [coordLetter + coordNum, coordLetter + (coordNum + 1), coordLetter + (coordNum + 2)];
+                        break;
+                    case "SUBMARINE":
+                        resultDrop = [coordLetter + coordNum, coordLetter + (coordNum + 1), coordLetter + (coordNum + 2)];
+                        break;
+                    case "BATTLESHIP":
+                        resultDrop = [coordLetter + coordNum, coordLetter + (coordNum + 1), coordLetter + (coordNum + 2),coordLetter + (coordNum + 3)];
+                        break;
+                    case "CARRIER":
+                        resultDrop = [coordLetter + coordNum, coordLetter + (coordNum + 1), coordLetter + (coordNum + 2),coordLetter + (coordNum + 3),coordLetter + (coordNum + 4)];
+                        break;
+                    }
+                break;
+            case "vertical":
+                switch(shipData.shipType) {
+                    case "PATROL_BOAT":
+                        resultDrop = [coordLetter + coordNum, nextLetter(coordLetter,1) + coordNum];
+                        break;
+                    case "DESTROYER":
+                        resultDrop = [coordLetter + coordNum, nextLetter(coordLetter,1) + coordNum, nextLetter(coordLetter,2) + coordNum];
+                        break;
+                    case "SUBMARINE":
+                        resultDrop = [coordLetter + coordNum, nextLetter(coordLetter,1) + coordNum, nextLetter(coordLetter,2) + coordNum];
+                        break;
+                    case "BATTLESHIP":
+                        resultDrop = [coordLetter + coordNum, nextLetter(coordLetter,1) + coordNum, nextLetter(coordLetter,2) + coordNum, nextLetter(coordLetter,3) + coordNum];
+                        break;
+                    case "CARRIER":
+                        resultDrop = [coordLetter + coordNum, nextLetter(coordLetter,1) + coordNum, nextLetter(coordLetter,2) + coordNum, nextLetter(coordLetter,3) + coordNum, nextLetter(coordLetter,4) + coordNum];
+                        break;
+                }
+                break;
+
+        }
+
+
         console.log(resultDrop)
         props.handleSquareDrop(resultDrop);
 
@@ -56,9 +86,9 @@ class Square extends React.Component{
     piece() {
          if (this.props.value !== "") {
              return this.props.value
-         } else if (this.props.type === "sh" && this.props.positions.includes(this.props.coor)) {
+         } else if (this.props.type === "sh" && this.props.positions.includes(this.props.letter + this.props.index)) {
              return <ShipPiece/>
-         } else if (this.props.type === "sa" && this.props.positions.includes(this.props.coor)) {
+         } else if (this.props.type === "sa" && this.props.positions.includes(this.props.letter + this.props.index)) {
              return <Salvo/>
          }
     }

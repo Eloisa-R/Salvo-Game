@@ -36,10 +36,14 @@ class ShipLocations extends React.Component{
     this.state = {
         shipsPositions: [],
         salvoPositions: ["A1", "A2", "A3", "F7", "E7"],
+        orientation: "horizontal",
+        hActive: true,
+        vActive: false
     }
     this.handleSquareDrop = this.handleSquareDrop.bind(this);
     this.getOponentId = this.getOponentId.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
+    this.handleOrientation = this.handleOrientation.bind(this);
     }
 
 
@@ -85,6 +89,12 @@ class ShipLocations extends React.Component{
        this.setState({shipsPositions: positions});
     }
 
+    handleOrientation(inputOr){
+
+        inputOr === "horizontal"? this.setState({orientation: inputOr, hActive: true, vActive: false}) : this.setState({orientation: inputOr, hActive: false, vActive: true});
+
+    }
+
     componentWillMount(){
         this.props.fetchGamePlayer(this.props.match.params.id);
     }
@@ -116,18 +126,24 @@ class ShipLocations extends React.Component{
                     <Grid data={this.props.gamePlayerResponse} title={"Salvoes I Fired"} takenPositions={this.state.salvoPositions} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
 
                 </div>
-                <div className="shipsToChoose">
-                    <div className="shipTitle">Patrol boat</div>
-                    <DragContainer shipType={"PATROL_BOAT"}/>
-                    <div className="shipTitle">Destroyer</div>
-                    <DragContainer shipType={"DESTROYER"}/>
-                    <div className="shipTitle">Submarine</div>
-                    <DragContainer shipType={"SUBMARINE"}/>
-                    <div className="shipTitle">Battleship</div>
-                    <DragContainer shipType={"BATTLESHIP"}/>
-                    <div className="shipTitle">Carrier</div>
-                    <DragContainer shipType={"CARRIER"}/>
-                </div>
+                 <div className="all-boats-cont">
+                    <div className="orientation-btns">
+                        <button onClick={() => this.handleOrientation("horizontal")} className={this.state.hActive ? 'orient-active': 'orient-inactive'}>Horizontal</button>
+                        <button onClick={() => this.handleOrientation("vertical")} className={this.state.vActive ? 'orient-active': 'orient-inactive'}>Vertical</button>
+                    </div>
+                    <div className="shipsToChoose">
+                        <div className="shipTitle">Patrol boat</div>
+                        <DragContainer shipType={"PATROL_BOAT"} orientation={this.state.orientation}/>
+                        <div className="shipTitle">Destroyer</div>
+                        <DragContainer shipType={"DESTROYER"} orientation={this.state.orientation}/>
+                        <div className="shipTitle">Submarine</div>
+                        <DragContainer shipType={"SUBMARINE"} orientation={this.state.orientation}/>
+                        <div className="shipTitle">Battleship</div>
+                        <DragContainer shipType={"BATTLESHIP"} orientation={this.state.orientation}/>
+                        <div className="shipTitle">Carrier</div>
+                        <DragContainer shipType={"CARRIER"} orientation={this.state.orientation}/>
+                    </div>
+                 </div>
             </div>
         );}
 
