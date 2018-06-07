@@ -7,13 +7,14 @@ import { DropTarget } from 'react-dnd';
 
 const squareTarget = {
 
+
     canDrop(props, monitor) {
         let shipData = monitor.getItem();
         let legalLetters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
         let coordLetter = props.letter;
         let coordNum = props.index;
 
-        let resultDrop = [];
+        squareTarget.resultDrop = [];
 
         function nextLetter(char, positions) {
             return String.fromCharCode(char.charCodeAt(char) + positions)
@@ -21,18 +22,19 @@ const squareTarget = {
 
         for (let i =0; i < shipData.length; i++){
             if (shipData.orientation === "horizontal") {
-                resultDrop.push(coordLetter + (coordNum + i));
+                squareTarget.resultDrop.push(coordLetter + (coordNum + i));
             } else {
-                resultDrop.push(nextLetter(coordLetter,i) + coordNum);
+                squareTarget.resultDrop.push(nextLetter(coordLetter,i) + coordNum);
             }
         }
 
-        if (shipData.orientation === "horizontal" && ((props.index + shipData.length - 1) <= 10)) {
-            return resultDrop
-        } else if (shipData.orientation === "vertical" && (legalLetters.indexOf(props.letter) + shipData.length - 1) <= 9) {
-            return resultDrop
-        } else if (props.positions.some(elem=> resultDrop.includes(elem))) {
+
+        if (props.positions.some(elem=> squareTarget.resultDrop.includes(elem))) {
             return false
+        } else if (shipData.orientation === "horizontal" && ((props.index + shipData.length - 1) <= 10)) {
+            return true
+        } else if (shipData.orientation === "vertical" && (legalLetters.indexOf(props.letter) + shipData.length - 1) <= 9) {
+            return true
         }
 
     },
@@ -41,11 +43,7 @@ const squareTarget = {
         let shipData = monitor.getItem();
         console.log(shipData);
 
-
-
-        console.log(resultDrop)
-        props.handleSquareDrop(resultDrop)
-        // return {moved: true}
+        props.handleSquareDrop(squareTarget.resultDrop)
 
 
     }
@@ -54,7 +52,8 @@ const squareTarget = {
 function collect(connect, monitor) {
     return {
         connectDropTarget: connect.dropTarget(),
-        isOver: monitor.isOver()
+        isOver: monitor.isOver(),
+        canDrop: monitor.canDrop()
     };
 }
 
@@ -77,14 +76,16 @@ class Square extends React.Component{
     static propTypes = {
 
         connectDropTarget: PropTypes.func.isRequired,
-        isOver: PropTypes.bool.isRequired
+        isOver: PropTypes.bool.isRequired,
+
+
     }
 
     render() {
-        const { connectDropTarget, isOver } = this.props;
+        const { connectDropTarget, isOver, canDrop } = this.props;
         return connectDropTarget(
 
-            <button className={"square"} id={this.props.id}>{this.piece()}</button>
+            <button className={isOver? canDrop? "square green": "square red": "square"} id={this.props.id}>{this.piece()}</button>
         );
     }
 }

@@ -85,7 +85,6 @@ class ShipLocations extends React.Component{
     handleSquareDrop(coorArray){
        let positions = this.state.shipsPositions.slice();
        positions = positions.concat(coorArray);
-       console.log(positions);
        this.setState({shipsPositions: positions});
     }
 

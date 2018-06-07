@@ -219,3 +219,11 @@ form{
   border: 0px;
   background-color: white;
 }
+
+.square.green{
+  background-color: green;
+}
+
+.square.red{
+  background: red;
+}
