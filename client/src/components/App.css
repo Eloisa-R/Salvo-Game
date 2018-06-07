@@ -227,3 +227,8 @@ form{
 .square.red{
   background: red;
 }
+
+.undo-pos{
+  background-color: red;
+  padding: 1%;
+}

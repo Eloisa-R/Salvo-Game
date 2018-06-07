@@ -41,9 +41,8 @@ const squareTarget = {
 
     drop(props, monitor) {
         let shipData = monitor.getItem();
-        console.log(shipData);
 
-        props.handleSquareDrop(squareTarget.resultDrop)
+        props.handleSquareDrop(squareTarget.resultDrop, shipData.shipType)
 
 
     }

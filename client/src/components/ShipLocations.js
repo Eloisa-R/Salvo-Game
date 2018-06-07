@@ -35,6 +35,7 @@ class ShipLocations extends React.Component{
         super();
     this.state = {
         shipsPositions: [],
+        shipTypesPositioned: {},
         salvoPositions: ["A1", "A2", "A3", "F7", "E7"],
         orientation: "horizontal",
         hActive: true,
@@ -44,6 +45,7 @@ class ShipLocations extends React.Component{
     this.getOponentId = this.getOponentId.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
     this.handleOrientation = this.handleOrientation.bind(this);
+    this.removeShip = this.removeShip.bind(this);
     }
 
 
@@ -82,10 +84,19 @@ class ShipLocations extends React.Component{
 
     }
 
-    handleSquareDrop(coorArray){
+    handleSquareDrop(coorArray, shipType){
        let positions = this.state.shipsPositions.slice();
        positions = positions.concat(coorArray);
-       this.setState({shipsPositions: positions});
+       let shipTypePos = Object.assign({[shipType]: coorArray},this.state.shipTypesPositioned);
+       this.setState({shipsPositions: positions, shipTypesPositioned: shipTypePos});
+    }
+
+    removeShip(shipType){
+        let positions = this.state.shipsPositions.slice();
+        let shipTypePos = Object.assign({},this.state.shipTypesPositioned);
+        shipTypePos[shipType].forEach(ele => positions.splice(positions.indexOf(ele),1));
+        delete shipTypePos[shipType];
+        this.setState({shipsPositions: positions, shipTypesPositioned: shipTypePos});
     }
 
     handleOrientation(inputOr){
@@ -93,6 +104,7 @@ class ShipLocations extends React.Component{
         inputOr === "horizontal"? this.setState({orientation: inputOr, hActive: true, vActive: false}) : this.setState({orientation: inputOr, hActive: false, vActive: true});
 
     }
+
 
     componentWillMount(){
         this.props.fetchGamePlayer(this.props.match.params.id);
@@ -132,15 +144,15 @@ class ShipLocations extends React.Component{
                     </div>
                     <div className="shipsToChoose">
                         <div className="shipTitle">Patrol boat</div>
-                        <DragContainer shipType={"PATROL_BOAT"} length={2} orientation={this.state.orientation}/>
+                        {"PATROL_BOAT" in this.state.shipTypesPositioned?<button onClick={() => this.removeShip("PATROL_BOAT")} className="undo-pos">Undo</button>:<DragContainer shipType={"PATROL_BOAT"} length={2} orientation={this.state.orientation}/>}
                         <div className="shipTitle">Destroyer</div>
-                        <DragContainer shipType={"DESTROYER"} length={3} orientation={this.state.orientation}/>
+                        {"DESTROYER" in this.state.shipTypesPositioned?<button onClick={() => this.removeShip("DESTROYER")} className="undo-pos">Undo</button>:<DragContainer shipType={"DESTROYER"} length={3} orientation={this.state.orientation}/>}
                         <div className="shipTitle">Submarine</div>
-                        <DragContainer shipType={"SUBMARINE"} length={3} orientation={this.state.orientation}/>
+                        {"SUBMARINE" in this.state.shipTypesPositioned?<button onClick={() => this.removeShip("SUBMARINE")} className="undo-pos">Undo</button>:<DragContainer shipType={"SUBMARINE"} length={3} orientation={this.state.orientation}/>}
                         <div className="shipTitle">Battleship</div>
-                        <DragContainer shipType={"BATTLESHIP"} length={4} orientation={this.state.orientation}/>
+                        {"BATTLESHIP" in this.state.shipTypesPositioned?<button onClick={() => this.removeShip("BATTLESHIP")} className="undo-pos">Undo</button>:<DragContainer shipType={"BATTLESHIP"} length={4} orientation={this.state.orientation}/>}
                         <div className="shipTitle">Carrier</div>
-                        <DragContainer shipType={"CARRIER"} length={5} orientation={this.state.orientation}/>
+                        {"CARRIER" in this.state.shipTypesPositioned?<button onClick={() => this.removeShip("CARRIER")} className="undo-pos">Undo</button>:<DragContainer shipType={"CARRIER"} length={5} orientation={this.state.orientation}/>}
                     </div>
                  </div>
             </div>
