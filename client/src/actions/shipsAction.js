@@ -46,8 +46,8 @@ export function placeShips(GPid, shipList){
         })
         .then((data) => {
 
-            // dispatch({type: "LOGIN_FULFILLED", logindata: data});
-            // dispatch(fetchGames());
+            dispatch({type: "PLACE_SHIPS_FULFILLED", placedata: data});
+            dispatch(fetchShips(GPid));
         })
         .catch(error => {console.log(error)});
     }

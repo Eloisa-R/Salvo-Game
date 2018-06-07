@@ -50,6 +50,7 @@ class ShipLocations extends React.Component{
     this.handleLogOut = this.handleLogOut.bind(this);
     this.handleOrientation = this.handleOrientation.bind(this);
     this.removeShip = this.removeShip.bind(this);
+    this.handleSubmitShips = this.handleSubmitShips.bind(this);
     }
 
 
@@ -77,9 +78,12 @@ class ShipLocations extends React.Component{
     }
 
     handleSubmitShips(){
-        this.props.placeShips(this.props.match.params.id, [ { "type": "DESTROYER", "locations": ["A1", "B1", "C1"]},
-            { "type": "PATROL_BOAT", "locations": ["H5", "H6"]}
-        ])
+        let JSONsubmit = [];
+        for (let key in this.state.shipTypesPositioned) {
+            JSONsubmit.push({"type": key, "locations": this.state.shipTypesPositioned[key]})
+        }
+
+        this.props.placeShips(this.props.match.params.id, JSONsubmit)
     }
 
     handleLogOut(){
@@ -138,28 +142,55 @@ class ShipLocations extends React.Component{
                 <div className="gridContainer">
                     <Grid data={this.props.gamePlayerResponse} title={"My Ships"} takenPositions={this.props.allShipsArray.length > 0? this.props.allShipsArray: this.state.shipsPositions} gridType={"sh"} handleSquareDrop={this.handleSquareDrop} prov_array={this.prov_array} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
 
-                    <Grid data={this.props.gamePlayerResponse} title={"Salvoes I Fired"} takenPositions={this.props.mySalvoesArray.length > 0? this.props.mySalvoesArray:this.state.salvoPositions} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
+                    {this.props.allShipsArray.length > 0 ?<Grid data={this.props.gamePlayerResponse} title={"Salvoes I Fired"} takenPositions={this.props.mySalvoesArray.length > 0? this.props.mySalvoesArray:this.state.salvoPositions} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>: <div></div>}
 
                 </div>
-                 <div className="all-boats-cont">
-                     <h4>Drag and drop your ship!</h4>
-                    <div className="orientation-btns">
-                        <button onClick={() => this.handleOrientation("horizontal")} className={this.state.hActive ? 'orient-active': 'orient-inactive'}>Horizontal</button>
-                        <button onClick={() => this.handleOrientation("vertical")} className={this.state.vActive ? 'orient-active': 'orient-inactive'}>Vertical</button>
+                {this.props.allShipsArray.length > 0 ?
+                    this.props.mySalvoesArray.length > 0 ?
+                        <div></div>: <div className="fire-salvoes-mss"><h4>Now Fire some Salvoes!</h4></div>
+                    :<div className="bottom-div-boats">
+                    <div className="all-boats-cont">
+                        <h4>Drag and drop your ship!</h4>
+                        <div className="orientation-btns">
+                            <button onClick={() => this.handleOrientation("horizontal")}
+                                    className={this.state.hActive ? 'orient-active' : 'orient-inactive'}>Horizontal
+                            </button>
+                            <button onClick={() => this.handleOrientation("vertical")}
+                                    className={this.state.vActive ? 'orient-active' : 'orient-inactive'}>Vertical
+                            </button>
+                        </div>
+                        <div className="shipsToChoose">
+                            <div className="shipTitle">Patrol boat</div>
+                            {"PATROL_BOAT" in this.state.shipTypesPositioned ?
+                                <button onClick={() => this.removeShip("PATROL_BOAT")}
+                                        className="undo-pos">Undo</button> :
+                                <DragContainer shipType={"PATROL_BOAT"} length={2}
+                                               orientation={this.state.orientation}/>}
+                            <div className="shipTitle">Destroyer</div>
+                            {"DESTROYER" in this.state.shipTypesPositioned ?
+                                <button onClick={() => this.removeShip("DESTROYER")}
+                                        className="undo-pos">Undo</button> :
+                                <DragContainer shipType={"DESTROYER"} length={3} orientation={this.state.orientation}/>}
+                            <div className="shipTitle">Submarine</div>
+                            {"SUBMARINE" in this.state.shipTypesPositioned ?
+                                <button onClick={() => this.removeShip("SUBMARINE")}
+                                        className="undo-pos">Undo</button> :
+                                <DragContainer shipType={"SUBMARINE"} length={3} orientation={this.state.orientation}/>}
+                            <div className="shipTitle">Battleship</div>
+                            {"BATTLESHIP" in this.state.shipTypesPositioned ?
+                                <button onClick={() => this.removeShip("BATTLESHIP")}
+                                        className="undo-pos">Undo</button> :
+                                <DragContainer shipType={"BATTLESHIP"} length={4}
+                                               orientation={this.state.orientation}/>}
+                            <div className="shipTitle">Carrier</div>
+                            {"CARRIER" in this.state.shipTypesPositioned ?
+                                <button onClick={() => this.removeShip("AIRCRAFT_CARRIER")} className="undo-pos">Undo</button> :
+                                <DragContainer shipType={"AIRCRAFT_CARRIER"} length={5} orientation={this.state.orientation}/>}
+                        </div>
                     </div>
-                    <div className="shipsToChoose">
-                        <div className="shipTitle">Patrol boat</div>
-                        {"PATROL_BOAT" in this.state.shipTypesPositioned?<button onClick={() => this.removeShip("PATROL_BOAT")} className="undo-pos">Undo</button>:<DragContainer shipType={"PATROL_BOAT"} length={2} orientation={this.state.orientation}/>}
-                        <div className="shipTitle">Destroyer</div>
-                        {"DESTROYER" in this.state.shipTypesPositioned?<button onClick={() => this.removeShip("DESTROYER")} className="undo-pos">Undo</button>:<DragContainer shipType={"DESTROYER"} length={3} orientation={this.state.orientation}/>}
-                        <div className="shipTitle">Submarine</div>
-                        {"SUBMARINE" in this.state.shipTypesPositioned?<button onClick={() => this.removeShip("SUBMARINE")} className="undo-pos">Undo</button>:<DragContainer shipType={"SUBMARINE"} length={3} orientation={this.state.orientation}/>}
-                        <div className="shipTitle">Battleship</div>
-                        {"BATTLESHIP" in this.state.shipTypesPositioned?<button onClick={() => this.removeShip("BATTLESHIP")} className="undo-pos">Undo</button>:<DragContainer shipType={"BATTLESHIP"} length={4} orientation={this.state.orientation}/>}
-                        <div className="shipTitle">Carrier</div>
-                        {"CARRIER" in this.state.shipTypesPositioned?<button onClick={() => this.removeShip("CARRIER")} className="undo-pos">Undo</button>:<DragContainer shipType={"CARRIER"} length={5} orientation={this.state.orientation}/>}
+                    <div className="submit-ships"><h4>When you're ready, submit your ships!</h4> <button onClick={this.handleSubmitShips}>Submit</button></div>
                     </div>
-                 </div>
+                }
             </div>
         );}
 

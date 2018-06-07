@@ -4,6 +4,8 @@ export default function reducer(state={
     mySalvoesArray: [],
     fetching: false,
     fetched: false,
+    placed: false,
+    placedResponse: null,
     failed: false,
     error: null,
     prov_array: [],
@@ -18,6 +20,8 @@ export default function reducer(state={
             return {...state, fetching: false, fetched: true, failed: true, gamePlayerResponse: action.shipsdata}
         } case "UPDATE_GRID_FULFILLED":{
             return {...state, prov_array: action.arraydata}
+        } case "PLACE_SHIPS_FULFILLED":{
+            return {...state, placed:true, placedResponse:action.placedata}
         }
     }
     return state;
