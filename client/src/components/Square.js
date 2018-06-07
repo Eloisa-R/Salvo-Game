@@ -31,6 +31,10 @@ const squareTarget = {
 
         if (props.positions.some(elem=> squareTarget.resultDrop.includes(elem))) {
             return false
+        }
+        else if (props.index === 0 || legalLetters.indexOf(props.letter) === -1) {
+             return false
+
         } else if (shipData.orientation === "horizontal" && ((props.index + shipData.length - 1) <= 10)) {
             return true
         } else if (shipData.orientation === "vertical" && (legalLetters.indexOf(props.letter) + shipData.length - 1) <= 9) {

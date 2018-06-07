@@ -12,9 +12,8 @@ class Grid extends React.Component{
     }
 
     generateRow(letter, index_key, ships_or_salvoes, prov_array){
-        let shipsArray = this.getShipslocation();
-        let salvoesArray = this.getSalvoesAndHitsLocation(this.props.playerId)
-        let hitsArray = this.getSalvoesAndHitsLocation(this.props.oponentId)
+        // let salvoesArray = this.getSalvoesAndHitsLocation(this.props.playerId)
+        // let hitsArray = this.getSalvoesAndHitsLocation(this.props.oponentId)
         let letterArray = ["Z","A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
         let value;
         let type;
@@ -39,24 +38,17 @@ class Grid extends React.Component{
         return letterArray.map((element, index) => this.generateRow(element, index, this.props.gridType, this.props.prov_array))
     }
 
-    getShipslocation(){
-        let shipsArray = [];
-        this.props.data.ships.forEach((element) => {
-            element.locations.forEach((location) => {shipsArray.push(location)})
-        })
-        return shipsArray;
-    }
 
-    getSalvoesAndHitsLocation(id){
-        let salvoesOrHitsDict = this.props.data.salvoes[id];
-        let salvoesOrHitsArray = [];
-        for (let key in salvoesOrHitsDict) {
-            salvoesOrHitsDict[key].forEach((element) => {
-                salvoesOrHitsArray.push([key, element])
-            })
-        }
-        return salvoesOrHitsArray;
-    }
+    // getSalvoesAndHitsLocation(id){
+    //     let salvoesOrHitsDict = this.props.data.salvoes[id];
+    //     let salvoesOrHitsArray = [];
+    //     for (let key in salvoesOrHitsDict) {
+    //         salvoesOrHitsDict[key].forEach((element) => {
+    //             salvoesOrHitsArray.push([key, element])
+    //         })
+    //     }
+    //     return salvoesOrHitsArray;
+    // }
 
 
     render() {

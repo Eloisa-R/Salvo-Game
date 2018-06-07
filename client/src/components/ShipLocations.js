@@ -17,6 +17,8 @@ const mapStateToProps = function(store) {
         shipsFetched: store.ships.fetched,
         gamePlayerResponse: store.ships.gamePlayerResponse,
         getShipsFailed: store.ships.failed,
+        allShipsArray: store.ships.allShipsArray,
+        mySalvoesArray: store.ships.mySalvoesArray,
     };
 };
 
@@ -31,16 +33,18 @@ const mapDispatchToProps = function (dispatch) {
 
 
 class ShipLocations extends React.Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
     this.state = {
+
         shipsPositions: [],
         shipTypesPositioned: {},
-        salvoPositions: ["A1", "A2", "A3", "F7", "E7"],
+        salvoPositions: [],
         orientation: "horizontal",
         hActive: true,
-        vActive: false
+        vActive: false,
     }
+
     this.handleSquareDrop = this.handleSquareDrop.bind(this);
     this.getOponentId = this.getOponentId.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
@@ -132,12 +136,13 @@ class ShipLocations extends React.Component{
                 </div>
 
                 <div className="gridContainer">
-                    <Grid data={this.props.gamePlayerResponse} title={"My Ships"} takenPositions={this.state.shipsPositions} gridType={"sh"} handleSquareDrop={this.handleSquareDrop} prov_array={this.prov_array} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
+                    <Grid data={this.props.gamePlayerResponse} title={"My Ships"} takenPositions={this.props.allShipsArray.length > 0? this.props.allShipsArray: this.state.shipsPositions} gridType={"sh"} handleSquareDrop={this.handleSquareDrop} prov_array={this.prov_array} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
 
-                    <Grid data={this.props.gamePlayerResponse} title={"Salvoes I Fired"} takenPositions={this.state.salvoPositions} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
+                    <Grid data={this.props.gamePlayerResponse} title={"Salvoes I Fired"} takenPositions={this.props.mySalvoesArray.length > 0? this.props.mySalvoesArray:this.state.salvoPositions} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
 
                 </div>
                  <div className="all-boats-cont">
+                     <h4>Drag and drop your ship!</h4>
                     <div className="orientation-btns">
                         <button onClick={() => this.handleOrientation("horizontal")} className={this.state.hActive ? 'orient-active': 'orient-inactive'}>Horizontal</button>
                         <button onClick={() => this.handleOrientation("vertical")} className={this.state.vActive ? 'orient-active': 'orient-inactive'}>Vertical</button>
