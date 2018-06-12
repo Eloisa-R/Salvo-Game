@@ -77,3 +77,14 @@ export function getMySalvoesLocation(id, data){
     }
     return mySalvoesArray;
 }
+
+export function getMySunkenShips(id, data){
+    let mySunkenShipsDict = data.salvoes.filter(ele => ele !== id)
+    let mySunkenArray = [];
+    for (let key in mySunkenShipsDict) {
+        mySunkenShipsDict[key].forEach((element) => {
+            mySunkenArray = mySunkenArray.concat(element)
+        })
+    }
+    return mySunkenArray;
+}
