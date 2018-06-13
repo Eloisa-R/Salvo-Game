@@ -8,26 +8,26 @@ export function fetchPlayers(){
             });
     }
 }
-
-export function addPlayer(inputFn, inputLn, inputE){
-    return function(dispatch){
-        fetch('http://localhost:8080/api/players', {
-            method: 'POST',
-            headers: {
-                'Access-Control-Allow-Origin':'*',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-            dataType: "json",
-            body: JSON.stringify({
-                firstName: inputFn,
-                lastName: inputLn,
-                userName: inputE,
-            })
-        }).then(response => response.ok === true)
-            .then((data) => {
-                dispatch({type: "ADD_PLAYER_FULFILLED"})
-            })
-    }
-}
+//
+// export function addPlayer(inputFn, inputLn, inputE){
+//     return function(dispatch){
+//         fetch('http://localhost:8080/api/players', {
+//             method: 'POST',
+//             headers: {
+//                 'Access-Control-Allow-Origin':'*',
+//                 'Accept': 'application/json',
+//                 'Content-Type': 'application/json',
+//             },
+//             credentials: 'include',
+//             dataType: "json",
+//             body: JSON.stringify({
+//                 firstName: inputFn,
+//                 lastName: inputLn,
+//                 userName: inputE,
+//             })
+//         }).then(response => response.ok === true)
+//             .then((data) => {
+//                 dispatch({type: "ADD_PLAYER_FULFILLED"})
+//             })
+//     }
+// }
