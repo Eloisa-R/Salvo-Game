@@ -234,9 +234,15 @@ form{
   background: red;
 }
 
-.undo-pos{
+.undo-pos, .undo-salvo{
   background-color: red;
   padding: 1%;
+  border: 0px;
+}
+
+.undo-salvo{
+  margin: 1%;
+  padding: 0.5%;
 }
 
 .bottom-div-boats{

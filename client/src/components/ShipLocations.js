@@ -3,11 +3,11 @@ import {connect} from 'react-redux';
 import {fetchShips} from "../actions/shipsAction";
 import {placeShips} from "../actions/shipsAction";
 import {updateGrid} from "../actions/shipsAction";
+import {fireSalvoes} from "../actions/shipsAction";
 import {logOut} from "../actions/loginAction";
 import Grid from "./Grid"
 import HTML5Backend from "react-dnd-html5-backend";
 import { DragDropContext } from 'react-dnd';
-import ShipPiece from "./ShipPiece";
 import DragContainer from "./DragContainer";
 
 
@@ -28,6 +28,7 @@ const mapDispatchToProps = function (dispatch) {
         fetchGamePlayer: (id) => {dispatch(fetchShips(id))},
         logOut: () => {dispatch(logOut())},
         placeShips: (gpID, shipList) => {dispatch(placeShips(gpID, shipList))},
+        fireSalvoes: (gpID, salvoesList) => {dispatch(fireSalvoes(gpID, salvoesList))},
         updateGrid: (provArray) => {dispatch(updateGrid(provArray))},
     };
 };
@@ -44,6 +45,7 @@ class ShipLocations extends React.Component{
         orientation: "horizontal",
         hActive: true,
         vActive: false,
+        turn: 0,
     }
 
     this.handleSquareDrop = this.handleSquareDrop.bind(this);
@@ -52,6 +54,9 @@ class ShipLocations extends React.Component{
     this.handleOrientation = this.handleOrientation.bind(this);
     this.removeShip = this.removeShip.bind(this);
     this.handleSubmitShips = this.handleSubmitShips.bind(this);
+    this.handleClickSalvo = this.handleClickSalvo.bind(this);
+    this.handleUndoSalvo = this.handleUndoSalvo.bind(this);
+    this.handleSubmitSalvo = this.handleSubmitSalvo.bind(this);
     }
 
 
@@ -119,6 +124,33 @@ class ShipLocations extends React.Component{
 
     }
 
+    handleClickSalvo(location){
+        const salvoLocations = this.state.salvoPositions.slice()
+        salvoLocations.push(location)
+        this.setState({salvoPositions:salvoLocations})
+    }
+
+    handleUndoSalvo(location){
+        const salvoLocations = this.state.salvoPositions.slice()
+        salvoLocations.splice(salvoLocations.indexOf(location), 1)
+        this.setState({salvoPositions:salvoLocations})
+    }
+
+    handleSubmitSalvo(){
+        let JSONsubmit = {};
+        let turn = this.state.turn;
+        let locations = this.state.salvoPositions;
+        if (locations.length > 0) {
+            JSONsubmit[turn + 1] = locations
+            this.props.fireSalvoes(this.props.match.params.id, JSONsubmit)
+            this.setState({turn: turn + 1})
+        } else {
+            console.log("No salvoes were fired!")
+        }
+
+
+    }
+
 
     componentWillMount(){
         this.props.fetchGamePlayer(this.props.match.params.id);
@@ -146,14 +178,20 @@ class ShipLocations extends React.Component{
                 </div>
 
                 <div className="gridContainer">
-                    <Grid data={this.props.gamePlayerResponse} title={"My Ships"} sunkenPositions={this.props.mySunkenArray} takenPositions={this.props.allShipsArray.length > 0? this.props.allShipsArray: this.state.shipsPositions} gridType={"sh"} handleSquareDrop={this.handleSquareDrop} prov_array={this.prov_array} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
+                    <Grid data={this.props.gamePlayerResponse} title={"My Ships"} sunkenPositions={this.props.mySunkenArray}
+                          takenPositions={this.props.allShipsArray.length > 0? this.props.allShipsArray: this.state.shipsPositions}
+                          gridType={"sh"} handleSquareDrop={this.handleSquareDrop} prov_array={this.prov_array} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
 
-                    {this.props.allShipsArray.length > 0 ?<Grid data={this.props.gamePlayerResponse} title={"Salvoes I Fired"} takenPositions={this.props.mySalvoesArray.length > 0? this.props.mySalvoesArray:this.state.salvoPositions} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>: <div></div>}
+                    {this.props.allShipsArray.length > 0 ?<Grid data={this.props.gamePlayerResponse} title={"Salvoes I Fired"} clickSalvo={this.handleClickSalvo} takenPositions={this.props.mySalvoesArray.length > 0? this.props.mySalvoesArray:this.state.salvoPositions} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>: <div></div>}
 
                 </div>
                 {this.props.allShipsArray.length > 0 ?
                     this.props.mySalvoesArray.length > 0 ?
-                        <div></div>: <div className="fire-salvoes-mss"><h4>Now Fire some Salvoes!</h4></div>
+                        <div></div>: <div className="fire-salvoes-mss"><h4>Now Fire some Salvoes!</h4>
+                            <div>Click on the squares to fire up to 5 times, then click Submit when you're ready!</div>
+                            <div>{this.state.salvoPositions.map(el => <button key={el} onClick={() => this.handleUndoSalvo(el)} className="undo-salvo">Undo {el}</button>)}</div>
+                            <button onClick={this.handleSubmitSalvo}>Submit</button>
+                        </div>
                     :<div className="bottom-div-boats">
                     <div className="all-boats-cont">
                         <h4>Drag and drop your ship!</h4>

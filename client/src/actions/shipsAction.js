@@ -54,6 +54,38 @@ export function placeShips(GPid, shipList){
     }
 }
 
+export function fireSalvoes(GPid, salvoesList){
+    return function (dispatch){
+        const body = JSON.stringify(salvoesList);
+        fetch('http://localhost:8080/api/games/players/' + GPid + '/salvoes',
+            {
+                method: 'POST',
+                body: body,
+                mode: 'cors',
+                headers: {
+                    'Accept': '*/*',
+                    "Content-type": "application/json; charset=UTF-8",
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                credentials: "include"
+            })
+            .then(response =>  {if (response.ok) {
+                console.log(response)
+                return response.data;
+            } else {
+                throw new Error('Something went wrong, request failed with status ' + response.status);
+            }
+            })
+            .then((data) => {
+
+                dispatch({type: "FIRE_SALVOES_FULFILLED", salvodata: data});
+                dispatch(fetchShips(GPid));
+            })
+            .catch(error => {console.log(error)});
+    }
+}
+
+
 export function updateGrid(arrayElement){
     return function (dispatch) {
         dispatch({type: "UPDATE_GRID_FULFILLED", arraydata:arrayElement});

@@ -12,8 +12,6 @@ class Grid extends React.Component{
     }
 
     generateRow(letter, index_key, ships_or_salvoes, prov_array){
-        // let salvoesArray = this.getSalvoesAndHitsLocation(this.props.playerId)
-        // let hitsArray = this.getSalvoesAndHitsLocation(this.props.oponentId)
         let letterArray = ["Z","A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
         let value;
         let type;
@@ -23,7 +21,7 @@ class Grid extends React.Component{
             value = (letter === "Z" && index !==0) ? index : (letter !== "Z" && index === 0) ? letter : "";
             let coordinates = letter + index;
 
-            return <Square key={index} sunkenPositions={this.props.sunkenPositions} handleSquareDrop={this.props.handleSquareDrop} id={ships_or_salvoes + "-"+ coordinates} positions={this.props.takenPositions} letter={letter} index={index} value={value} type={this.props.gridType}/>
+            return <Square key={index} clickSalvo={this.props.clickSalvo} sunkenPositions={this.props.sunkenPositions} handleSquareDrop={this.props.handleSquareDrop} id={ships_or_salvoes + "-"+ coordinates} positions={this.props.takenPositions} letter={letter} index={index} value={value} type={this.props.gridType}/>
         })
 
         return <div className="row" key={index_key}>{buttons}</div>
@@ -38,17 +36,6 @@ class Grid extends React.Component{
         return letterArray.map((element, index) => this.generateRow(element, index, this.props.gridType, this.props.prov_array))
     }
 
-
-    // getSalvoesAndHitsLocation(id){
-    //     let salvoesOrHitsDict = this.props.data.salvoes[id];
-    //     let salvoesOrHitsArray = [];
-    //     for (let key in salvoesOrHitsDict) {
-    //         salvoesOrHitsDict[key].forEach((element) => {
-    //             salvoesOrHitsArray.push([key, element])
-    //         })
-    //     }
-    //     return salvoesOrHitsArray;
-    // }
 
 
     render() {

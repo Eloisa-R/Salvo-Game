@@ -7,7 +7,9 @@ export default function reducer(state={
     fetched: false,
     placed: false,
     placedResponse: null,
+    salvoSubData: null,
     failed: false,
+    salvosSub: false,
     error: null,
     prov_array: [],
 },action) {
@@ -24,6 +26,8 @@ export default function reducer(state={
             return {...state, prov_array: action.arraydata}
         } case "PLACE_SHIPS_FULFILLED":{
             return {...state, placed:true, placedResponse:action.placedata}
+        } case "FIRE_SALVOES_FULFILLED":{
+            return {...state, salvosSub: true, salvoSubData:action.salvodata}
         }
     }
     return state;

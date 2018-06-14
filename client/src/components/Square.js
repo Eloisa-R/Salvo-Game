@@ -90,7 +90,7 @@ class Square extends React.Component{
         const { connectDropTarget, isOver, canDrop } = this.props;
         return connectDropTarget(
 
-            <button className={isOver? canDrop? "square green": "square red": "square"} id={this.props.id}>{this.piece()}</button>
+            <button className={isOver? canDrop? "square green": "square red": "square"} onClick={this.props.clickSalvo?() => this.props.clickSalvo(this.props.letter + this.props.index): (e) => e.preventDefault()} id={this.props.id}>{this.piece()}</button>
         );
     }
 }
