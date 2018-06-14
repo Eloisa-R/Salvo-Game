@@ -1,7 +1,12 @@
+html{
+  height: fit-content;
+}
+
 .App {
   text-align: center;
   margin-left: 10%;
   margin-right: 10%;
+  height: fit-content;
 }
 
 body{

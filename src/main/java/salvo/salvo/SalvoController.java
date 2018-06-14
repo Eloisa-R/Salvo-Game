@@ -26,6 +26,8 @@ public class SalvoController {
     private PlayerRepository playerRepository;
     @Autowired
     private ShipRepository shipRepository;
+    @Autowired
+    private SalvoRepository salvoRepository;
 
     public SalvoController() {}
 
@@ -182,6 +184,34 @@ public class SalvoController {
                 }
                 return new ResponseEntity<>(makeMap("success", "ships added successfully"), HttpStatus.CREATED);
             }
+    }
+
+    @RequestMapping(
+            value="/games/players/{gamePlayerId}/salvoes",
+            method = RequestMethod.POST)
+    public ResponseEntity<Map <String, Object>> fireSalvoes(Authentication authentication, @RequestBody Map<Integer,List<String>> salvoesObj, @PathVariable long gamePlayerId){
+        GamePlayer selectedGP = gamePlayerRepository.findById(gamePlayerId);
+        Set<Salvo> sGPSalvoes = selectedGP.getSalvoes();
+        Integer turnTaken = salvoesObj.keySet().stream().findFirst().get();
+        List<String> locationsFired = salvoesObj.get(turnTaken);
+        Boolean turnAlreadyTaken =false;
+        for (Salvo s: sGPSalvoes) {
+            turnAlreadyTaken = turnTaken == s.getTurnNumber()? true:false;
+            }
+        if (authentication == null) {
+            return new ResponseEntity<>(makeMap("error", "Login required"), HttpStatus.UNAUTHORIZED);
+        } else if (selectedGP == null) {
+            return new ResponseEntity<>(makeMap("error", "Game Player ID doesn't exist"), HttpStatus.UNAUTHORIZED);
+        } else if (selectedGP.getGamePlayer().getId() != playerRepository.findByUserName(authentication.getName()).getId()) {
+            return new ResponseEntity<>(makeMap("error", "Incorrect user for this Game Player"), HttpStatus.UNAUTHORIZED);
+        } else if (turnAlreadyTaken) {
+            return new ResponseEntity<>(makeMap("error", "You've already fired salvoes this turn"), HttpStatus.FORBIDDEN);
+        } else {
+            Salvo newSalvo = new Salvo(selectedGP, turnTaken, locationsFired);
+            salvoRepository.save(newSalvo);
+            return new ResponseEntity<>(makeMap("success", "Salvo correctly saved"), HttpStatus.CREATED);
+        }
+
     }
 
 

@@ -14,7 +14,7 @@ public class Salvo {
     @JoinColumn(name="gameplayer")
     private GamePlayer relatedGamePlayer;
 
-    private int turnNumber;
+    private Integer turnNumber;
 
     @ElementCollection
     @Column(name="salvoLocations")

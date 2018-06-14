@@ -19,9 +19,7 @@ export function fetchShips(id){
                 let mySunkenArray = getMySunkenShips(id, data);
                 dispatch({type: "FETCH_SHIPS_FULFILLED", shipsdata:data, allShips:allShipArray, mySalvoesArray:mySalvoesArray, mySunkenArray:mySunkenArray})
             })
-            // .catch(error => dispatch({type: "FETCH_SHIPS_REJECTED", shipsdata: "error"}
-            //     console.log(response)
-            // ));
+            .catch(error => dispatch({type: "FETCH_SHIPS_REJECTED", shipsdata: "error"}));
         ;
     }
 }

@@ -80,11 +80,16 @@ class ShipLocations extends React.Component{
 
     handleSubmitShips(){
         let JSONsubmit = [];
-        for (let key in this.state.shipTypesPositioned) {
-            JSONsubmit.push({"type": key, "locations": this.state.shipTypesPositioned[key]})
-        }
+        if (Object.keys(this.state.shipTypesPositioned).length >0) {
+            for (let key in this.state.shipTypesPositioned) {
+                JSONsubmit.push({"type": key, "locations": this.state.shipTypesPositioned[key]})
+            }
 
-        this.props.placeShips(this.props.match.params.id, JSONsubmit)
+            this.props.placeShips(this.props.match.params.id, JSONsubmit)
+
+        } else {
+            console.log("No ships placed!")
+        }
     }
 
     handleLogOut(){
