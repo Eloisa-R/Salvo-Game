@@ -16,9 +16,12 @@ export function fetchShips(id){
             .then((data) => {
                 let allShipArray = getAPIShipsinOne(data);
                 let mySalvoesArray = getMySalvoesLocation(id,data);
-                dispatch({type: "FETCH_SHIPS_FULFILLED", shipsdata:data, allShips:allShipArray, mySalvoesArray:mySalvoesArray})
+                let mySunkenArray = getMySunkenShips(id, data);
+                dispatch({type: "FETCH_SHIPS_FULFILLED", shipsdata:data, allShips:allShipArray, mySalvoesArray:mySalvoesArray, mySunkenArray:mySunkenArray})
             })
-            .catch(error => dispatch({type: "FETCH_SHIPS_REJECTED", shipsdata: "error"}));
+            // .catch(error => dispatch({type: "FETCH_SHIPS_REJECTED", shipsdata: "error"}
+            //     console.log(response)
+            // ));
         ;
     }
 }
@@ -79,7 +82,13 @@ export function getMySalvoesLocation(id, data){
 }
 
 export function getMySunkenShips(id, data){
-    let mySunkenShipsDict = data.salvoes.filter(ele => ele !== id)
+    var mySunkenShipsDict;
+
+    for (let key in data.salvoes) {
+        if (key != id) {
+            mySunkenShipsDict = data.salvoes[key]
+        }
+    }
     let mySunkenArray = [];
     for (let key in mySunkenShipsDict) {
         mySunkenShipsDict[key].forEach((element) => {

@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -16,19 +17,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SalvoControllerTest {
+
     private MockMvc mockMvc;
 
-//    @InjectMocks
-//    private SalvoController salvoController;
+    @InjectMocks
+    private SalvoController salvoController;
 
     @Before
     public void setUp() throws  Exception{
-        final SalvoController salvoController = new SalvoController();
+        MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(salvoController).build();
     }
 
+
+
     @Test
-    public void createNewPlayer() throws  Exception{
+    public void createNewPlayerTest() throws  Exception{
+    System.out.println(mockMvc);
         String inputUser = "paco@test.com";
         String inputFN = "Paco";
         String inputLN = "Test";

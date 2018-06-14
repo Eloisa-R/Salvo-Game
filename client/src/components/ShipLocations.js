@@ -19,6 +19,7 @@ const mapStateToProps = function(store) {
         getShipsFailed: store.ships.failed,
         allShipsArray: store.ships.allShipsArray,
         mySalvoesArray: store.ships.mySalvoesArray,
+        mySunkenArray: store.ships.mySunkenArray,
     };
 };
 
@@ -140,7 +141,7 @@ class ShipLocations extends React.Component{
                 </div>
 
                 <div className="gridContainer">
-                    <Grid data={this.props.gamePlayerResponse} title={"My Ships"} takenPositions={this.props.allShipsArray.length > 0? this.props.allShipsArray: this.state.shipsPositions} gridType={"sh"} handleSquareDrop={this.handleSquareDrop} prov_array={this.prov_array} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
+                    <Grid data={this.props.gamePlayerResponse} title={"My Ships"} sunkenPositions={this.props.mySunkenArray} takenPositions={this.props.allShipsArray.length > 0? this.props.allShipsArray: this.state.shipsPositions} gridType={"sh"} handleSquareDrop={this.handleSquareDrop} prov_array={this.prov_array} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
 
                     {this.props.allShipsArray.length > 0 ?<Grid data={this.props.gamePlayerResponse} title={"Salvoes I Fired"} takenPositions={this.props.mySalvoesArray.length > 0? this.props.mySalvoesArray:this.state.salvoPositions} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>: <div></div>}
 
@@ -183,7 +184,7 @@ class ShipLocations extends React.Component{
                                 <DragContainer shipType={"BATTLESHIP"} length={4}
                                                orientation={this.state.orientation}/>}
                             <div className="shipTitle">Carrier</div>
-                            {"CARRIER" in this.state.shipTypesPositioned ?
+                            {"AIRCRAFT_CARRIER" in this.state.shipTypesPositioned ?
                                 <button onClick={() => this.removeShip("AIRCRAFT_CARRIER")} className="undo-pos">Undo</button> :
                                 <DragContainer shipType={"AIRCRAFT_CARRIER"} length={5} orientation={this.state.orientation}/>}
                         </div>

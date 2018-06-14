@@ -69,6 +69,8 @@ class Square extends React.Component{
     piece() {
          if (this.props.value !== "") {
              return this.props.value
+         } else if (this.props.type === "sh" && this.props.sunkenPositions.includes(this.props.letter + this.props.index) && this.props.positions.includes(this.props.letter + this.props.index)) {
+             return <Salvo/>
          } else if (this.props.type === "sh" && this.props.positions.includes(this.props.letter + this.props.index)) {
              return <ShipPiece/>
          } else if (this.props.type === "sa" && this.props.positions.includes(this.props.letter + this.props.index)) {
