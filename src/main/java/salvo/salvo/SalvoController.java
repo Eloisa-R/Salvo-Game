@@ -114,6 +114,23 @@ public class SalvoController {
         return salvoesShipMap;
     }
 
+    private Map<String, Object> getSunkenShipsOponent(GamePlayer playerGP, GamePlayer oponentGP){
+        Map<String, Object> sunkenShipsMap = new HashMap<>();
+        Set<Ship> oponentShips = oponentGP.getShips();
+        Set<Salvo> playerSalvoes = playerGP.getSalvoes();
+        List<String> allSalvoLocations = new ArrayList<>();
+        for (Salvo salvo: playerSalvoes) {
+           allSalvoLocations.addAll(salvo.getSalvoLocations());
+       }
+       for (Ship ship: oponentShips) {
+           if (allSalvoLocations.containsAll(ship.getLocations())) {
+               sunkenShipsMap.put(String.valueOf(ship.getType()), ship.getLocations());
+           }
+       }
+
+        return sunkenShipsMap;
+    }
+
     private Map<String, Object> makeMap(String key, Object value) {
         Map<String, Object> map = new HashMap<>();
         map.put(key, value);
@@ -262,6 +279,7 @@ public class SalvoController {
             gamePlayerdata.put("ships", selectedGP.get().getShips());
             gamePlayerdata.put("salvoes", getSalvoesforAll(gamePlayers));
             gamePlayerdata.put( "successful_hits",getHitsOnOpponent(selectedGP.get(), oponentGP));
+            gamePlayerdata.put("oponent_sunken_ships", getSunkenShipsOponent(selectedGP.get(), oponentGP));
 
             return new ResponseEntity<>(gamePlayerdata, HttpStatus.OK);
         } else{
