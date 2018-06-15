@@ -39,7 +39,6 @@ export function placeShips(GPid, shipList){
         credentials: "include"
         })
         .then(response =>  {if (response.ok) {
-            console.log(response)
             return response.data;
         } else {
             throw new Error('Something went wrong, request failed with status ' + response.status);
