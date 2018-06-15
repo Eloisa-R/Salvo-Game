@@ -97,6 +97,23 @@ public class SalvoController {
         return ScoreInfo;
     }
 
+    private Map<String, Object> getHitsOnOpponent(GamePlayer playerGP, GamePlayer oponentGP){
+        Map<String, Object> salvoesShipMap = new HashMap<>();
+        Set<Ship> oponentShips = oponentGP.getShips();
+        Set<Salvo> playerSalvoes = playerGP.getSalvoes();
+        List<String> allLocations = new ArrayList<>();
+        for (Ship ship : oponentShips) {
+            allLocations.addAll(ship.getLocations());
+        }
+
+        for (Salvo salvo: playerSalvoes) {
+            List<String> common = new ArrayList<>(allLocations);
+            common.retainAll(salvo.getSalvoLocations());
+            salvoesShipMap.put(String.valueOf(salvo.getTurnNumber()), common);
+        }
+        return salvoesShipMap;
+    }
+
     private Map<String, Object> makeMap(String key, Object value) {
         Map<String, Object> map = new HashMap<>();
         map.put(key, value);
@@ -234,10 +251,17 @@ public class SalvoController {
                 return new ResponseEntity<>(makeMap("error", "Game Player ID doesn't exist"), HttpStatus.UNAUTHORIZED);
             }
 
+            GamePlayer oponentGP = null;
+            for (GamePlayer gp : gamePlayers) {
+                if (!gp.equals(selectedGP.get())) {
+                    oponentGP = gp;
+                }
+            }
 
             Map<String, Object> gamePlayerdata = GameToDTO(selectedGP.get().getGameEntry());
             gamePlayerdata.put("ships", selectedGP.get().getShips());
             gamePlayerdata.put("salvoes", getSalvoesforAll(gamePlayers));
+            gamePlayerdata.put( "successful_hits",getHitsOnOpponent(selectedGP.get(), oponentGP));
 
             return new ResponseEntity<>(gamePlayerdata, HttpStatus.OK);
         } else{
