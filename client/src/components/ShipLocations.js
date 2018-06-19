@@ -45,7 +45,7 @@ class ShipLocations extends React.Component{
         orientation: "horizontal",
         hActive: true,
         vActive: false,
-        turn: 0,
+        turn: 0
     }
 
     this.handleSquareDrop = this.handleSquareDrop.bind(this);
@@ -57,6 +57,8 @@ class ShipLocations extends React.Component{
     this.handleClickSalvo = this.handleClickSalvo.bind(this);
     this.handleUndoSalvo = this.handleUndoSalvo.bind(this);
     this.handleSubmitSalvo = this.handleSubmitSalvo.bind(this);
+    this.showHits = this.showHits.bind(this);
+    this.showSunkenShips = this.showSunkenShips.bind(this);
     }
 
 
@@ -153,8 +155,29 @@ class ShipLocations extends React.Component{
         }
     }
 
+    showHits() {
+        let resultDict = {};
+        let hits = this.props.gamePlayerResponse.successful_hits;
+        for (let key in hits) {
+            for (let shipKey in hits[key]) {
+                resultDict[shipKey] = resultDict[shipKey]? resultDict[shipKey] + hits[key][shipKey] : hits[key][shipKey]
+            }
+        }
 
-    componentWillMount(){
+        let results = Object.keys(resultDict).map(element => <li key={element}>{element}: {resultDict[element]}</li>)
+        return <ul>{results}</ul>
+    }
+
+    showSunkenShips(){
+        let sunken = this.props.gamePlayerResponse.oponent_sunken_ships;
+        let sunkBoats = Object.keys(sunken);
+        let sunkList = sunkBoats.map(element => <li key={element}> {element}</li>)
+
+        return <ul>{sunkList}</ul>
+    }
+
+
+    componentDidMount(){
         this.props.fetchGamePlayer(this.props.match.params.id);
     }
 
@@ -169,14 +192,16 @@ class ShipLocations extends React.Component{
             <div className="main-ships-container">
                 <div className="ships-data">
                     <div>
-                        <h3>Ship Locations!</h3>
                         <div>Hello, player {this.getPlayeremail()}</div>
                         <div>Your oponent is {this.getOponentemail()}</div>
-                        {this.props.gamePlayerResponse.ships.map((ship, index) =>
-                            <div key={index}>{ship.type}, {ship.locations}</div>
-                        )}
+                        {/*{this.props.gamePlayerResponse.ships.map((ship, index) =>*/}
+                            {/*<div key={index}>{ship.type}, {ship.locations}</div>*/}
+                        {/*)}*/}
+                        <div className="logout-btn"><button onClick={this.handleLogOut}>Log Out</button></div>
                     </div>
-                    <div className="logout-btn"><button onClick={this.handleLogOut}>Log Out</button></div>
+
+                    <div>Oponent hit boats: {this.showHits()}</div>
+                    <div>Oponent sunk ships: {this.showSunkenShips()}</div>
                 </div>
 
                 <div className="gridContainer">

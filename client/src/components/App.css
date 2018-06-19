@@ -173,7 +173,7 @@ form{
 .ships-data{
   margin-top: 2%;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 .logout{
