@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -97,38 +98,64 @@ public class SalvoController {
         return ScoreInfo;
     }
 
-    private Map<String, Object> getHitsOnOpponent(GamePlayer playerGP, GamePlayer oponentGP){
-        Map<String, Object> salvoesShipMap = new HashMap<>();
-        Set<Ship> oponentShips = oponentGP.getShips();
-        Set<Salvo> playerSalvoes = playerGP.getSalvoes();
-        List<String> allLocations = new ArrayList<>();
-        for (Ship ship : oponentShips) {
-            allLocations.addAll(ship.getLocations());
+    private Map<String, Map<Ship.ShipType,Integer>> getHitsOnOpponent(GamePlayer playerGP, GamePlayer oponentGP){
+        Map<String, Map<Ship.ShipType,Integer>> salvoesShipMap = new HashMap<>();
+        if (oponentGP == null) {
+            return salvoesShipMap;
+        } else {
+            Set<Ship> oponentShips = oponentGP.getShips();
+            Set<Salvo> playerSalvoes = playerGP.getSalvoes();
+
+            for (Salvo salvo: playerSalvoes) {
+                Map<Ship.ShipType, Integer> allShipsData = new HashMap<>();
+                for (Ship ship: oponentShips) {
+                    List<String> common = new ArrayList<>(ship.getLocations());
+                    common.retainAll(salvo.getSalvoLocations());
+                    allShipsData.put(ship.getType(), common.size());
+
+                }
+                salvoesShipMap.put(String.valueOf(salvo.getTurnNumber()),allShipsData);
+            }
+
+
+            return salvoesShipMap;
         }
 
-        for (Salvo salvo: playerSalvoes) {
-            List<String> common = new ArrayList<>(allLocations);
-            common.retainAll(salvo.getSalvoLocations());
-            salvoesShipMap.put(String.valueOf(salvo.getTurnNumber()), common);
-        }
-        return salvoesShipMap;
     }
 
-    private Map<String, Object> getSunkenShipsOponent(GamePlayer playerGP, GamePlayer oponentGP){
-        Map<String, Object> sunkenShipsMap = new HashMap<>();
-        Set<Ship> oponentShips = oponentGP.getShips();
-        Set<Salvo> playerSalvoes = playerGP.getSalvoes();
-        List<String> allSalvoLocations = new ArrayList<>();
-        for (Salvo salvo: playerSalvoes) {
-           allSalvoLocations.addAll(salvo.getSalvoLocations());
-       }
-       for (Ship ship: oponentShips) {
-           if (allSalvoLocations.containsAll(ship.getLocations())) {
-               sunkenShipsMap.put(String.valueOf(ship.getType()), ship.getLocations());
-           }
-       }
+    private Map<Ship.ShipType, Object> getSunkenShipsOponent(GamePlayer oponentGP,  Map<String, Map<Ship.ShipType,Integer>> hitsMap){
+        Map<Ship.ShipType, Object> sunkenShipsMap = new HashMap<>();
+        Map<Ship.ShipType, Integer> ShipTypeLimit= new HashMap<>();
+        ShipTypeLimit.put(Ship.ShipType.AIRCRAFT_CARRIER, 5);
+        ShipTypeLimit.put(Ship.ShipType.BATTLESHIP,4);
+        ShipTypeLimit.put(Ship.ShipType.SUBMARINE, 3);
+        ShipTypeLimit.put(Ship.ShipType.DESTROYER, 3);
+        ShipTypeLimit.put(Ship.ShipType.PATROL_BOAT, 2);
 
-        return sunkenShipsMap;
+        Map<Ship.ShipType, Integer> ShipTypeCounter= new HashMap<>();
+        ShipTypeCounter.put(Ship.ShipType.AIRCRAFT_CARRIER, 0);
+        ShipTypeCounter.put(Ship.ShipType.BATTLESHIP,0);
+        ShipTypeCounter.put(Ship.ShipType.SUBMARINE, 0);
+        ShipTypeCounter.put(Ship.ShipType.DESTROYER, 0);
+        ShipTypeCounter.put(Ship.ShipType.PATROL_BOAT, 0);
+
+        if (oponentGP == null) {
+            return sunkenShipsMap;
+        } else {
+
+            for (String key: hitsMap.keySet()) {
+                Map<Ship.ShipType, Integer> shipMap = hitsMap.get(key);
+                for (Ship.ShipType shipKey: shipMap.keySet()) {
+                    ShipTypeCounter.put(shipKey, ShipTypeCounter.get(shipKey) + shipMap.get(shipKey));
+                    if (ShipTypeCounter.get(shipKey).equals(ShipTypeLimit.get(shipKey))) {
+                        sunkenShipsMap.put(shipKey, key);
+                    }
+                }
+            }
+
+            return sunkenShipsMap;
+        }
+
     }
 
     private Map<String, Object> makeMap(String key, Object value) {
@@ -279,7 +306,7 @@ public class SalvoController {
             gamePlayerdata.put("ships", selectedGP.get().getShips());
             gamePlayerdata.put("salvoes", getSalvoesforAll(gamePlayers));
             gamePlayerdata.put( "successful_hits",getHitsOnOpponent(selectedGP.get(), oponentGP));
-            gamePlayerdata.put("oponent_sunken_ships", getSunkenShipsOponent(selectedGP.get(), oponentGP));
+            gamePlayerdata.put("oponent_sunken_ships", getSunkenShipsOponent(selectedGP.get(), getHitsOnOpponent(selectedGP.get(), oponentGP)));
 
             return new ResponseEntity<>(gamePlayerdata, HttpStatus.OK);
         } else{
