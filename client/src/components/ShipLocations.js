@@ -200,7 +200,7 @@ class ShipLocations extends React.Component{
                         <div className="logout-btn"><button onClick={this.handleLogOut}>Log Out</button></div>
                     </div>
 
-                    <div>Oponent hit boats: {this.showHits()}</div>
+                    <div>Oponent got hits on the following ships: {this.showHits()}</div>
                     <div>Oponent sunk ships: {this.showSunkenShips()}</div>
                 </div>
 
