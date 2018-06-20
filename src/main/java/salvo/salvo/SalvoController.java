@@ -283,7 +283,6 @@ public class SalvoController {
                                                                                             .stream()
                                                                                             .map(gp -> gp.getId())
                                                                                             .collect(toList());
-
         if (gPperUser.contains(gamePlayerId)) {
             Optional<GamePlayer> selectedGP = gamePlayerRepository.findAll().stream()
                     .filter(gp -> gp.getId() == gamePlayerId)
@@ -295,6 +294,7 @@ public class SalvoController {
                 return new ResponseEntity<>(makeMap("error", "Game Player ID doesn't exist"), HttpStatus.UNAUTHORIZED);
             }
 
+            Map<String, Object> gamePlayerdata = GameToDTO(selectedGP.get().getGameEntry());
             GamePlayer oponentGP = null;
             for (GamePlayer gp : gamePlayers) {
                 if (!gp.equals(selectedGP.get())) {
@@ -302,7 +302,23 @@ public class SalvoController {
                 }
             }
 
-            Map<String, Object> gamePlayerdata = GameToDTO(selectedGP.get().getGameEntry());
+
+            if (oponentGP != null) {
+                if(selectedGP.get().getShips().size() == 0 && oponentGP.getShips().size() == 0) {
+                    gamePlayerdata.put("status", "20");
+                }
+                else if (selectedGP.get().getShips().size() > 0 && oponentGP.getShips().size() == 0) {
+                    gamePlayerdata.put("status", "30");
+                } else if (selectedGP.get().getShips().size() == 0 && oponentGP.getShips().size() > 0) {
+                    gamePlayerdata.put("status", "40");
+                } else if (selectedGP.get().getShips().size() > 0 && oponentGP.getShips().size() > 0) {
+                    gamePlayerdata.put("status", "50");
+                }
+            } else {
+                gamePlayerdata.put("status", "10");
+            }
+
+
             gamePlayerdata.put("ships", selectedGP.get().getShips());
             gamePlayerdata.put("salvoes", getSalvoesforAll(gamePlayers));
             gamePlayerdata.put( "successful_hits",getHitsOnOpponent(selectedGP.get(), oponentGP));
