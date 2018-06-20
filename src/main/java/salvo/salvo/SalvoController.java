@@ -308,14 +308,19 @@ public class SalvoController {
                     gamePlayerdata.put("status", "20");
                 }
                 else if (selectedGP.get().getShips().size() > 0 && oponentGP.getShips().size() == 0) {
-                    gamePlayerdata.put("status", "30");
-                } else if (selectedGP.get().getShips().size() == 0 && oponentGP.getShips().size() > 0) {
                     gamePlayerdata.put("status", "40");
-                } else if (selectedGP.get().getShips().size() > 0 && oponentGP.getShips().size() > 0) {
+                } else if (selectedGP.get().getShips().size() == 0 && oponentGP.getShips().size() > 0) {
                     gamePlayerdata.put("status", "50");
+                } else if (selectedGP.get().getShips().size() > 0 && oponentGP.getShips().size() > 0) {
+                    gamePlayerdata.put("status", "60");
                 }
             } else {
-                gamePlayerdata.put("status", "10");
+                if (selectedGP.get().getShips().size() > 0) {
+                    gamePlayerdata.put("status", "30");
+                } else {
+                    gamePlayerdata.put("status", "10");
+                }
+
             }
 
 
