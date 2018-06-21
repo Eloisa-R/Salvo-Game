@@ -197,9 +197,6 @@ class ShipLocations extends React.Component{
                     <div>
                         <div>Hello, player {this.getPlayeremail()}</div>
                         <div>Your oponent is {this.getOponentemail()}</div>
-                        {/*{this.props.gamePlayerResponse.ships.map((ship, index) =>*/}
-                            {/*<div key={index}>{ship.type}, {ship.locations}</div>*/}
-                        {/*)}*/}
                         <div className="logout-btn"><button onClick={this.handleLogOut}>Log Out</button></div>
                     </div>
 
@@ -217,7 +214,8 @@ class ShipLocations extends React.Component{
                                         shipTypesPositioned={this.state.shipTypesPositioned} removeShip={this.removeShip} orientation={this.state.orientation}
                                         handleSubmitShips={this.handleSubmitShips}/>
                         </div>
-                        : this.props.gamePlayerResponse.status == 30 || this.props.gamePlayerResponse.status == 40 || this.props.gamePlayerResponse.status == 70? <div>Wait for the oponent</div> : this.props.gamePlayerResponse.status == 60?
+                        : this.props.gamePlayerResponse.status == 30 || this.props.gamePlayerResponse.status == 40 || this.props.gamePlayerResponse.status == 70? <div>Wait for the oponent</div>
+                            : this.props.gamePlayerResponse.status == 60?
                             <FireSalvoes salvoPositions={this.state.salvoPositions} gamePlayerResponse={this.props.gamePlayerResponse} handleUndoSalvo={this.handleUndoSalvo}
                                          handleSubmitSalvo={this.handleSubmitSalvo} handleClickSalvo={this.handleClickSalvo}
                                          takenPositions={this.props.mySalvoesArray.length > 0? this.props.mySalvoesArray: Array.from(this.state.salvoPositions)} gridType={"sa"}

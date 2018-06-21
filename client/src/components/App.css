@@ -254,6 +254,19 @@ form{
   padding-left: 5%;
 }
 
-.fire-salvoes-mss{
-  padding: 10%;
+.fire-salvoes {
+  display: flex;
+  justify-content: space-around;
+
+}
+
+.fire-salvoes > button {
+  height: fit-content;
+  width: fit-content;
+  margin-left: 5%;
+}
+
+.gridContainer > div{
+  width: 100%;
+  height: 100%;
 }
