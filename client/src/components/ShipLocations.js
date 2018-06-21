@@ -11,6 +11,7 @@ import { DragDropContext } from 'react-dnd';
 import DragContainer from "./DragContainer";
 import ShipPlacement from "./ShipPlacement"
 import FireSalvoes from "./FireSalvoes"
+import Results from "./Results"
 
 
 
@@ -210,17 +211,22 @@ class ShipLocations extends React.Component{
                     {this.props.gamePlayerResponse.status == 10 || this.props.gamePlayerResponse.status ==20 || this.props.gamePlayerResponse.status == 50?
                         <div>
                         <ShipPlacement gamePlayerResponse={this.props.gamePlayerResponse} title={"My Ships"} mySunkenArray={this.props.mySunkenArray}
-                                        takenPositions={this.props.allShipsArray.length > 0? this.props.allShipsArray: this.state.shipsPositions}
+                                        takenPositions={this.state.shipsPositions}
                                         gridType={"sh"} handleSquareDrop={this.handleSquareDrop} prov_array={this.prov_array} playerId={this.props.match.params.id}
                                         oponentId={this.getOponentId()} handleOrientation={this.handleOrientation} hActive={this.state.hActive} vActive={this.state.vActive}
                                         shipTypesPositioned={this.state.shipTypesPositioned} removeShip={this.removeShip} orientation={this.state.orientation}
                                         handleSubmitShips={this.handleSubmitShips}/>
                         </div>
-                        : this.props.gamePlayerResponse.status == 30 || this.props.gamePlayerResponse.status == 40? <div>Wait for the oponent</div> : this.props.gamePlayerResponse.status == 60?
+                        : this.props.gamePlayerResponse.status == 30 || this.props.gamePlayerResponse.status == 40 || this.props.gamePlayerResponse.status == 70? <div>Wait for the oponent</div> : this.props.gamePlayerResponse.status == 60?
                             <FireSalvoes salvoPositions={this.state.salvoPositions} gamePlayerResponse={this.props.gamePlayerResponse} handleUndoSalvo={this.handleUndoSalvo}
                                          handleSubmitSalvo={this.handleSubmitSalvo} handleClickSalvo={this.handleClickSalvo}
                                          takenPositions={this.props.mySalvoesArray.length > 0? this.props.mySalvoesArray: Array.from(this.state.salvoPositions)} gridType={"sa"}
-                            /> : <div></div>
+                            /> : this.props.gamePlayerResponse.status == 80?
+                                <div>
+                                    <Results data={this.props.gamePlayerResponse} sunkenPositions={this.props.mySunkenArray}
+                                             allShipsArray={this.props.allShipsArray} mySalvoesArray={this.props.mySalvoesArray}/>
+                                </div>
+                                : <div></div>
 
                     }
 
