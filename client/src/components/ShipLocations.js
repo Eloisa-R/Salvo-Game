@@ -9,6 +9,7 @@ import Grid from "./Grid"
 import HTML5Backend from "react-dnd-html5-backend";
 import { DragDropContext } from 'react-dnd';
 import DragContainer from "./DragContainer";
+import ShipPlacement from "./ShipPlacement"
 
 
 
@@ -205,63 +206,33 @@ class ShipLocations extends React.Component{
                 </div>
 
                 <div className="gridContainer">
-                    <Grid data={this.props.gamePlayerResponse} title={"My Ships"} sunkenPositions={this.props.mySunkenArray}
-                          takenPositions={this.props.allShipsArray.length > 0? this.props.allShipsArray: this.state.shipsPositions}
-                          gridType={"sh"} handleSquareDrop={this.handleSquareDrop} prov_array={this.prov_array} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>
+                    {this.props.gamePlayerResponse.status == 10 || this.props.gamePlayerResponse.status ==20 || this.props.gamePlayerResponse.status == 50?
+                        <div>
+                        <ShipPlacement gamePlayerResponse={this.props.gamePlayerResponse} title={"My Ships"} mySunkenArray={this.props.mySunkenArray}
+                                        takenPositions={this.props.allShipsArray.length > 0? this.props.allShipsArray: this.state.shipsPositions}
+                                        gridType={"sh"} handleSquareDrop={this.handleSquareDrop} prov_array={this.prov_array} playerId={this.props.match.params.id}
+                                        oponentId={this.getOponentId()} handleOrientation={this.handleOrientation} hActive={this.state.hActive} vActive={this.state.vActive}
+                                        shipTypesPositioned={this.state.shipTypesPositioned} removeShip={this.removeShip} orientation={this.state.orientation}
+                                        handleSubmitShips={this.handleSubmitShips}/>
+                        </div>
+                        : this.props.gamePlayerResponse.status == 30 || this.props.gamePlayerResponse.status == 40? <div>Wait for the oponent</div> : this.props.gamePlayerResponse.status == 60?
+                            <div>Fire Salvoes, dammit!</div> : <div></div>
 
-                    {this.props.allShipsArray.length > 0 ?<Grid data={this.props.gamePlayerResponse} title={"Salvoes I Fired"} clickSalvo={this.handleClickSalvo} takenPositions={this.props.mySalvoesArray.length > 0? this.props.mySalvoesArray: Array.from(this.state.salvoPositions)} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>: <div></div>}
+                    }
+
+
+                    {/*{this.props.allShipsArray.length > 0 ?<Grid data={this.props.gamePlayerResponse} title={"Salvoes I Fired"} clickSalvo={this.handleClickSalvo} takenPositions={this.props.mySalvoesArray.length > 0? this.props.mySalvoesArray: Array.from(this.state.salvoPositions)} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>: <div></div>}*/}
 
                 </div>
-                {this.props.allShipsArray.length > 0 ?
-                    this.props.mySalvoesArray.length > 0 ?
-                        <div></div>: <div className="fire-salvoes-mss"><h4>Now Fire some Salvoes!</h4>
-                            <div>Click on the squares to fire up to 5 times, then click Submit when you're ready!</div>
-                            <div>{Array.from(this.state.salvoPositions).map(el => <button key={el} onClick={() => this.handleUndoSalvo(el)} className="undo-salvo">Undo {el}</button>)}</div>
-                            <button onClick={this.handleSubmitSalvo}>Submit</button>
-                        </div>
-                    :<div className="bottom-div-boats">
-                    <div className="all-boats-cont">
-                        <h4>Drag and drop your ship!</h4>
-                        <div className="orientation-btns">
-                            <button onClick={() => this.handleOrientation("horizontal")}
-                                    className={this.state.hActive ? 'orient-active' : 'orient-inactive'}>Horizontal
-                            </button>
-                            <button onClick={() => this.handleOrientation("vertical")}
-                                    className={this.state.vActive ? 'orient-active' : 'orient-inactive'}>Vertical
-                            </button>
-                        </div>
-                        <div className="shipsToChoose">
-                            <div className="shipTitle">Patrol boat</div>
-                            {"PATROL_BOAT" in this.state.shipTypesPositioned ?
-                                <button onClick={() => this.removeShip("PATROL_BOAT")}
-                                        className="undo-pos">Undo</button> :
-                                <DragContainer shipType={"PATROL_BOAT"} length={2}
-                                               orientation={this.state.orientation}/>}
-                            <div className="shipTitle">Destroyer</div>
-                            {"DESTROYER" in this.state.shipTypesPositioned ?
-                                <button onClick={() => this.removeShip("DESTROYER")}
-                                        className="undo-pos">Undo</button> :
-                                <DragContainer shipType={"DESTROYER"} length={3} orientation={this.state.orientation}/>}
-                            <div className="shipTitle">Submarine</div>
-                            {"SUBMARINE" in this.state.shipTypesPositioned ?
-                                <button onClick={() => this.removeShip("SUBMARINE")}
-                                        className="undo-pos">Undo</button> :
-                                <DragContainer shipType={"SUBMARINE"} length={3} orientation={this.state.orientation}/>}
-                            <div className="shipTitle">Battleship</div>
-                            {"BATTLESHIP" in this.state.shipTypesPositioned ?
-                                <button onClick={() => this.removeShip("BATTLESHIP")}
-                                        className="undo-pos">Undo</button> :
-                                <DragContainer shipType={"BATTLESHIP"} length={4}
-                                               orientation={this.state.orientation}/>}
-                            <div className="shipTitle">Carrier</div>
-                            {"AIRCRAFT_CARRIER" in this.state.shipTypesPositioned ?
-                                <button onClick={() => this.removeShip("AIRCRAFT_CARRIER")} className="undo-pos">Undo</button> :
-                                <DragContainer shipType={"AIRCRAFT_CARRIER"} length={5} orientation={this.state.orientation}/>}
-                        </div>
-                    </div>
-                    <div className="submit-ships"><h4>When you're ready, submit your ships!</h4> <button onClick={this.handleSubmitShips}>Submit</button></div>
-                    </div>
-                }
+                {/*{this.props.allShipsArray.length > 0 ?*/}
+                    {/*this.props.mySalvoesArray.length > 0 ?*/}
+                        {/*<div></div>: <div className="fire-salvoes-mss"><h4>Now Fire some Salvoes!</h4>*/}
+                            {/*<div>Click on the squares to fire up to 5 times, then click Submit when you're ready!</div>*/}
+                            {/*<div>{Array.from(this.state.salvoPositions).map(el => <button key={el} onClick={() => this.handleUndoSalvo(el)} className="undo-salvo">Undo {el}</button>)}</div>*/}
+                            {/*<button onClick={this.handleSubmitSalvo}>Submit</button>*/}
+                        {/*</div>*/}
+                    {/*:*/}
+                {/*}*/}
             </div>
         );}
 
