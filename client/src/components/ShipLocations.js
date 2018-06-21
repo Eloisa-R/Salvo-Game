@@ -10,6 +10,7 @@ import HTML5Backend from "react-dnd-html5-backend";
 import { DragDropContext } from 'react-dnd';
 import DragContainer from "./DragContainer";
 import ShipPlacement from "./ShipPlacement"
+import FireSalvoes from "./FireSalvoes"
 
 
 
@@ -216,18 +217,21 @@ class ShipLocations extends React.Component{
                                         handleSubmitShips={this.handleSubmitShips}/>
                         </div>
                         : this.props.gamePlayerResponse.status == 30 || this.props.gamePlayerResponse.status == 40? <div>Wait for the oponent</div> : this.props.gamePlayerResponse.status == 60?
-                            <div>Fire Salvoes, dammit!</div> : <div></div>
+                            <FireSalvoes salvoPositions={this.state.salvoPositions} gamePlayerResponse={this.props.gamePlayerResponse} handleUndoSalvo={this.handleUndoSalvo}
+                                         handleSubmitSalvo={this.handleSubmitSalvo} handleClickSalvo={this.handleClickSalvo}
+                                         takenPositions={this.props.mySalvoesArray.length > 0? this.props.mySalvoesArray: Array.from(this.state.salvoPositions)} gridType={"sa"}
+                            /> : <div></div>
 
                     }
 
 
-                    {/*{this.props.allShipsArray.length > 0 ?<Grid data={this.props.gamePlayerResponse} title={"Salvoes I Fired"} clickSalvo={this.handleClickSalvo} takenPositions={this.props.mySalvoesArray.length > 0? this.props.mySalvoesArray: Array.from(this.state.salvoPositions)} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>: <div></div>}*/}
+                    {/*{this.props.allShipsArray.length > 0 ?<Grid gamePlayerResponse={this.props.gamePlayerResponse} title={"Salvoes I Fired"} clickSalvo={this.handleClickSalvo} takenPositions={this.props.mySalvoesArray.length > 0? this.props.mySalvoesArray: Array.from(this.state.salvoPositions)} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>: <div></div>}*/}
 
                 </div>
                 {/*{this.props.allShipsArray.length > 0 ?*/}
                     {/*this.props.mySalvoesArray.length > 0 ?*/}
                         {/*<div></div>: <div className="fire-salvoes-mss"><h4>Now Fire some Salvoes!</h4>*/}
-                            {/*<div>Click on the squares to fire up to 5 times, then click Submit when you're ready!</div>*/}
+                            {/*/!*<div>Click on the squares to fire up to 5 times, then click Submit when you're ready!</div>*!/*/}
                             {/*<div>{Array.from(this.state.salvoPositions).map(el => <button key={el} onClick={() => this.handleUndoSalvo(el)} className="undo-salvo">Undo {el}</button>)}</div>*/}
                             {/*<button onClick={this.handleSubmitSalvo}>Submit</button>*/}
                         {/*</div>*/}
