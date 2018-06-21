@@ -111,7 +111,10 @@ public class SalvoController {
                 for (Ship ship: oponentShips) {
                     List<String> common = new ArrayList<>(ship.getLocations());
                     common.retainAll(salvo.getSalvoLocations());
-                    allShipsData.put(ship.getType(), common.size());
+                    if (common.size() > 0) {
+                        allShipsData.put(ship.getType(), common.size());
+                    }
+
 
                 }
                 salvoesShipMap.put(String.valueOf(salvo.getTurnNumber()),allShipsData);

@@ -230,19 +230,7 @@ class ShipLocations extends React.Component{
 
                     }
 
-
-                    {/*{this.props.allShipsArray.length > 0 ?<Grid gamePlayerResponse={this.props.gamePlayerResponse} title={"Salvoes I Fired"} clickSalvo={this.handleClickSalvo} takenPositions={this.props.mySalvoesArray.length > 0? this.props.mySalvoesArray: Array.from(this.state.salvoPositions)} gridType={"sa"} playerId={this.props.match.params.id} oponentId={this.getOponentId()}/>: <div></div>}*/}
-
                 </div>
-                {/*{this.props.allShipsArray.length > 0 ?*/}
-                    {/*this.props.mySalvoesArray.length > 0 ?*/}
-                        {/*<div></div>: <div className="fire-salvoes-mss"><h4>Now Fire some Salvoes!</h4>*/}
-                            {/*/!*<div>Click on the squares to fire up to 5 times, then click Submit when you're ready!</div>*!/*/}
-                            {/*<div>{Array.from(this.state.salvoPositions).map(el => <button key={el} onClick={() => this.handleUndoSalvo(el)} className="undo-salvo">Undo {el}</button>)}</div>*/}
-                            {/*<button onClick={this.handleSubmitSalvo}>Submit</button>*/}
-                        {/*</div>*/}
-                    {/*:*/}
-                {/*}*/}
             </div>
         );}
 
