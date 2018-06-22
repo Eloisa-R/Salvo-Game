@@ -1,5 +1,6 @@
 package salvo.salvo;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -98,9 +99,9 @@ public class SalvoController {
         return ScoreInfo;
     }
 
-    private Map<String, Map<Ship.ShipType,Integer>> getHitsOnOpponent(GamePlayer playerGP, GamePlayer oponentGP){
+    private Map<String, Map<Ship.ShipType,Integer>> getHitsOnShips(GamePlayer playerGP, GamePlayer oponentGP){
         Map<String, Map<Ship.ShipType,Integer>> salvoesShipMap = new HashMap<>();
-        if (oponentGP == null) {
+        if (oponentGP == null || playerGP == null) {
             return salvoesShipMap;
         } else {
             Set<Ship> oponentShips = oponentGP.getShips();
@@ -126,7 +127,7 @@ public class SalvoController {
 
     }
 
-    private Map<Ship.ShipType, Object> getSunkenShipsOponent(GamePlayer oponentGP,  Map<String, Map<Ship.ShipType,Integer>> hitsMap){
+    private Map<Ship.ShipType, Object> getSunkenShips(GamePlayer playerGP,  Map<String, Map<Ship.ShipType,Integer>> hitsMap){
         Map<Ship.ShipType, Object> sunkenShipsMap = new HashMap<>();
         Map<Ship.ShipType, Integer> ShipTypeLimit= new HashMap<>();
         ShipTypeLimit.put(Ship.ShipType.AIRCRAFT_CARRIER, 5);
@@ -142,7 +143,7 @@ public class SalvoController {
         ShipTypeCounter.put(Ship.ShipType.DESTROYER, 0);
         ShipTypeCounter.put(Ship.ShipType.PATROL_BOAT, 0);
 
-        if (oponentGP == null) {
+        if (playerGP == null) {
             return sunkenShipsMap;
         } else {
 
@@ -159,6 +160,53 @@ public class SalvoController {
             return sunkenShipsMap;
         }
 
+    }
+
+    private Boolean areAllShipsSunk(GamePlayer playerGP, Map<Ship.ShipType, Object> sunkenShipsMap) {
+           Set<Ship> allShipsfromPlayer = playerGP.getShips();
+           Boolean result = allShipsfromPlayer.stream().allMatch(e -> sunkenShipsMap.containsKey(e.getType()));
+           if (allShipsfromPlayer.size() == 0) {
+               return false;
+           } else {
+               return result;
+           }
+
+
+    }
+
+    private String getStatus(GamePlayer selectedGP, GamePlayer oponentGP,
+                             Map<Ship.ShipType, Object> playerSunkenShipsMap, Map<Ship.ShipType, Object> oponentSunkenShipsMap){
+
+        String result ="";
+        if (oponentGP != null) {
+            Boolean areOponentShipsSunk = areAllShipsSunk(oponentGP, oponentSunkenShipsMap);
+            Boolean arePlayerShipsSunk = areAllShipsSunk(selectedGP, playerSunkenShipsMap);
+
+            if(selectedGP.getShips().size() == 0 && oponentGP.getShips().size() == 0) {
+                result = "20";
+            } else if (selectedGP.getSalvoes().size() > 0 && oponentGP.getSalvoes().size() == 0) {
+                result = "70";
+            } else if (selectedGP.getSalvoes().size() > 0 && oponentGP.getSalvoes().size() > 0 && (!areOponentShipsSunk && !arePlayerShipsSunk)) {
+                result = "80";
+            } else if (areOponentShipsSunk || arePlayerShipsSunk) {
+                result = "90";
+            } else if (selectedGP.getShips().size() > 0 && oponentGP.getShips().size() == 0) {
+                result = "40";
+            } else if (selectedGP.getShips().size() == 0 && oponentGP.getShips().size() > 0) {
+                result = "50";
+            } else if (selectedGP.getShips().size() > 0 && oponentGP.getShips().size() > 0) {
+                result = "60";
+            }
+        } else {
+            if (selectedGP.getShips().size() > 0) {
+                result = "30";
+            } else {
+                result = "10";
+            }
+
+        }
+
+        return result;
     }
 
     private Map<String, Object> makeMap(String key, Object value) {
@@ -305,37 +353,17 @@ public class SalvoController {
                 }
             }
 
-
-            if (oponentGP != null) {
-                if(selectedGP.get().getShips().size() == 0 && oponentGP.getShips().size() == 0) {
-                    gamePlayerdata.put("status", "20");
-                }
-                else if (selectedGP.get().getSalvoes().size() > 0 && oponentGP.getSalvoes().size() == 0) {
-                    gamePlayerdata.put("status", "70");
-                } else if (selectedGP.get().getSalvoes().size() > 0 && oponentGP.getSalvoes().size() > 0) {
-                    gamePlayerdata.put("status", "80");
-                }
-                else if (selectedGP.get().getShips().size() > 0 && oponentGP.getShips().size() == 0) {
-                    gamePlayerdata.put("status", "40");
-                } else if (selectedGP.get().getShips().size() == 0 && oponentGP.getShips().size() > 0) {
-                    gamePlayerdata.put("status", "50");
-                } else if (selectedGP.get().getShips().size() > 0 && oponentGP.getShips().size() > 0) {
-                    gamePlayerdata.put("status", "60");
-                }
-            } else {
-                if (selectedGP.get().getShips().size() > 0) {
-                    gamePlayerdata.put("status", "30");
-                } else {
-                    gamePlayerdata.put("status", "10");
-                }
-
-            }
+            Map<String, Map<Ship.ShipType,Integer>> hitsOnOponent = getHitsOnShips(selectedGP.get(), oponentGP);
+            Map<Ship.ShipType, Object> sunkenShipsOponent = getSunkenShips(oponentGP, hitsOnOponent);
+            Map<String, Map<Ship.ShipType,Integer>> hitsOnPlayer = getHitsOnShips(oponentGP, selectedGP.get());
+            Map<Ship.ShipType, Object> sunkenShipsPlayer = getSunkenShips(oponentGP, hitsOnPlayer);
 
 
             gamePlayerdata.put("ships", selectedGP.get().getShips());
             gamePlayerdata.put("salvoes", getSalvoesforAll(gamePlayers));
-            gamePlayerdata.put( "successful_hits",getHitsOnOpponent(selectedGP.get(), oponentGP));
-            gamePlayerdata.put("oponent_sunken_ships", getSunkenShipsOponent(selectedGP.get(), getHitsOnOpponent(selectedGP.get(), oponentGP)));
+            gamePlayerdata.put( "successful_hits",hitsOnOponent);
+            gamePlayerdata.put("oponent_sunken_ships", sunkenShipsOponent);
+            gamePlayerdata.put("status", getStatus(selectedGP.get(),oponentGP,sunkenShipsPlayer,sunkenShipsOponent));
 
             return new ResponseEntity<>(gamePlayerdata, HttpStatus.OK);
         } else{
