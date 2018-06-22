@@ -11,7 +11,8 @@ class ShipPlacement extends React.Component{
                 <div>
                     <Grid data={this.props.gamePlayerResponse} title={this.props.title} sunkenPositions={this.props.mySunkenArray}
                           takenPositions={this.props.takenPositions}
-                          gridType={this.props.gridType} handleSquareDrop={this.props.handleSquareDrop} prov_array={this.props.prov_array} playerId={this.props.playerId} oponentId={this.props.oponentId}/>
+                          gridType={this.props.gridType} handleSquareDrop={this.props.handleSquareDrop}
+                          prov_array={this.props.prov_array} playerId={this.props.playerId} oponentId={this.props.oponentId}/>
 
                     <div className="bottom-div-boats">
                         <div className="all-boats-cont">

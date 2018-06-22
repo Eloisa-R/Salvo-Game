@@ -10,7 +10,7 @@ class Results extends React.Component{
             <Grid data={this.props.data} title={"My Salvoes Fired"} gridType={"sa"}
                   takenPositions={this.props.mySalvoesArray}/>
             </div>
-            <button>Fire Next Round of Salvoes</button>
+            <button onClick={this.props.onClikFireSalvoes}>Fire Next Round of Salvoes</button>
              </div>)
     }
 }

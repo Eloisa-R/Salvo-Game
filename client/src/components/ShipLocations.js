@@ -48,7 +48,8 @@ class ShipLocations extends React.Component{
         orientation: "horizontal",
         hActive: true,
         vActive: false,
-        turn: 0
+        turn: 0,
+        clickedFireSalvoes: false
     }
 
     this.handleSquareDrop = this.handleSquareDrop.bind(this);
@@ -62,6 +63,7 @@ class ShipLocations extends React.Component{
     this.handleSubmitSalvo = this.handleSubmitSalvo.bind(this);
     this.showHits = this.showHits.bind(this);
     this.showSunkenShips = this.showSunkenShips.bind(this);
+    this.onClikFireSalvoes = this.onClikFireSalvoes.bind(this);
     }
 
 
@@ -152,7 +154,7 @@ class ShipLocations extends React.Component{
         if (locations.length > 0) {
             JSONsubmit[turn + 1] = locations
             this.props.fireSalvoes(this.props.match.params.id, JSONsubmit)
-            this.setState({turn: turn + 1})
+            this.setState({turn: turn + 1, clickedFireSalvoes: false})
         } else {
             console.log("No salvoes were fired!")
         }
@@ -177,6 +179,10 @@ class ShipLocations extends React.Component{
         let sunkList = sunkBoats.map(element => <li key={element}> {element}</li>)
 
         return <ul>{sunkList}</ul>
+    }
+
+    onClikFireSalvoes(){
+        this.setState({clickedFireSalvoes: true})
     }
 
 
@@ -215,14 +221,16 @@ class ShipLocations extends React.Component{
                                         handleSubmitShips={this.handleSubmitShips}/>
                         </div>
                         : this.props.gamePlayerResponse.status == 30 || this.props.gamePlayerResponse.status == 40 || this.props.gamePlayerResponse.status == 70? <div>Wait for the oponent</div>
-                            : this.props.gamePlayerResponse.status == 60?
+                            : this.props.gamePlayerResponse.status == 60 || this.state.clickedFireSalvoes?
                             <FireSalvoes salvoPositions={this.state.salvoPositions} gamePlayerResponse={this.props.gamePlayerResponse} handleUndoSalvo={this.handleUndoSalvo}
                                          handleSubmitSalvo={this.handleSubmitSalvo} handleClickSalvo={this.handleClickSalvo}
-                                         takenPositions={this.props.mySalvoesArray.length > 0? this.props.mySalvoesArray: Array.from(this.state.salvoPositions)} gridType={"sa"}
-                            /> : this.props.gamePlayerResponse.status == 80?
+                                         takenPositions={this.props.mySalvoesArray.concat(Array.from(this.state.salvoPositions))}
+                                         gridType={"sa"}/>
+                                : this.props.gamePlayerResponse.status == 80?
                                 <div>
                                     <Results data={this.props.gamePlayerResponse} sunkenPositions={this.props.mySunkenArray}
-                                             allShipsArray={this.props.allShipsArray} mySalvoesArray={this.props.mySalvoesArray}/>
+                                             allShipsArray={this.props.allShipsArray} mySalvoesArray={this.props.mySalvoesArray}
+                                             onClikFireSalvoes={this.onClikFireSalvoes}/>
                                 </div>
                                 : <div></div>
 
