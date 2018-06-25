@@ -189,7 +189,7 @@ public class SalvoController {
 
             if(playerShips.size() == 0 && oponentShips.size() == 0) {
                 result = "20";
-            } else if (playerSalvoes.size() > 0 && oponentSalvoes.size() == 0 ||(playerSalvoes.size() > 0 && oponentSalvoes.size() > 0) && playerSalvoes.size() > oponentSalvoes.size()) {
+            } else if (playerSalvoes.size() > oponentSalvoes.size()) {
                 result = "70";
             } else if ((playerSalvoes.size() > 0 && oponentSalvoes.size() > 0) && playerSalvoes.size() == oponentSalvoes.size() && (!areOponentShipsSunk && !arePlayerShipsSunk)) {
                 result = "80";
