@@ -48,7 +48,6 @@ class ShipLocations extends React.Component{
         orientation: "horizontal",
         hActive: true,
         vActive: false,
-        turn: 0,
         clickedFireSalvoes: false
     }
 
@@ -149,12 +148,22 @@ class ShipLocations extends React.Component{
 
     handleSubmitSalvo(){
         let JSONsubmit = {};
-        let turn = this.state.turn;
+        let salvoesDict = this.props.gamePlayerResponse.salvoes[this.props.match.params.id];
+        let salvoesKeys = Object.keys(salvoesDict);
+        let turn;
+        if (salvoesKeys.length === 0) {
+            turn = 1
+        } else {
+            salvoesKeys.sort(function(a, b){return b-a});
+            turn = parseInt(salvoesKeys[0]) + 1;
+        }
+
+        console.log(turn)
         let locations = Array.from(this.state.salvoPositions);
         if (locations.length > 0) {
-            JSONsubmit[turn + 1] = locations
+            JSONsubmit[turn] = locations
             this.props.fireSalvoes(this.props.match.params.id, JSONsubmit)
-            this.setState({turn: turn + 1, clickedFireSalvoes: false})
+            this.setState({clickedFireSalvoes: false})
         } else {
             console.log("No salvoes were fired!")
         }

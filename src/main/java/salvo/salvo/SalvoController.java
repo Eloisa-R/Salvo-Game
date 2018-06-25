@@ -177,28 +177,33 @@ public class SalvoController {
     private String getStatus(GamePlayer selectedGP, GamePlayer oponentGP,
                              Map<Ship.ShipType, Object> playerSunkenShipsMap, Map<Ship.ShipType, Object> oponentSunkenShipsMap){
 
+        Set<Ship> playerShips = selectedGP.getShips();
         String result ="";
         if (oponentGP != null) {
             Boolean areOponentShipsSunk = areAllShipsSunk(oponentGP, oponentSunkenShipsMap);
             Boolean arePlayerShipsSunk = areAllShipsSunk(selectedGP, playerSunkenShipsMap);
 
-            if(selectedGP.getShips().size() == 0 && oponentGP.getShips().size() == 0) {
+            Set<Ship> oponentShips = oponentGP.getShips();
+            Set<Salvo> playerSalvoes = selectedGP.getSalvoes();
+            Set<Salvo> oponentSalvoes = oponentGP.getSalvoes();
+
+            if(playerShips.size() == 0 && oponentShips.size() == 0) {
                 result = "20";
-            } else if (selectedGP.getSalvoes().size() > 0 && oponentGP.getSalvoes().size() == 0) {
+            } else if (playerSalvoes.size() > 0 && oponentSalvoes.size() == 0) {
                 result = "70";
-            } else if (selectedGP.getSalvoes().size() > 0 && oponentGP.getSalvoes().size() > 0 && (!areOponentShipsSunk && !arePlayerShipsSunk)) {
+            } else if (playerSalvoes.size() > 0 && oponentSalvoes.size() > 0 && (!areOponentShipsSunk && !arePlayerShipsSunk)) {
                 result = "80";
             } else if (areOponentShipsSunk || arePlayerShipsSunk) {
                 result = "90";
-            } else if (selectedGP.getShips().size() > 0 && oponentGP.getShips().size() == 0) {
+            } else if (playerShips.size() > 0 && oponentShips.size() == 0) {
                 result = "40";
-            } else if (selectedGP.getShips().size() == 0 && oponentGP.getShips().size() > 0) {
+            } else if (playerShips.size() == 0 && oponentShips.size() > 0) {
                 result = "50";
-            } else if (selectedGP.getShips().size() > 0 && oponentGP.getShips().size() > 0) {
+            } else if (playerShips.size() > 0 && oponentShips.size() > 0) {
                 result = "60";
             }
         } else {
-            if (selectedGP.getShips().size() > 0) {
+            if (playerShips.size() > 0) {
                 result = "30";
             } else {
                 result = "10";
