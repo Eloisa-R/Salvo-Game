@@ -10,8 +10,12 @@ class Results extends React.Component{
             <Grid data={this.props.data} title={"My Salvoes Fired"} gridType={"sa"}
                   takenPositions={this.props.mySalvoesArray}/>
             </div>
+            <div className="button-and-results">
             <button onClick={this.props.onClikFireSalvoes}>Fire Next Round of Salvoes</button>
-             </div>)
+            <div>Oponent got hits on the following ships: {this.props.showHits}</div>
+            <div>Oponent sunk ships: {this.props.showSunkenShips}</div>
+            </div>
+            </div>)
     }
 }
 

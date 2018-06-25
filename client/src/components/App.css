@@ -273,3 +273,7 @@ form{
   width: fit-content;
   height: fit-content;
 }
+
+.button-and-results {
+  margin-left: 10%;
+}

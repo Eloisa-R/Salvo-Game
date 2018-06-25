@@ -215,8 +215,7 @@ class ShipLocations extends React.Component{
                         <div className="logout-btn"><button onClick={this.handleLogOut}>Log Out</button></div>
                     </div>
 
-                    <div>Oponent got hits on the following ships: {this.showHits()}</div>
-                    <div>Oponent sunk ships: {this.showSunkenShips()}</div>
+
                 </div>
 
                 <div className="gridContainer">
@@ -239,7 +238,7 @@ class ShipLocations extends React.Component{
                                 <div>
                                     <Results data={this.props.gamePlayerResponse} sunkenPositions={this.props.mySunkenArray}
                                              allShipsArray={this.props.allShipsArray} mySalvoesArray={this.props.mySalvoesArray}
-                                             onClikFireSalvoes={this.onClikFireSalvoes}/>
+                                             onClikFireSalvoes={this.onClikFireSalvoes} showHits={this.showHits()} showSunkenShips={this.showSunkenShips()}/>
                                 </div>
                                 : this.props.gamePlayerResponse.status == 90? <div><h3>Game over!!</h3></div> : <div></div>
 
