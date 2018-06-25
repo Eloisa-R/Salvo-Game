@@ -241,7 +241,7 @@ class ShipLocations extends React.Component{
                                              allShipsArray={this.props.allShipsArray} mySalvoesArray={this.props.mySalvoesArray}
                                              onClikFireSalvoes={this.onClikFireSalvoes}/>
                                 </div>
-                                : <div></div>
+                                : this.props.gamePlayerResponse.status == 90? <div><h3>Game over!!</h3></div> : <div></div>
 
                     }
 
