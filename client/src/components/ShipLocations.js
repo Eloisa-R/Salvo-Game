@@ -196,7 +196,7 @@ class ShipLocations extends React.Component{
 
 
     componentDidMount(){
-        this.props.fetchGamePlayer(this.props.match.params.id);
+        setInterval(() => {this.props.fetchGamePlayer(this.props.match.params.id)}, 3000);
     }
 
 
