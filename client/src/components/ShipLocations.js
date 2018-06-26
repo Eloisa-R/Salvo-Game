@@ -158,12 +158,11 @@ class ShipLocations extends React.Component{
             turn = parseInt(salvoesKeys[0]) + 1;
         }
 
-        console.log(turn)
         let locations = Array.from(this.state.salvoPositions);
         if (locations.length > 0) {
             JSONsubmit[turn] = locations
             this.props.fireSalvoes(this.props.match.params.id, JSONsubmit)
-            this.setState({clickedFireSalvoes: false})
+            this.setState({clickedFireSalvoes: false, salvoPositions:new Set()})
         } else {
             console.log("No salvoes were fired!")
         }
