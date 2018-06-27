@@ -33,7 +33,6 @@ public class SalvoController {
     @Autowired
     private  ScoreRepository scoreRepository;
 
-    private Boolean getScoresIsExecuted = false;
     public SalvoController() {}
 
     private Map<String, Object> GameToDTO(Game game){
@@ -213,9 +212,8 @@ public class SalvoController {
                 result = "80";
             } else if ((playerSalvoes.size() == oponentSalvoes.size()) && (areOponentShipsSunk || arePlayerShipsSunk)) {
                 result = "90";
-                if (!getScoresIsExecuted) {
+                if (selectedGP.getGameEntry().getScores().size() == 0) {
                     setScores(arePlayerShipsSunk, areOponentShipsSunk, selectedGP,oponentGP);
-                    getScoresIsExecuted = true;
                 }
             } else if (playerShips.size() > 0 && oponentShips.size() == 0) {
                 result = "40";

@@ -9,7 +9,10 @@ class LeaderBoard extends React.Component{
         return(
             <div className="leaderboard">
                 <h3>Leaderboard</h3>
-                <BootstrapTable keyField='email' data={ this.props.scores } columns={ this.props.columns } />
+                <BootstrapTable keyField='email' data={ this.props.scores } columns={ this.props.columns } defaultSorted={[{
+                    dataField: 'total',
+                    order: 'desc'
+                }]}/>
             </div>
         )
     }
