@@ -30,7 +30,10 @@ public class SalvoController {
     private ShipRepository shipRepository;
     @Autowired
     private SalvoRepository salvoRepository;
+    @Autowired
+    private  ScoreRepository scoreRepository;
 
+    private Boolean getScoresIsExecuted = false;
     public SalvoController() {}
 
     private Map<String, Object> GameToDTO(Game game){
@@ -174,11 +177,26 @@ public class SalvoController {
 
     }
 
+    private void setScores(Boolean arePlayerShipsSunk, Boolean areOponentShipsSunk, GamePlayer selectedGP, GamePlayer oponentGP){
+       if (arePlayerShipsSunk && !areOponentShipsSunk){
+           scoreRepository.save(new Score(selectedGP.getGameEntry(), selectedGP.getGamePlayer(),0,new Date()));
+           scoreRepository.save(new Score(oponentGP.getGameEntry(), oponentGP.getGamePlayer(),1,new Date()));
+       } else if (!arePlayerShipsSunk && areOponentShipsSunk) {
+           scoreRepository.save(new Score(selectedGP.getGameEntry(), selectedGP.getGamePlayer(),1,new Date()));
+           scoreRepository.save(new Score(oponentGP.getGameEntry(), oponentGP.getGamePlayer(),0,new Date()));
+       } else if (arePlayerShipsSunk && areOponentShipsSunk) {
+           scoreRepository.save(new Score(selectedGP.getGameEntry(), selectedGP.getGamePlayer(),0.5,new Date()));
+           scoreRepository.save(new Score(oponentGP.getGameEntry(), oponentGP.getGamePlayer(),0.5,new Date()));
+       }
+
+    }
+
     private String getStatus(GamePlayer selectedGP, GamePlayer oponentGP,
                              Map<Ship.ShipType, Object> playerSunkenShipsMap, Map<Ship.ShipType, Object> oponentSunkenShipsMap){
 
         Set<Ship> playerShips = selectedGP.getShips();
         String result ="";
+
         if (oponentGP != null) {
             Boolean areOponentShipsSunk = areAllShipsSunk(oponentGP, oponentSunkenShipsMap);
             Boolean arePlayerShipsSunk = areAllShipsSunk(selectedGP, playerSunkenShipsMap);
@@ -195,6 +213,10 @@ public class SalvoController {
                 result = "80";
             } else if ((playerSalvoes.size() == oponentSalvoes.size()) && (areOponentShipsSunk || arePlayerShipsSunk)) {
                 result = "90";
+                if (!getScoresIsExecuted) {
+                    setScores(arePlayerShipsSunk, areOponentShipsSunk, selectedGP,oponentGP);
+                    getScoresIsExecuted = true;
+                }
             } else if (playerShips.size() > 0 && oponentShips.size() == 0) {
                 result = "40";
             } else if (playerShips.size() == 0 && oponentShips.size() > 0) {

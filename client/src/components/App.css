@@ -1,12 +1,12 @@
 html{
-  height: fit-content;
+  height: 200vh;
 }
 
 .App {
   text-align: center;
   margin-left: 10%;
   margin-right: 10%;
-  height: fit-content;
+  height: 200vh;
 }
 
 body{
@@ -14,7 +14,7 @@ body{
   background-image: url("../vector-grunge-background.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  height: fit-content;
+  height:200vh;
 }
 
 

@@ -1,6 +1,6 @@
 export default function reducer(state={
     scores: null,
-    columns: [{dataField: 'email', text: 'Username'}, {dataField: 'total', text: 'Total'},
+    columns: [{dataField: 'email', text: 'Username'}, {dataField: 'total', text: 'Total points'},
         {dataField: 'wins', text: 'Won'}, {dataField: 'losses', text: 'Lost'},{dataField: 'ties', text: 'Ties'}],
     fetching: false,
     fetched: false,
