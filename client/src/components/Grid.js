@@ -23,7 +23,7 @@ class Grid extends React.Component{
 
             return <Square key={index} clickSalvo={(letter === "Z" || index ===0)? "":this.props.clickSalvo} sunkenPositions={this.props.sunkenPositions}
                    handleSquareDrop={this.props.handleSquareDrop} id={ships_or_salvoes + "-"+ coordinates} positions={this.props.takenPositions}
-                   letter={letter} index={index} value={value} type={this.props.gridType}/>
+                   letter={letter} index={index} value={value} type={this.props.gridType} newTakenPositions={this.props.newTakenPositions}/>
         })
 
         return <div className="row" key={index_key}>{buttons}</div>

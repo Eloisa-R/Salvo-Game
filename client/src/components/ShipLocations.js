@@ -231,13 +231,14 @@ class ShipLocations extends React.Component{
                             : this.props.gamePlayerResponse.status == 60 || this.state.clickedFireSalvoes?
                             <FireSalvoes salvoPositions={this.state.salvoPositions} gamePlayerResponse={this.props.gamePlayerResponse} handleUndoSalvo={this.handleUndoSalvo}
                                          handleSubmitSalvo={this.handleSubmitSalvo} handleClickSalvo={this.handleClickSalvo}
-                                         takenPositions={this.props.mySalvoesArray.concat(Array.from(this.state.salvoPositions))}
+                                         takenPositions={this.props.mySalvoesArray} newTakenPositions={Array.from(this.state.salvoPositions).length == 0? []:Array.from(this.state.salvoPositions)}
                                          gridType={"sa"}/>
                                 : this.props.gamePlayerResponse.status == 80?
                                 <div>
                                     <Results data={this.props.gamePlayerResponse} sunkenPositions={this.props.mySunkenArray}
                                              allShipsArray={this.props.allShipsArray} mySalvoesArray={this.props.mySalvoesArray}
-                                             onClikFireSalvoes={this.onClikFireSalvoes} showHits={this.showHits()} showSunkenShips={this.showSunkenShips()}/>
+                                             onClikFireSalvoes={this.onClikFireSalvoes} showHits={this.showHits()}
+                                             showSunkenShips={this.showSunkenShips()} newTakenPositions={[]}/>
                                 </div>
                                 : this.props.gamePlayerResponse.status == 90? <div><h3>Game over!!</h3></div> : <div></div>
 

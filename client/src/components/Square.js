@@ -67,14 +67,17 @@ class Square extends React.Component{
         super(props);
     }
     piece() {
+         let coor = this.props.letter + this.props.index;
          if (this.props.value !== "") {
              return this.props.value
-         } else if (this.props.type === "sh" && this.props.sunkenPositions.includes(this.props.letter + this.props.index) && this.props.positions.includes(this.props.letter + this.props.index)) {
+         } else if (this.props.type === "sh" && this.props.sunkenPositions.includes(coor) && this.props.positions.includes(coor)) {
              return <Salvo/>
-         } else if (this.props.type === "sh" && this.props.positions.includes(this.props.letter + this.props.index)) {
+         } else if (this.props.type === "sh" && this.props.positions.includes(coor)) {
              return <ShipPiece/>
-         } else if (this.props.type === "sa" && this.props.positions.includes(this.props.letter + this.props.index)) {
+         } else if (this.props.type === "sa" && this.props.positions.includes(coor)) {
              return <Salvo/>
+         } else if (this.props.type === "sa" && this.props.newTakenPositions.includes(coor)){
+             return <Salvo className="red-salvo"/>
          }
     }
 

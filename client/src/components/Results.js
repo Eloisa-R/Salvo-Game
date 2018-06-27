@@ -8,7 +8,7 @@ class Results extends React.Component{
             <Grid data={this.props.data} title={"My Ships"} gridType={"sh"}
                   sunkenPositions={this.props.sunkenPositions} takenPositions={this.props.allShipsArray}/>
             <Grid data={this.props.data} title={"My Salvoes Fired"} gridType={"sa"}
-                  takenPositions={this.props.mySalvoesArray}/>
+                  takenPositions={this.props.mySalvoesArray} newTakenPositions={[]}/>
             </div>
             <div className="button-and-results">
             <button onClick={this.props.onClikFireSalvoes}>Fire Next Round of Salvoes</button>
