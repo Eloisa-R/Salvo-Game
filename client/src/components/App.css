@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+
 html{
   height: 200vh;
 }
@@ -15,6 +17,8 @@ body{
   background-repeat: no-repeat;
   background-size: cover;
   height:200vh;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.25em;
 }
 
 
@@ -60,8 +64,8 @@ form{
 .square{
   background-color: transparent;
   border: solid 1px lightgray;
-  width: 3vw;
-  height: 3vh;
+  width: 5.5vh;
+  height: 5.5vh;
   margin: 0px;
   padding: 0px;
 }
@@ -193,11 +197,26 @@ form{
 
 .ship-container{
   display: flex;
-  justify-content: space-around;
-  height: fit-content;
-  width: fit-content;
-  background-color: lightgray;
-  padding-bottom: 0.75%;
+  height: 5.5vh;
+  /*justify-content: space-around;*/
+  /*background-color: lightgray;*/
+  /*padding-bottom: 0.75%;*/
+}
+
+#patrol-boat{
+  width: 11vh;
+}
+
+#destroyer, #submarine{
+  width: 16.5vh;
+}
+
+#battleship{
+  width: 22vh;
+}
+
+#a-carrier{
+  width: 27.5vh;
 }
 
 .shipTitle{
@@ -212,7 +231,7 @@ form{
 .all-boats-cont{
   width: fit-content;
   padding-top: 2%;
-  padding-left: 15%;
+  padding-left: 5%;
 }
 
 .orient-active{
@@ -280,4 +299,18 @@ form{
 
 .red-salvo{
   color: red;
+}
+
+.ship-icon > img{
+  height: 100%;
+  width: 100%;
+}
+
+.grid-and-ships{
+  display: flex;
+}
+
+.salvo > img{
+  height: 70%;
+  width: 70%;
 }
