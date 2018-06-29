@@ -25,32 +25,42 @@ class ShipPlacement extends React.Component{
                             </button>
                         </div>
                         <div className="shipsToChoose">
+                            <div className="ship-wrapper">
                             <div className="shipTitle">Patrol boat</div>
                             {"PATROL_BOAT" in this.props.shipTypesPositioned ?
                                 <button onClick={() => this.props.removeShip("PATROL_BOAT")}
                                         className="undo-pos">Undo</button> :
                                 <DragContainer id={"patrol-boat"} shipType={"PATROL_BOAT"} length={2}
                                                orientation={this.props.orientation}/>}
+                            </div>
+                            <div className="ship-wrapper">
                             <div className="shipTitle">Destroyer</div>
                             {"DESTROYER" in this.props.shipTypesPositioned ?
                                 <button onClick={() => this.props.removeShip("DESTROYER")}
                                         className="undo-pos">Undo</button> :
                                 <DragContainer id={"destroyer"} shipType={"DESTROYER"} length={3} orientation={this.props.orientation}/>}
+                            </div>
+                            <div className="ship-wrapper">
                             <div className="shipTitle">Submarine</div>
                             {"SUBMARINE" in this.props.shipTypesPositioned ?
                                 <button onClick={() => this.props.removeShip("SUBMARINE")}
                                         className="undo-pos">Undo</button> :
                                 <DragContainer id={"submarine"} shipType={"SUBMARINE"} length={3} orientation={this.props.orientation}/>}
-                            <div className="shipTitle">Battleship</div>
+                            </div>
+                            <div className="ship-wrapper">
+                             <div className="shipTitle">Battleship</div>
                             {"BATTLESHIP" in this.props.shipTypesPositioned ?
                                 <button onClick={() => this.props.removeShip("BATTLESHIP")}
                                         className="undo-pos">Undo</button> :
                                 <DragContainer id={"battleship"} shipType={"BATTLESHIP"} length={4}
                                                orientation={this.props.orientation}/>}
+                            </div>
+                            <div className="ship-wrapper">
                             <div className="shipTitle">Carrier</div>
                             {"AIRCRAFT_CARRIER" in this.props.shipTypesPositioned ?
                                 <button onClick={() => this.props.removeShip("AIRCRAFT_CARRIER")} className="undo-pos">Undo</button> :
                                 <DragContainer id={"a-carrier"} shipType={"AIRCRAFT_CARRIER"} length={5} orientation={this.props.orientation}/>}
+                            </div>
                         </div>
                     </div>
                 </div>

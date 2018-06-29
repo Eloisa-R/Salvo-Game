@@ -195,27 +195,35 @@ form{
   z-index: 100;
 }
 
-.ship-container{
+.ship-container.horizontal{
   display: flex;
   height: 5.5vh;
-  /*justify-content: space-around;*/
-  /*background-color: lightgray;*/
-  /*padding-bottom: 0.75%;*/
+  justify-content: space-around;
+
+
 }
 
-#patrol-boat{
+.ship-container.vertical{
+  display: flex;
+  height: fit-content;
+  width: 5.5vh;
+  flex-direction:column;
+}
+
+
+#patrol-boat.horizontal{
   width: 11vh;
 }
 
-#destroyer, #submarine{
+#destroyer.horizontal, #submarine.horizontal{
   width: 16.5vh;
 }
 
-#battleship{
+#battleship.horizontal{
   width: 22vh;
 }
 
-#a-carrier{
+#a-carrier.horizontal{
   width: 27.5vh;
 }
 
@@ -226,6 +234,24 @@ form{
 
 .shipsToChoose{
   padding-left: 2%;
+  display: flex;
+  width: 100%;
+  flex-flow: wrap;
+  justify-content: space-around;
+}
+
+.ship-wrapper{
+  height: fit-content;
+  width: fit-content;
+}
+
+.orientation-btns{
+  height: 5%;
+  margin: 2%;
+}
+
+.orient-active, .orient-inactive{
+  height: 100%;
 }
 
 .all-boats-cont{
