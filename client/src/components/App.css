@@ -73,7 +73,6 @@ form{
 .grid{
   display: flex;
   flex-direction: column;
-  width: fit-content;
   height: fit-content;
 
 }
@@ -198,9 +197,6 @@ form{
 .ship-container.horizontal{
   display: flex;
   height: 5.5vh;
-  justify-content: space-around;
-
-
 }
 
 .ship-container.vertical{
@@ -233,11 +229,12 @@ form{
 }
 
 .shipsToChoose{
-  padding-left: 2%;
+  margin-left: 10%;
+  width: 70%;
   display: flex;
-  width: 100%;
   flex-flow: wrap;
   justify-content: space-around;
+  align-items: right;
 }
 
 .ship-wrapper{
@@ -255,9 +252,9 @@ form{
 }
 
 .all-boats-cont{
+  margin-left: 5%;
   width: fit-content;
   padding-top: 2%;
-  padding-left: 5%;
 }
 
 .orient-active{
@@ -281,7 +278,7 @@ form{
 
 .undo-pos, .undo-salvo{
   background-color: red;
-  padding: 1%;
+  padding: 5%;
   border: 0px;
 }
 
@@ -339,4 +336,12 @@ form{
 .salvo > img{
   height: 70%;
   width: 70%;
+}
+
+.grid{
+  margin-left: 5%;
+}
+
+.to-be-removed{
+  filter:sepia(1);
 }

@@ -48,7 +48,8 @@ class ShipLocations extends React.Component{
         orientation: "horizontal",
         hActive: true,
         vActive: false,
-        clickedFireSalvoes: false
+        clickedFireSalvoes: false,
+        shipstoBeRemoved: []
     }
 
     this.handleSquareDrop = this.handleSquareDrop.bind(this);
@@ -63,6 +64,8 @@ class ShipLocations extends React.Component{
     this.showHits = this.showHits.bind(this);
     this.showSunkenShips = this.showSunkenShips.bind(this);
     this.onClikFireSalvoes = this.onClikFireSalvoes.bind(this);
+    this.highlightShip = this.highlightShip.bind(this);
+    this.unHighlightShip = this.unHighlightShip.bind(this);
     }
 
 
@@ -117,11 +120,27 @@ class ShipLocations extends React.Component{
     }
 
     removeShip(shipType){
+        let toBeRemoved = this.state.shipstoBeRemoved.slice();
         let positions = this.state.shipsPositions.slice();
         let shipTypePos = Object.assign({},this.state.shipTypesPositioned);
-        shipTypePos[shipType].forEach(ele => positions.splice(positions.indexOf(ele),1));
+        shipTypePos[shipType].forEach(ele => {positions.splice(positions.indexOf(ele),1);
+            toBeRemoved.splice(toBeRemoved.indexOf(ele),1)});
         delete shipTypePos[shipType];
-        this.setState({shipsPositions: positions, shipTypesPositioned: shipTypePos});
+        this.setState({shipsPositions: positions, shipTypesPositioned: shipTypePos, shipstoBeRemoved:toBeRemoved});
+    }
+
+    highlightShip(shipType){
+        let toBeRemoved = this.state.shipstoBeRemoved.slice();
+        let shipTypePos = Object.assign({},this.state.shipTypesPositioned);
+        shipTypePos[shipType].forEach(ele => toBeRemoved.push(ele));
+        this.setState({shipstoBeRemoved:toBeRemoved});
+    }
+
+    unHighlightShip(shipType){
+        let toBeRemoved = this.state.shipstoBeRemoved.slice();
+        let shipTypePos = Object.assign({},this.state.shipTypesPositioned);
+        shipTypePos[shipType].forEach(ele => toBeRemoved.splice(toBeRemoved.indexOf(ele),1));
+        this.setState({shipstoBeRemoved:toBeRemoved});
     }
 
     handleOrientation(inputOr){
@@ -194,6 +213,7 @@ class ShipLocations extends React.Component{
     }
 
 
+
     componentDidMount(){
         setInterval(() => {this.props.fetchGamePlayer(this.props.match.params.id)}, 3000);
     }
@@ -220,7 +240,7 @@ class ShipLocations extends React.Component{
                 <div className="gridContainer">
                     {this.props.gamePlayerResponse.status == 10 || this.props.gamePlayerResponse.status ==20 || this.props.gamePlayerResponse.status == 50?
                         <div>
-                        <ShipPlacement gamePlayerResponse={this.props.gamePlayerResponse} title={"My Ships"} mySunkenArray={this.props.mySunkenArray}
+                        <ShipPlacement highlightShip={this.highlightShip} unHighlightShip={this.unHighlightShip} toBeRemoved={this.state.shipstoBeRemoved}gamePlayerResponse={this.props.gamePlayerResponse} title={"My Ships"} mySunkenArray={this.props.mySunkenArray}
                                         takenPositions={this.state.shipsPositions}
                                         gridType={"sh"} handleSquareDrop={this.handleSquareDrop} prov_array={this.prov_array} playerId={this.props.match.params.id}
                                         oponentId={this.getOponentId()} handleOrientation={this.handleOrientation} hActive={this.state.hActive} vActive={this.state.vActive}

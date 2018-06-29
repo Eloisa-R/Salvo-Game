@@ -72,6 +72,8 @@ class Square extends React.Component{
              return this.props.value
          } else if (this.props.type === "sh" && this.props.sunkenPositions.includes(coor) && this.props.positions.includes(coor)) {
              return <Salvo/>
+         } else if (this.props.type === "sh" && this.props.toBeRemoved.includes(coor) && this.props.positions.includes(coor)){
+             return <ShipPiece className={"to-be-removed"}/>
          } else if (this.props.type === "sh" && this.props.positions.includes(coor)) {
              return <ShipPiece/>
          } else if (this.props.type === "sa" && this.props.positions.includes(coor)) {
