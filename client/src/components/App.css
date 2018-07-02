@@ -66,7 +66,7 @@ form{
 .row{
   display: flex;
   flex-direction: row;
-  flex-grow: 1;
+  flex-grow: 0;
 }
 
 .square{
@@ -96,7 +96,6 @@ form{
 
 .gridContainer{
   display: flex;
- justify-content: space-around;
 }
 
 .salvoFired{
@@ -321,6 +320,8 @@ form{
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  flex-direction: column;
+  margin: 0px;
   -ms-flex-pack: distribute;
   justify-content: space-around;
   flex-basis: -moz-min-content;
@@ -339,6 +340,7 @@ form{
 
 .button-and-results {
   margin-left: 10%;
+  margin-top: 10%;
 }
 
 .red-salvo{
@@ -370,4 +372,20 @@ form{
 .board-or-gamelist{
   margin-top: 10%;
   background: rgba(255,255,255, 0.4);
+}
+
+.salvoes-grid-and_submit{
+  display: flex;
+}
+
+.submit-salvoes{
+  margin-top: 5%;
+  margin-bottom: 60%;
+  margin-left: 10%;
+}
+
+.grids-results{
+  display: flex;
+  margin: 0%;
+  left: 0%;
 }
