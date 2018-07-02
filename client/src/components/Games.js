@@ -38,10 +38,14 @@ const mapDispatchToProps = function (dispatch) {
          super();
          this.state={
              clickedLogin: true,
+             clickedLeadBoard: false,
+             clickedGameList: false
          }
          this.clickLogin = this.clickLogin.bind(this);
          this.clickSignUp = this.clickSignUp.bind(this);
          this.displayLoginOrLogout = this.displayLoginOrLogout.bind(this);
+         this.showLeaderBoard = this.showLeaderBoard.bind(this);
+         this.showGameList = this.showGameList.bind(this);
 
      }
 
@@ -71,10 +75,18 @@ const mapDispatchToProps = function (dispatch) {
              </div>
          } else {
              return <div className="logout"><div className="logout-box"><h4>Hello, {this.props.games.player.username}</h4><button onClick={this.props.logOut}>Log Out</button>
-             </div><button onClick={this.props.newGame}>Create Game</button></div>
+             </div></div>
          }
 
      }
+
+     showLeaderBoard() {
+     this.setState({clickedLeadBoard: true, clickedGameList: false})
+     }
+
+     showGameList() {
+     this.setState({clickedGameList: true, clickedLeadBoard: false})
+    }
 
 
     render() {
@@ -84,8 +96,17 @@ const mapDispatchToProps = function (dispatch) {
       return (
        <div className="game-page-wrapper">
          <div className="games-container">
-            <LeaderBoard scores={ this.props.scores } columns={ this.props.columns }/>
-            <GameList games={this.props.games} joinGame={this.props.joinGame}/>
+             <div className="side-menu">
+                 {this.props.games.player.username === "null"? <div></div>
+                     :<button onClick={() => {this.showGameList(); this.props.newGame()}}>New Game</button>}
+             <button onClick={this.showLeaderBoard}>Leader Board</button>
+             <button onClick={this.showGameList}>List of Games</button>
+             </div>
+             <div className="board-or-gamelist">
+             {this.state.clickedLeadBoard?
+                 <LeaderBoard scores={ this.props.scores } columns={ this.props.columns }/>:
+                    this.state.clickedGameList? <GameList games={this.props.games} joinGame={this.props.joinGame}/>: <div></div>}
+             </div>
          </div>
          <div>
            {this.displayLoginOrLogout()}

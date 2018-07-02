@@ -1,26 +1,33 @@
 @import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
 
 html{
-  height: 200vh;
+  height: 100vh;
 }
 
 .App {
   text-align: center;
-  margin-left: 10%;
-  margin-right: 10%;
-  height: 200vh;
+  /*margin-left: 10%;*/
+  /*margin-right: 10%;*/
+  height: 100vh;
 }
 
 body{
 
-  background-image: url("../vector-grunge-background.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  height:200vh;
+  /*background-image: url("../vector-grunge-background.jpg");*/
+  /*background-repeat: no-repeat;*/
+  /*background-size: cover;*/
+  overflow-y: hidden;
+  height:100vh;
   font-family: 'Press Start 2P', cursive;
   font-size: 1.25em;
 }
 
+.side-menu{
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
@@ -29,19 +36,20 @@ body{
 
 .App-header {
   background-color: #222;
+  position: relative;
 }
 
 .App-title {
-  font-size: 1.5em;
+  font-size: 2em;
+  position: absolute;
+  top:80%;
+  left: 35%;
 }
+
+
 
 .App-intro {
   font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }
 
 form{
@@ -107,9 +115,11 @@ form{
 
 
 .games-container{
+  position: absolute;
+  top: 10%;
   display: flex;
   flex-direction: column;
-  width: 70%;
+  width: 60%;
 }
 
 .main-content{
@@ -151,6 +161,12 @@ form{
   font-size: 1.5em;
 }
 
+.login{
+  position: absolute;
+  top: 2%;
+  left: 65%;
+}
+
 .inactive-form{
   background-color: transparent;
 }
@@ -165,9 +181,6 @@ form{
   background-color: rgba(255, 255, 255, 0.7);
 }
 
-.logout{
-  margin: 2%;
-}
 
 .main-ships-container{
   flex-grow: 1;
@@ -180,7 +193,10 @@ form{
 }
 
 .logout{
-  height: 40%;
+  position: absolute;
+  top: 10%;
+  left: 60%;
+  height: 30%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -344,4 +360,9 @@ form{
 
 .to-be-removed{
   filter:sepia(1);
+}
+
+.board-or-gamelist{
+  margin-top: 10%;
+  background: rgba(255,255,255, 0.4);
 }

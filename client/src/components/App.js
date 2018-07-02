@@ -12,7 +12,8 @@ import Test from "./Test"
       return (
         <div className="App">
           <header className="App-header">
-              <img src={require('../title-image.jpg')} alt="salvo-title" className="title-image"/>
+              <img src={require('../fortress.png')} alt="salvo-title" className="title-image"/>
+              <div className="App-title">Player's Unkwown Battleships</div>
           </header>
           <div className="main-content">
           <BrowserRouter>
