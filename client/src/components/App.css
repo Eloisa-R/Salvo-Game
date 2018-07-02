@@ -184,6 +184,11 @@ form{
 
 .main-ships-container{
   flex-grow: 1;
+  position: absolute;
+  top: 2%;
+  width: 68%;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 1%;
 }
 
 .ships-data{

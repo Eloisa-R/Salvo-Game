@@ -12,6 +12,7 @@ import DragContainer from "./DragContainer";
 import ShipPlacement from "./ShipPlacement"
 import FireSalvoes from "./FireSalvoes"
 import Results from "./Results"
+import {Link} from "react-router-dom";
 
 
 
@@ -222,12 +223,13 @@ class ShipLocations extends React.Component{
 
     render(){
         if (!this.props.shipsFetched) {
-            return <p>Loading...</p>;
+            return <p className="main-ships-container">Loading...</p>;
         } else if (this.props.getShipsFailed) {
-            return <p> You're not authorised to see this information.</p>;
+            return <p className="main-ships-container"> You're not authorised to see this information.</p>;
         } else if ((this.props.shipsFetched) && !(this.props.getShipsFailed)) {return (
             <div className="main-ships-container">
                 <div className="ships-data">
+                    <div><Link to={"/games"}> {'<<'} Back to Main</Link></div>
                     <div>
                         <div>Hello, player {this.getPlayeremail()}</div>
                         <div>Your oponent is {this.getOponentemail()}</div>
