@@ -29,6 +29,22 @@ body{
   justify-content: space-between;
 }
 
+.side-menu > button, .logout-btn > button, .submit-ships > button, .logout-box > button {
+  background-color: rgba(83, 114, 168, 0.5);
+  border-radius: 4px;
+  border: 0px;
+  margin: 2%;
+  padding: 2%;
+}
+
+.submit-salvoes {
+  background-color: rgba(83, 114, 168, 0.5);
+  border-radius: 4px;
+  border: 0px;
+  margin: 2%;
+  padding: 1%;
+}
+
 .App-header {
   background-color: #222;
   position: relative;
@@ -97,6 +113,8 @@ form{
   display: flex;
   height: fit-content;
   width: fit-content;
+  justify-content: center;
+  margin-left: 2%;
 }
 
 .salvoFired{
@@ -143,9 +161,9 @@ form{
 }
 
 .login-signup-container{
-  background-color: rgba(193, 66, 66, 0.2);
+  background-color: rgba(83, 114, 168, 0.5);
   padding: 5%;
-  margin-top: 5%;
+  margin-top: 2%;
 }
 
 .login-form, .sign-up-form{
@@ -272,6 +290,7 @@ form{
 
 .orient-active, .orient-inactive{
   height: 100%;
+  padding: 1%;
 }
 
 .all-boats-cont{
@@ -343,11 +362,18 @@ form{
 
 .button-and-results {
   margin-left: 10%;
-  margin-top: 3%;
+  margin-top: 2%;
+  padding: 1%;
+  background-color: rgba(83, 114, 168, 0.5);
+  color: white;
+  border-radius: 4px;
 }
 
 .button-and-results > button {
   padding: 1%;
+  margin-bottom: 1%;
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 4px;
 }
 
 .red-salvo{
@@ -377,7 +403,7 @@ form{
 }
 
 .board-or-gamelist{
-  margin-top: 10%;
+  margin-top: 15%;
   background: rgba(255,255,255, 0.4);
 }
 
@@ -397,6 +423,11 @@ form{
   justify-content: flex-start;
 }
 
-.wait-opponent{
-  margin: auto;
+.round-results{
+  display: flex;
+  justify-content: space-between;
+}
+
+ul {
+  list-style: none;
 }

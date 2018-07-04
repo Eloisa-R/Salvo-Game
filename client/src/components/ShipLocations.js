@@ -198,7 +198,7 @@ class ShipLocations extends React.Component{
         }
 
         let results = Object.keys(resultDict).map(element => <li key={element}>{element}: {resultDict[element]}</li>)
-        return <ul>{results}</ul>
+        return <ul>{results.length >0? results: "None yet"}</ul>
     }
 
     showSunkenShips(){
@@ -206,7 +206,7 @@ class ShipLocations extends React.Component{
         let sunkBoats = Object.keys(sunken);
         let sunkList = sunkBoats.map(element => <li key={element}> {element}</li>)
 
-        return <ul>{sunkList}</ul>
+        return <ul>{sunkList.length > 0? sunkList: "None yet"}</ul>
     }
 
     onClikFireSalvoes(){
