@@ -151,12 +151,14 @@ class ShipLocations extends React.Component{
     }
 
     handleClickSalvo(location){
-        console.log(this.state.salvoPositions)
-        const salvoLocations = new Set(this.state.salvoPositions)
-        if (salvoLocations.size < 5) {
-            salvoLocations.add(location)
-            this.setState({salvoPositions:salvoLocations})
+        if (!this.props.mySalvoesArray.includes(location)) {
+            const salvoLocations = new Set(this.state.salvoPositions)
+            if (salvoLocations.size < 5) {
+                salvoLocations.add(location)
+                this.setState({salvoPositions:salvoLocations})
+            }
         }
+
 
     }
 
