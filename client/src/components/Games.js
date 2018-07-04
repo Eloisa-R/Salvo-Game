@@ -49,10 +49,10 @@ const mapDispatchToProps = function (dispatch) {
 
      }
 
-    componentWillMount() {
-      this.props.fetchGames();
-      this.props.fetchScores();
-
+    componentDidMount() {
+        this.props.fetchGames();
+        this.props.fetchScores();
+         setInterval(() => {this.props.fetchGames(); this.props.fetchScores();}, 3000);
     }
 
     clickSignUp(){
@@ -61,7 +61,6 @@ const mapDispatchToProps = function (dispatch) {
 
      clickLogin(){
          this.setState({clickedLogin: true});
-
      }
 
      displayLoginOrLogout(){

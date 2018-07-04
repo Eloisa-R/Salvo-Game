@@ -29,14 +29,13 @@ body{
   justify-content: space-between;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
 .App-header {
   background-color: #222;
   position: relative;
+}
+
+.App-header > img{
+  width: 80%;
 }
 
 .App-title {
@@ -96,6 +95,8 @@ form{
 
 .gridContainer{
   display: flex;
+  height: fit-content;
+  width: fit-content;
 }
 
 .salvoFired{
@@ -185,13 +186,15 @@ form{
   flex-grow: 1;
   position: absolute;
   top: 2%;
-  width: 68%;
+  width: 75%;
+  height: fit-content;
   background: rgba(255, 255, 255, 0.5);
-  padding: 1%;
+  padding-top: 1%;
+  padding-bottom: 1%;
 }
 
 .ships-data{
-  margin-top: 2%;
+  /*margin-top: 2%;*/
   display: flex;
   justify-content: space-around;
 }
@@ -323,7 +326,7 @@ form{
   flex-direction: column;
   margin: 0px;
   -ms-flex-pack: distribute;
-  justify-content: space-around;
+  justify-content: flex-start;
   flex-basis: -moz-min-content;
 }
 
@@ -340,7 +343,11 @@ form{
 
 .button-and-results {
   margin-left: 10%;
-  margin-top: 10%;
+  margin-top: 3%;
+}
+
+.button-and-results > button {
+  padding: 1%;
 }
 
 .red-salvo{
@@ -387,5 +394,9 @@ form{
 .grids-results{
   display: flex;
   margin: 0%;
-  left: 0%;
+  justify-content: flex-start;
+}
+
+.wait-opponent{
+  margin: auto;
 }

@@ -216,6 +216,7 @@ class ShipLocations extends React.Component{
 
 
     componentDidMount(){
+        this.props.fetchGamePlayer(this.props.match.params.id);
         setInterval(() => {this.props.fetchGamePlayer(this.props.match.params.id)}, 3000);
     }
 
@@ -232,7 +233,7 @@ class ShipLocations extends React.Component{
                     <div><Link to={"/games"}> {'<<'} Back to Main</Link></div>
                     <div>
                         <div>Hello, player {this.getPlayeremail()}</div>
-                        <div>Your oponent is {this.getOponentemail()}</div>
+                        <div>Your opponent is {this.getOponentemail()}</div>
                         <div className="logout-btn"><button onClick={this.handleLogOut}>Log Out</button></div>
                     </div>
 
@@ -249,7 +250,7 @@ class ShipLocations extends React.Component{
                                         shipTypesPositioned={this.state.shipTypesPositioned} removeShip={this.removeShip} orientation={this.state.orientation}
                                         handleSubmitShips={this.handleSubmitShips}/>
                         </div>
-                        : this.props.gamePlayerResponse.status == 30 || this.props.gamePlayerResponse.status == 40 || this.props.gamePlayerResponse.status == 70? <div>Wait for the oponent</div>
+                        : this.props.gamePlayerResponse.status == 30 || this.props.gamePlayerResponse.status == 40 || this.props.gamePlayerResponse.status == 70? <div className="wait-opponent">Wait for the opponent</div>
                             : this.props.gamePlayerResponse.status == 60 || this.state.clickedFireSalvoes?
                             <FireSalvoes salvoPositions={this.state.salvoPositions} gamePlayerResponse={this.props.gamePlayerResponse} handleUndoSalvo={this.handleUndoSalvo}
                                          handleSubmitSalvo={this.handleSubmitSalvo} handleClickSalvo={this.handleClickSalvo}

@@ -14,8 +14,8 @@ class Results extends React.Component{
             </div>
             <div className="button-and-results">
             <button onClick={this.props.onClikFireSalvoes}>Fire Next Round of Salvoes</button>
-            <div>Oponent got hits on the following ships: {this.props.showHits}</div>
-            <div>Oponent sunk ships: {this.props.showSunkenShips}</div>
+            <div>Opponent got hit on the following ships: {this.props.showHits}</div>
+            <div>Opponent sunk ships: {this.props.showSunkenShips}</div>
             </div>
             </div>)
     }
